@@ -5,7 +5,8 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
+  // Pressable,
+  Pressable,
   StatusBar,
   Card,
 } from "react-native";
@@ -17,31 +18,33 @@ const Productos = () => {
       <View style={styles.container}>
         <View style={styles.navbar}>
           <Image source={Logo} style={styles.logo} />
+
           <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
         </View>
+
         <View>
           <Text style={styles.title}> {"\n"} PRODUCTOS</Text>
 
-          <TouchableOpacity
+          <Pressable
             style={styles.botones}
             onPress={() => navigation.navigate("Categorias")}
           >
             <Text style={styles.botonesText}>Categorias</Text>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity
+          <Pressable
             style={styles.botones}
             onPress={() => navigation.navigate("Autopartes")}
           >
             <Text style={styles.botonesText}>Autopartes</Text>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity
+          <Pressable
             style={styles.botones}
             onPress={() => navigation.navigate("MateriasPrima")}
           >
             <Text style={styles.botonesText}>Materias Prima</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </ScrollView>

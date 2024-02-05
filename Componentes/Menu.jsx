@@ -5,7 +5,8 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
+  // Pressable,
+  Pressable,
   StatusBar,
 } from "react-native";
 import Logo from "../assets/imgs/jucar.jpg";
@@ -14,46 +15,54 @@ const Menu = () => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="red" />
+
       <View style={styles.imagenContainer}>
-        <TouchableOpacity style={styles.touchImage} activeOpacity={1}>
+        <Pressable style={styles.touchImage} activeOpacity={1}>
           <View style={styles.navbar}>
             <Image source={Logo} style={styles.logo} />
+
             <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
           </View>
-        </TouchableOpacity>
+        </Pressable>
+
         <Text style={styles.text}> {"\n"} Elige una opción</Text>
       </View>
+
       <View style={styles.botonesContainer}>
-        <TouchableOpacity
+        <Pressable
           style={styles.botones}
           onPress={() => navigation.navigate("Productos")}
         >
           <Text style={styles.botonesText}>Productos</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </Pressable>
+
+        <Pressable
           style={styles.botones}
           onPress={() => navigation.navigate("Ventas")}
         >
           <Text style={styles.botonesText}>Ventas</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </Pressable>
+
+        <Pressable
           style={styles.botones}
           onPress={() => navigation.navigate("Proveedores")}
         >
           <Text style={styles.botonesText}>Proveedores</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </Pressable>
+
+        <Pressable
           style={styles.botones}
           onPress={() => navigation.navigate("Negocio")}
         >
           <Text style={styles.botonesText}>Negocio</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
+        </Pressable>
+
+        <Pressable
           style={styles.botones}
           onPress={() => navigation.navigate("Users")}
         >
           <Text style={styles.botonesText}>Usuarios</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </ScrollView>
   );

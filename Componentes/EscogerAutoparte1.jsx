@@ -5,7 +5,8 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  TouchableOpacity,
+  //Pressable,
+  Pressable,
   StatusBar,
   Card,
 } from "react-native";
@@ -18,29 +19,32 @@ const EscogerAutoparte1 = () => {
       <View style={styles.container}>
         <View style={styles.navbar}>
           <Image source={Logo} style={styles.logo} />
+
           <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
         </View>
+
         <View>
           <Text style={styles.title}> {"\n"} PRODUCTOS</Text>
 
-          <TouchableOpacity
+          <Pressable
             style={styles.botones}
             onPress={() => navigation.navigate("AllAutoparts")}
           >
             <Text style={styles.botonesText}>Todas las Autopartes</Text>
-          </TouchableOpacity>
+          </Pressable>
 
-          <TouchableOpacity
+          <Pressable
             style={styles.botones}
             onPress={() => navigation.navigate("AutopartesId")}
           >
             <Text style={styles.botonesText}>Autopartes por Id</Text>
-          </TouchableOpacity>
+          </Pressable>
         </View>
       </View>
     </ScrollView>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({}); // -> No hay estilos
+
 export default EscogerAutoparte1;

@@ -5,13 +5,15 @@ import {
   StyleSheet,
   Modal,
   Text,
-  TouchableOpacity,
+  // Pressable,
+  Pressable,
   Image,
 } from "react-native";
 import { DataTable } from "react-native-paper";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
 
+// const AllAutoparts = () => { -> Tenia el nombre de otro componente
 const AllAutoparts = () => {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -24,9 +26,11 @@ const AllAutoparts = () => {
         const response = await axios.get(
           "https://localhost:7028/api/subcategories"
         );
+
         setItems(response.data);
       } catch (error) {
         console.error("Error al obtener datos de la API:", error);
+
         setError("Error al cargar datos. Inténtalo de nuevo más tarde.");
       }
     };
@@ -36,14 +40,17 @@ const AllAutoparts = () => {
 
   const handleItemPress = (item) => {
     setSelectedItem(item);
+
     setModalVisible(true);
   };
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
         <Image source={Logo} style={styles.logo} />
+
         <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
       </View>
+
       <ScrollView style={styles.scrollContainer}>
         {error ? (
           <Text style={{ color: "red", textAlign: "center" }}>{error}</Text>
@@ -52,16 +59,15 @@ const AllAutoparts = () => {
             <DataTable.Header></DataTable.Header>
 
             {items.map((item) => (
-              <TouchableOpacity
-                key={item.key}
-                onPress={() => handleItemPress(item)}
-              >
+              <Pressable key={item.key} onPress={() => handleItemPress(item)}>
                 <DataTable.Row>
                   <DataTable.Cell>{item.subcategoryId}</DataTable.Cell>
+
                   <DataTable.Cell>{item.name}</DataTable.Cell>
+
                   <DataTable.Cell>{item.State}</DataTable.Cell>
                 </DataTable.Row>
-              </TouchableOpacity>
+              </Pressable>
             ))}
           </DataTable>
         )}
@@ -82,13 +88,16 @@ const AllAutoparts = () => {
             {selectedItem && (
               <>
                 <Text>subcategoryId: {selectedItem.subcategoryId}</Text>
+
                 <Text>name: {selectedItem.name}</Text>
+
                 <Text>State: {selectedItem.State}</Text>
               </>
             )}
-            <TouchableOpacity onPress={() => setModalVisible(false)}>
+
+            <Pressable onPress={() => setModalVisible(false)}>
               <Text style={{ color: "blue", marginTop: 10 }}>Close</Text>
-            </TouchableOpacity>
+            </Pressable>
           </View>
         </View>
       </Modal>
@@ -141,4 +150,5 @@ const styles = StyleSheet.create({
   },
 });
 
+// export default AllAutoparts; -> Nombre incorrecto
 export default AllAutoparts;
