@@ -9,6 +9,7 @@ import {
   Alert, // Faltaba importar Alert
   TextInput, // Faltaba importar TextInput
 } from "react-native";
+import { Text } from "react-native-paper";
 import React from "react";
 import { useState } from "react";
 import Logo from "../assets/imgs/jucar.jpg";

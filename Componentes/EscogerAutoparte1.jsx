@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  Text,
   Image,
   ScrollView,
   StyleSheet,
@@ -10,6 +9,7 @@ import {
   StatusBar,
   Card,
 } from "react-native";
+import { Text } from "react-native-paper";
 
 import Logo from "../assets/imgs/jucar.jpg";
 

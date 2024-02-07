@@ -1,7 +1,6 @@
 import React from "react";
 import {
   View,
-  Text,
   Image,
   ScrollView,
   StyleSheet,
@@ -9,6 +8,7 @@ import {
   Pressable,
   StatusBar,
 } from "react-native";
+import { Text } from "react-native-paper";
 import Logo from "../assets/imgs/jucar.jpg";
 
 const Menu = () => {
@@ -25,7 +25,7 @@ const Menu = () => {
           </View>
         </Pressable>
 
-        <Text style={styles.text}> {"\n"} Elige una opción</Text>
+        <Text style={styles.text}> {"\n"} Elige una Opción</Text>
       </View>
 
       <View style={styles.botonesContainer}>
@@ -34,13 +34,6 @@ const Menu = () => {
           onPress={() => navigation.navigate("Productos")}
         >
           <Text style={styles.botonesText}>Productos</Text>
-        </Pressable>
-
-        <Pressable
-          style={styles.botones}
-          onPress={() => navigation.navigate("Ventas")}
-        >
-          <Text style={styles.botonesText}>Ventas</Text>
         </Pressable>
 
         <Pressable
@@ -91,7 +84,7 @@ const styles = StyleSheet.create({
   },
   botones: {
     padding: 5,
-    backgroundColor: "#002B5B",
+    backgroundColor: "#f80759",
     borderColor: "#000000",
     borderWidth: 3,
     borderRadius: 10,
@@ -100,16 +93,19 @@ const styles = StyleSheet.create({
     margin: 5,
     shadowColor: "#000000",
     shadowOpacity: 0,
+    fontFamily: "sans-",
   },
   botonesText: {
     textAlign: "center",
     fontSize: 25,
     color: "#fff",
+    textTransform: "uppercase",
   },
   text: {
     textAlign: "center",
     fontSize: 25,
     color: "#000000",
+    fontFamily: "sans-serif-condensed",
   },
   navbar: {
     backgroundColor: "#f80759",
