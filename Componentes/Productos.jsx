@@ -35,7 +35,7 @@ const Productos = () => {
 
           <Pressable
             style={styles.botones}
-            onPress={() => navigation.navigate("Autopartes")}
+            onPress={() => navigation.navigate("EscogerAutoparte")}
           >
             <Text style={styles.botonesText}>Autopartes</Text>
           </Pressable>

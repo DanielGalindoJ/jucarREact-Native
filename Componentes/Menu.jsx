@@ -7,11 +7,14 @@ import {
   // Pressable,
   Pressable,
   StatusBar,
+  TouchableOpacity,
 } from "react-native";
+
 import { Text } from "react-native-paper";
 import Logo from "../assets/imgs/jucar.jpg";
+import flechaAtras from "../assets/imgs/flecha-pequena-izquierda.png";
 
-const Menu = () => {
+const Menu = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <StatusBar barStyle="dark-content" backgroundColor="red" />
@@ -25,8 +28,16 @@ const Menu = () => {
           </View>
         </Pressable>
 
-        <Text style={styles.text}> {"\n"} Elige una Opción</Text>
+        <Text style={styles.text}> {"\n"}Menu</Text>
       </View>
+
+      <TouchableOpacity
+        style={styles.tabItem}
+        onPress={() => navigation.navigate("Login")}
+      >
+        <Image source={flechaAtras} style={styles.tabIcon} />
+        {/* Render user name or placeholder text here */}
+      </TouchableOpacity>
 
       <View style={styles.botonesContainer}>
         <Pressable
@@ -81,6 +92,7 @@ const styles = StyleSheet.create({
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
+    display: "flex",
   },
   botones: {
     padding: 5,
@@ -102,18 +114,20 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   text: {
+    fontFamily: "Aclonica",
+    fontSize: 30,
     textAlign: "center",
-    fontSize: 25,
-    color: "#000000",
-    fontFamily: "sans-serif-condensed",
+    textTransform: "uppercase",
   },
   navbar: {
     backgroundColor: "#f80759",
     color: "#fff",
     borderColor: "#03a9f4",
     flexDirection: "row",
+    display: "flex",
+    flexDirection: "row",
     justifyContent: "space-evenly",
-    alignItems: "flex-start",
+    alignItems: "center",
     padding: 30,
     fontWeight: 500,
 
@@ -134,6 +148,17 @@ const styles = StyleSheet.create({
     marginBottom: -19,
     width: 269.906,
     height: 68,
+  },
+  //icons
+  tabItem: {
+    padding: 70,
+    display: "flex",
+    alignItems: "flex-end",
+  },
+  tabIcon: {
+    width: 54,
+    height: 54,
+    // ... other styles
   },
 });
 export default Menu;

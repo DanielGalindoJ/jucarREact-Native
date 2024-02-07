@@ -114,7 +114,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff",
   },
-
   navbar: {
     backgroundColor: "#f80759",
     color: "#fff",
@@ -124,16 +123,15 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
     padding: 30,
     fontWeight: 500,
+
     marginTop: 1,
   },
-
   logo: {
     width: 107,
     height: 57,
     resizeMode: "contain",
     marginLeft: 50,
   },
-
   title: {
     fontSize: 18,
     color: "#fff",
@@ -143,6 +141,12 @@ const styles = StyleSheet.create({
     marginBottom: -19,
     width: 269.906,
     height: 68,
+  },
+  container: {
+    marginTop: 1,
+    justifyContent: "center",
+    // alignItems: 'center',
+    flex: 1,
   },
 
   //card
