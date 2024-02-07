@@ -91,8 +91,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     width: "80%",
     margin: 5,
-    shadowColor: "#000000",
-    shadowOpacity: 0,
+    boxshadowColor: "#000000",
+    boxshadowOpacity: 0,
     fontFamily: "sans-",
   },
   botonesText: {
