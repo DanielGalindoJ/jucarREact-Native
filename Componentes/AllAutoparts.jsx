@@ -20,19 +20,21 @@ const AllAutoparts = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [error, setError] = useState(null);
+  const [autoparts, setAutopart] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          "https://localhost:7028/api/autoparts"
-        );
+        const response = await fetch("");
 
-        setItems(response.data);
+        if (response.ok) {
+          const data = await response.json();
+          setAutopart(data);
+        } else {
+          console.error("Error en la solicitud a la API");
+        }
       } catch (error) {
-        console.error("Error al obtener datos de la API:", error);
-
-        setError("Error al cargar datos. Inténtalo de nuevo más tarde.");
+        console.error("Error al realizar la solicitud a la API", error);
       }
     };
 
@@ -52,35 +54,31 @@ const AllAutoparts = () => {
 
         <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
       </View>
+      // Table
+      <ScrollView style={styles.container}>
+        <Text style={styles.header}>Autopartes</Text>
 
-      <ScrollView style={styles.scrollContainer}>
-        {error ? (
-          <Text style={{ color: "red", textAlign: "center" }}>{error}</Text>
-        ) : (
-          <DataTable style={styles.dataTable}>
-            <DataTable.Header></DataTable.Header>
+        <View style={styles.tableContainer}>
+          <View style={styles.tableHeader}>
+            <Text style={styles.headerText}>AutopartID</Text>
+            <Text style={styles.headerText}>Nombre</Text>
+            <Text style={styles.headerText}>Descripción</Text>
+            <Text style={styles.headerText}>Inventario</Text>
+            <Text style={styles.headerText}>Valor </Text>
+            <Text style={styles.headerText}>Estado</Text>
+          </View>
 
-            {items.map((item) => (
-              <Pressable key={item.key} onPress={() => handleItemPress(item)}>
-                <DataTable.Row>
-                  <DataTable.Cell>{item.AutopartID}</DataTable.Cell>
-
-                  <DataTable.Cell>{item.name}</DataTable.Cell>
-
-                  <DataTable.Cell>{item.Descripcion}</DataTable.Cell>
-
-                  <DataTable.Cell>{item.Inventory}</DataTable.Cell>
-
-                  <DataTable.Cell>{item.value}</DataTable.Cell>
-
-                  <DataTable.Cell>{item.state}</DataTable.Cell>
-                </DataTable.Row>
-              </Pressable>
-            ))}
-          </DataTable>
-        )}
+          {autoparts.map((autopart) => (
+            <View key={autopart.AutopartID} style={styles.row}>
+              <Text style={styles.cell}>{autopart.nombre}</Text>
+              <Text style={styles.cell}>{usuario.descripcion}</Text>
+              <Text style={styles.cell}>{usuario.Inventario}</Text>
+              <Text style={styles.cell}>{usuario.Valor}</Text>
+              <Text style={styles.cell}>{usuario.Estado}</Text>
+            </View>
+          ))}
+        </View>
       </ScrollView>
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -162,6 +160,42 @@ const styles = StyleSheet.create({
     width: 269.906,
     height: 68,
   },
+  //table ->
+  container: {
+    padding: 16,
+    backgroundColor: "#F5F5F5",
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  tableContainer: {
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
+  },
+  tableHeader: {
+    flexDirection: "row",
+    backgroundColor: "#EEEEEE",
+    padding: 8,
+  },
+  headerText: {
+    flex: 1,
+    fontWeight: "bold",
+  },
+  row: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderBottomColor: "#CCCCCC",
+    padding: 8,
+  },
+  cell: {
+    flex: 1,
+    borderRightWidth: 1,
+    borderRightColor: "#CCCCCC",
+    paddingHorizontal: 8,
+  },
+  //table <-
 });
 
 export default AllAutoparts;
