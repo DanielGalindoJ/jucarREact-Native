@@ -10,6 +10,7 @@ import EscogerAutoparte from "./Componentes/EscogerAutoparte";
 import AllAutoparts from "./Componentes/AllAutoparts";
 import { NavigationContainer } from "@react-navigation/native";
 import AutoparteID from "./Componentes/AutoparteID";
+import EscogerCategoriasSubactegorias from "./Componentes/EscogerCategoriasSubactegorias";
 
 const Stack = createNativeStackNavigator();
 
@@ -55,26 +56,6 @@ const App = () => {
           options={{ headerShown: false, title: "Proveedores" }}
         />
 
-        {/* Negocio no está importado, porque lo borré al ser un componente vacío */}
-
-        {/* <Stack.Screen
-          name="Negocio"
-          component={Negocio}
-          options={{ headerShown: false, title: "Negocio" }}
-        /> */}
-
-        {/* <Stack.Screen
-
-          // Estaba usando el nombre del componente mal importado 'Usuers' 
-
-          // name="Usuers"
-          // component={Usuers}
-          // options={{ headerShown: false, title: "Usuers" }}
-          name="Users"
-          component={Users}
-          options={{ headerShown: false, title: "Users" }}
-        /> */}
-
         <Stack.Screen
           name="EscogerAutoparte"
           component={EscogerAutoparte}
@@ -83,7 +64,6 @@ const App = () => {
 
         <Stack.Screen
           name="AllAutoparts"
-          // component={AllAutopartes} // Tenía mal el nombre del componente
           component={AllAutoparts}
           options={{ headerShown: false, title: "AllAutoparts" }}
         />
@@ -91,6 +71,15 @@ const App = () => {
           name="AutoparteID"
           component={AutoparteID}
           options={{ headerShown: false, title: "AutoparteID" }}
+        />
+
+        <Stack.Screen
+          name="EscogerCategoriasSubactegorias"
+          component={EscogerCategoriasSubactegorias}
+          options={{
+            headerShown: false,
+            title: "EscogerCategoriasSubactegorias",
+          }}
         />
       </Stack.Navigator>
     </NavigationContainer>
