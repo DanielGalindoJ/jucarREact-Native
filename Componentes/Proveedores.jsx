@@ -8,13 +8,12 @@ import {
   Pressable,
   Image,
 } from "react-native";
+import { Dimensions } from "react-native";
 import { Text } from "react-native-paper";
-
 import { DataTable } from "react-native-paper";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
 
-// const AllAutoparts = () => { -> Mal nombre
 const Proveedores = () => {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -28,14 +27,16 @@ const Proveedores = () => {
           "https://localhost:7028/api/providers"
         );
 
-        setItems(response.data);
+        if (response.ok) {
+          const data = await response.json();
+          setItems(data);
+        } else {
+          console.error("Error en la solicitud a la API");
+        }
       } catch (error) {
-        console.error("Error al obtener datos de la API:", error);
-
-        setError("Error al cargar datos. Inténtalo de nuevo más tarde.");
+        console.error("Error al realizar la solicitud a la API", error);
       }
     };
-
     fetchData();
   }, []);
 
@@ -128,10 +129,7 @@ const Proveedores = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5DC",
-    justifyContent: "flex-start",
-    alignItems: "center",
-    paddingTop: "5%",
+    backgroundColor: "#fff",
   },
   scrollContainer: {
     paddingHorizontal: 16,
@@ -140,6 +138,19 @@ const styles = StyleSheet.create({
   dataTable: {
     marginTop: 16,
   },
+  navbar: {
+    backgroundColor: "#f80759",
+    color: "#fff",
+    borderColor: "#03a9f4",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "flex-start",
+    padding: 30,
+    fontWeight: 500,
+
+    marginTop: 1,
+  },
+
   navbar: {
     backgroundColor: "#f80759",
     color: "#fff",
@@ -168,7 +179,12 @@ const styles = StyleSheet.create({
     width: 269.906,
     height: 68,
   },
+  container: {
+    marginTop: 1,
+    justifyContent: "center",
+    // alignItems: 'center',
+    flex: 1,
+  },
 });
 
 export default Proveedores;
-// export default AllAutoparts;
