@@ -15,7 +15,6 @@ import { DataTable } from "react-native-paper";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
 
-// const AllAutoparts = () => { -> Tenia el nombre de otro componente
 const AllAutoparts = () => {
   const [items, setItems] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -152,5 +151,4 @@ const styles = StyleSheet.create({
   },
 });
 
-// export default AllAutoparts; -> Nombre incorrecto
 export default AllAutoparts;
