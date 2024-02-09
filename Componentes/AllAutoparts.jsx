@@ -79,7 +79,7 @@ const AllAutoparts = () => {
           ))}
         </View>
       </ScrollView>
-      <Modal
+      {/* <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
@@ -112,7 +112,7 @@ const AllAutoparts = () => {
             </Pressable>
           </View>
         </View>
-      </Modal>
+      </Modal> */}
     </View>
   );
 };
