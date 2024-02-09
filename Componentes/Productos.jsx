@@ -28,7 +28,9 @@ const Productos = ({ navigation }) => {
 
           <Pressable
             style={styles.botones}
-            onPress={() => navigation.navigate("Categorias")}
+            onPress={() =>
+              navigation.navigate("EscogerCategoriasSubactegorias")
+            }
           >
             <Text style={styles.botonesText}>Categorias</Text>
           </Pressable>
