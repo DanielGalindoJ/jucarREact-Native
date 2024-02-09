@@ -13,7 +13,7 @@ import { Text } from "react-native-paper";
 
 import Logo from "../assets/imgs/jucar.jpg";
 
-const Productos = () => {
+const Productos = ({ navigation }) => {
   return (
     <ScrollView>
       <View style={styles.container}>
