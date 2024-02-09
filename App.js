@@ -1,15 +1,15 @@
 // import Usuers from "./Componentes/Users"; // Mal importado 'Usuers';
 // import Users from "./Componentes/Users";
 // import AllAutopartes from "./Componentes/AllAutoparts"; // Tenía mal el nombre del componente 'AllAutopartes' y es 'AllAutoparts';
-import AutoparteId from "./Componentes/AutopartesSubcategoria";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Login from "./Componentes/Login";
 import Menu from "./Componentes/Menu";
 import Proveedores from "./Componentes/Proveedores";
 import Productos from "./Componentes/Productos";
-import EscogerAutoparte1 from "./Componentes/EscogerAutoparte1";
+import EscogerAutoparte from "./Componentes/EscogerAutoparte";
 import AllAutoparts from "./Componentes/AllAutoparts";
 import { NavigationContainer } from "@react-navigation/native";
+import AutoparteID from "./Componentes/AutoparteID";
 
 const Stack = createNativeStackNavigator();
 
@@ -76,9 +76,9 @@ const App = () => {
         /> */}
 
         <Stack.Screen
-          name="EscogerAutoparte1"
-          component={EscogerAutoparte1}
-          options={{ headerShown: false, title: "EscogerAutoparte1" }}
+          name="EscogerAutoparte"
+          component={EscogerAutoparte}
+          options={{ headerShown: false, title: "EscogerAutoparte" }}
         />
 
         <Stack.Screen
@@ -86,6 +86,11 @@ const App = () => {
           // component={AllAutopartes} // Tenía mal el nombre del componente
           component={AllAutoparts}
           options={{ headerShown: false, title: "AllAutoparts" }}
+        />
+        <Stack.Screen
+          name="AutoparteID"
+          component={AutoparteID}
+          options={{ headerShown: false, title: "AutoparteID" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
