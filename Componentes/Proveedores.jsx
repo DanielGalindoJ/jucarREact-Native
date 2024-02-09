@@ -19,6 +19,7 @@ const Proveedores = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [error, setError] = useState(null);
+  const [providers, setProviders] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,7 +30,7 @@ const Proveedores = () => {
 
         if (response.ok) {
           const data = await response.json();
-          setItems(data);
+          setProviders(data);
         } else {
           console.error("Error en la solicitud a la API");
         }
@@ -54,32 +55,29 @@ const Proveedores = () => {
         <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
       </View>
 
-      <ScrollView style={styles.scrollContainer}>
-        {error ? (
-          <Text style={{ color: "red", textAlign: "center" }}>{error}</Text>
-        ) : (
-          <DataTable style={styles.dataTable}>
-            <DataTable.Header></DataTable.Header>
+      <ScrollView style={styles.container}>
+        <Text style={styles.header}>Proveedores</Text>
 
-            {items.map((item) => (
-              <Pressable key={item.key} onPress={() => handleItemPress(item)}>
-                <DataTable.Row>
-                  <DataTable.Cell>{item.ProviderID}</DataTable.Cell>
+        <View style={styles.tableContainer}>
+          <View style={styles.tableHeader}>
+            <Text style={styles.headerText}>Proveedor ID</Text>
+            <Text style={styles.headerText}>Tipo de Identificacion</Text>
+            <Text style={styles.headerText}>Numero de Identificacion</Text>
+            <Text style={styles.headerText}>Nombre</Text>
+            <Text style={styles.headerText}>Email </Text>
+            <Text style={styles.headerText}>Estado</Text>
+          </View>
 
-                  <DataTable.Cell>{item.IdentifierType}</DataTable.Cell>
-
-                  <DataTable.Cell>{item.IdentifierNumber}</DataTable.Cell>
-
-                  <DataTable.Cell>{item.Name}</DataTable.Cell>
-
-                  <DataTable.Cell>{item.EmailAddress}</DataTable.Cell>
-
-                  <DataTable.Cell>{item.state}</DataTable.Cell>
-                </DataTable.Row>
-              </Pressable>
-            ))}
-          </DataTable>
-        )}
+          {providers.map((provider) => (
+            <View key={provider.ProviderID} style={styles.row}>
+              <Text style={styles.cell}>{autopart.IdentifierType}</Text>
+              <Text style={styles.cell}>{usuario.IdentifierNumber}</Text>
+              <Text style={styles.cell}>{usuario.Name}</Text>
+              <Text style={styles.cell}>{usuario.EmailAddress}</Text>
+              <Text style={styles.cell}>{usuario.Estado}</Text>
+            </View>
+          ))}
+        </View>
       </ScrollView>
 
       <Modal
@@ -185,6 +183,42 @@ const styles = StyleSheet.create({
     // alignItems: 'center',
     flex: 1,
   },
+  //table ->
+  container: {
+    padding: 16,
+    backgroundColor: "#F5F5F5",
+  },
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    marginBottom: 16,
+  },
+  tableContainer: {
+    borderWidth: 1,
+    borderColor: "#CCCCCC",
+  },
+  tableHeader: {
+    flexDirection: "row",
+    backgroundColor: "#EEEEEE",
+    padding: 8,
+  },
+  headerText: {
+    flex: 1,
+    fontWeight: "bold",
+  },
+  row: {
+    flexDirection: "row",
+    borderBottomWidth: 1,
+    borderBottomColor: "#CCCCCC",
+    padding: 8,
+  },
+  cell: {
+    flex: 1,
+    borderRightWidth: 1,
+    borderRightColor: "#CCCCCC",
+    paddingHorizontal: 8,
+  },
+  //table <-
 });
 
 export default Proveedores;
