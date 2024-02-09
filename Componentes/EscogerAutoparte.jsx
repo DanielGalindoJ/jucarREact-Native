@@ -35,7 +35,7 @@ const EscogerAutoparte = ({ navigation }) => {
 
           <Pressable
             style={styles.botones}
-            onPress={() => navigation.navigate("AutopartesId")}
+            onPress={() => navigation.navigate("AutoparteID")}
           >
             <Text style={styles.botonesText}>Autopartes por Id</Text>
           </Pressable>
