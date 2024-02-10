@@ -4,13 +4,13 @@ import {
   View,
   StyleSheet,
   Modal,
-
-  // TouchableOpacity, -> reemplaze por Pressable
+  TouchableOpacity,
   Pressable,
   Image,
 } from "react-native";
 import { Text } from "react-native-paper";
-
+import agregarUsu from "../assets/imgs/agregarUsuario.png";
+import ajustes from "../assets/imgs/ajustes.png";
 import { DataTable } from "react-native-paper";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
@@ -25,7 +25,7 @@ const AllAutoparts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch("");
+        const response = await fetch("https://localhost:7028/api/autoparts");
 
         if (response.ok) {
           const data = await response.json();
@@ -54,9 +54,27 @@ const AllAutoparts = () => {
 
         <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
       </View>
+      <Text style={styles.header}>Autopartes</Text>
       // Table
       <ScrollView style={styles.container}>
-        <Text style={styles.header}>Autopartes</Text>
+        {/*botones crud */}
+        <View style={styles.tab}>
+          <TouchableOpacity onPress={() => navigation.navigate("AllAutoparts")}>
+            <Image source={agregarUsu} style={styles.tabIcon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate("AllAutoparts")}>
+            <Image source={ajustes} style={styles.tabIcon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate("AllAutoparts")}>
+            <Image source={agregarUsu} style={styles.tabIcon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={() => navigation.navigate("AllAutoparts")}>
+            <Image source={agregarUsu} style={styles.tabIcon} />
+          </TouchableOpacity>
+        </View>
 
         <View style={styles.tableContainer}>
           <View style={styles.tableHeader}>
@@ -196,6 +214,20 @@ const styles = StyleSheet.create({
     paddingHorizontal: 8,
   },
   //table <-
+
+  //botonesCrud
+  tab: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-start",
+    flexDirection: "row",
+  },
+  tabIcon: {
+    // Adjust image dimensions as needed
+    width: 30,
+    height: 30,
+  },
+  //botonesCrud
 });
 
 export default AllAutoparts;
