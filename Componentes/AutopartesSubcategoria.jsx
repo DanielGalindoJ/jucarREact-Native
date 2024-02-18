@@ -150,5 +150,4 @@ const styles = StyleSheet.create({
     height: 68,
   },
 });
-
 export default AllAutoparts;

@@ -220,5 +220,4 @@ const styles = StyleSheet.create({
   },
   //table <-
 });
-
 export default Proveedores;

@@ -1,145 +1,112 @@
-import React, { useEffect, useState } from "react";
-import {
-  ScrollView,
-  View,
-  StyleSheet,
-  Modal,
-  Pressable,
-  Image,
-} from "react-native";
+import React from "react";
+import { ScrollView, View, StyleSheet, Pressable, Image } from "react-native";
 import { Text } from "react-native-paper";
 import Logo from "../assets/imgs/jucar.jpg";
+import categoriaIcon from "../assets/imgs/Tuerca.png";
+import crearCategoriaIcon from "../assets/imgs/Tuerca.png";
+import subcategoriaIcon from "../assets/imgs/Tuerca.png";
+import todasSubcategoriasIcon from "../assets/imgs/Tuerca.png";
 
-const EscogerCategoriasSubactegorias = () => {
+const EscogerCategoriasSubactegorias = ({ navigation }) => {
   return (
-    <>
-      <View style={styles.conatiner}>
-        <View style={styles.navbar}>
-          <Image source={Logo} style={styles.logo} />
-
-          <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
-        </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.navbar}>
+        <Image source={Logo} style={styles.logo} />
+        <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
       </View>
-      <View>
-        <Text style={styles.title2}> {"\n"} CATEGORIAS</Text>
-
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>CATEGORIAS</Text>
         <Pressable
-          style={styles.botones}
+          style={styles.button}
           onPress={() => navigation.navigate("AllAutoparts")}
         >
-          <Text style={styles.botonesText}>Lista de Categorias</Text>
+          <Image source={categoriaIcon} style={styles.icon} />
+          <Text style={styles.buttonText}>Lista de Categorias</Text>
         </Pressable>
-
         <Pressable
-          style={styles.botones}
+          style={styles.button}
           onPress={() => navigation.navigate("AutoparteID")}
         >
-          <Text style={styles.botonesText}>Crear Categoria</Text>
+          <Image source={crearCategoriaIcon} style={styles.icon} />
+          <Text style={styles.buttonText}>Crear Categoria</Text>
         </Pressable>
       </View>
-      <View>
-        <Text style={styles.title3}> {"\n"} SUBCATEGORIAS</Text>
-
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>SUBCATEGORIAS</Text>
         <Pressable
-          style={styles.botones}
+          style={styles.button}
           onPress={() => navigation.navigate("AllAutoparts")}
         >
-          <Text style={styles.botonesText}>Todas las SubCategorias</Text>
+          <Image source={todasSubcategoriasIcon} style={styles.icon} />
+          <Text style={styles.buttonText}>Todas las SubCategorias</Text>
         </Pressable>
-
         <Pressable
-          style={styles.botones}
+          style={styles.button}
           onPress={() => navigation.navigate("AutoparteID")}
         >
-          <Text style={styles.botonesText}>Subcategoria por Categoria</Text>
+          <Image source={subcategoriaIcon} style={styles.icon} />
+          <Text style={styles.buttonText}>Subcategoria por Categoria</Text>
         </Pressable>
       </View>
-    </>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({
-  //logo
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F5F5DC",
   },
   navbar: {
     backgroundColor: "#f80759",
-    color: "#fff",
-    borderColor: "#03a9f4",
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "flex-start",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 30,
-    fontWeight: 500,
-
-    marginTop: 1,
   },
   logo: {
     width: 107,
     height: 57,
     resizeMode: "contain",
-    marginLeft: 50,
+    marginRight: 10,
   },
   title: {
     fontSize: 18,
+    fontWeight: "bold",
     color: "#fff",
-    fontWeight: "bold",
-    marginLeft: 128,
-    marginRight: -21,
-    marginBottom: -19,
-    width: 269.906,
-    height: 68,
   },
-  //logo <-
-
-  title2: {
-    fontSize: 18,
-    color: "red ",
-    fontWeight: "bold",
-    marginLeft: 128,
-    marginRight: -21,
-    marginBottom: -19,
-    width: 269.906,
-    height: 68,
-  },
-
-  //botones
-  botonesContainer: {
-    height: "70%",
-    width: "100%",
-    justifyContent: "center",
+  section: {
     alignItems: "center",
-    margin: "10%",
+    paddingVertical: 10,
   },
-  botones: {
-    padding: 5,
+  sectionTitle: {
+    fontSize: 19,
+    fontWeight: "bold",
+    color: "black",
+    marginBottom: 0,
+  },
+  button: {
+    flexDirection: "row",
+    alignItems: "center",
+    padding: 20,
     backgroundColor: "#f80759",
-    borderColor: "#000000",
+    borderColor: "#000",
     borderWidth: 3,
     borderRadius: 10,
-    fontSize: 25,
+    marginBottom: 10,
     width: "80%",
-    margin: 5,
-    boxshadowColor: "#000000",
-    boxshadowOpacity: 0,
-    fontFamily: "sans-",
+    marginVertical: 50,
   },
-  botonesText: {
-    textAlign: "center",
-    fontSize: 25,
+  icon: {
+    width: 24,
+    height: 30,
+    marginRight: 5,
+  },
+  buttonText: {
+    fontSize: 19,
     color: "#fff",
     textTransform: "uppercase",
-  },
-  title3: {
-    fontSize: 18,
-    color: "red ",
-    fontWeight: "bold",
-    marginLeft: 128,
-    marginRight: -21,
-    marginBottom: -19,
-    width: 269.906,
-    height: 68,
+    marginLeft: 10,
   },
 });
+
 export default EscogerCategoriasSubactegorias;

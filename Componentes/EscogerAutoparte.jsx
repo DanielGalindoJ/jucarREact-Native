@@ -4,126 +4,103 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  //Pressable,
   Pressable,
   StatusBar,
-  Card,
 } from "react-native";
 import { Text } from "react-native-paper";
-
 import Logo from "../assets/imgs/jucar.jpg";
+import IconoTodas from "../assets/imgs/Autopartes.png"; // Ruta de tu icono para Todas las Autopartes
+import IconoId from "../assets/imgs/Autopartes.png"; // Ruta de tu icono para Autopartes por Id
 
 const EscogerAutoparte = ({ navigation }) => {
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.navbar}>
-          <Image source={Logo} style={styles.logo} />
-
-          <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
-        </View>
-
-        <View>
-          <Text style={styles.title2}> {"\n"} PRODUCTOS</Text>
-
-          <Pressable
-            style={styles.botones}
-            onPress={() => navigation.navigate("AllAutoparts")}
-          >
-            <Text style={styles.botonesText}>Todas las Autopartes</Text>
-          </Pressable>
-
-          <Pressable
-            style={styles.botones}
-            onPress={() => navigation.navigate("AutoparteID")}
-          >
-            <Text style={styles.botonesText}>Autopartes por Id</Text>
-          </Pressable>
-        </View>
+    <ScrollView contentContainerStyle={styles.container}>
+      <StatusBar backgroundColor="#f80759" barStyle="light-content" />
+      <View style={styles.navbar}>
+        <Image source={Logo} style={styles.logo} />
+        <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
+      </View>
+      <View style={styles.section}>
+        <Text style={styles.sectionTitle}>PRODUCTOS</Text>
+        <Pressable
+          style={styles.button}
+          onPress={() => navigation.navigate("AllAutoparts")}
+        >
+          <Image source={IconoTodas} style={styles.icon} />
+          <Text style={styles.buttonText}>Todas las Autopartes</Text>
+        </Pressable>
+        <Pressable
+          style={styles.button}
+          onPress={() => navigation.navigate("AutoparteID")}
+        >
+          <Image source={IconoId} style={styles.icon} />
+          <Text style={styles.buttonText}>Autopartes por Id</Text>
+        </Pressable>
       </View>
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  //logo
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#F5F5DC",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    paddingTop: StatusBar.currentHeight, // Ajusta el paddingTop según la altura de la barra de estado
   },
   navbar: {
     backgroundColor: "#f80759",
-    color: "#fff",
-    borderColor: "#03a9f4",
     flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "flex-start",
-    padding: 30,
-    fontWeight: 500,
-
-    marginTop: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 40,
   },
   logo: {
     width: 107,
     height: 57,
     resizeMode: "contain",
-    marginLeft: 50,
+    marginRight: 10,
   },
   title: {
     fontSize: 18,
+    fontWeight: "bold",
     color: "#fff",
-    fontWeight: "bold",
-    marginLeft: 128,
-    marginRight: -21,
-    marginBottom: -19,
-    width: 269.906,
-    height: 68,
   },
-  container: {
-    marginTop: 1,
-    justifyContent: "center",
-    // alignItems: 'center',
-    flex: 1,
-    ///logo <-
-  },
-  title2: {
-    fontSize: 18,
-    color: "red ",
-    fontWeight: "bold",
-    marginLeft: 128,
-    marginRight: -21,
-    marginBottom: -19,
-    width: 269.906,
-    height: 68,
-  },
-
-  //botones
-  botonesContainer: {
-    height: "70%",
-    width: "100%",
-    justifyContent: "center",
+  section: {
     alignItems: "center",
-    margin: "10%",
+    paddingVertical: 20,
   },
-  botones: {
-    padding: 5,
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "black",
+    marginBottom: 70,
+  },
+  button: {
+    flexDirection: "row",
+    padding: 30,
     backgroundColor: "#f80759",
     borderColor: "#000000",
-    borderWidth: 3,
+    borderWidth: 4,
     borderRadius: 10,
-    fontSize: 25,
     width: "80%",
-    margin: 5,
-    boxshadowColor: "#000000",
-    boxshadowOpacity: 0,
-    fontFamily: "sans-",
+    marginVertical: 50,
+    alignItems: "center",
+    justifyContent: "center",
   },
-  botonesText: {
-    textAlign: "center",
-    fontSize: 25,
+  buttonText: {
+    fontSize: 20,
     color: "#fff",
     textTransform: "uppercase",
+    marginLeft: 5,
+    textAlignVertical: "center",
   },
-}); // -> No hay estilos
+  icon: {
+    width: 40,
+    height: 40,
+    resizeMode: "contain",
+  },
+});
 
 export default EscogerAutoparte;

@@ -4,7 +4,6 @@ import {
   Image,
   ScrollView,
   StyleSheet,
-  // Pressable,
   Pressable,
   StatusBar,
   TouchableOpacity,
@@ -13,6 +12,10 @@ import {
 import { Text } from "react-native-paper";
 import Logo from "../assets/imgs/jucar.jpg";
 import flechaAtras from "../assets/imgs/flecha-pequena-izquierda.png";
+import iconoProductos from "../assets/imgs/Tuerca.png";
+import iconoProveedores from "../assets/imgs/Proveedor.png";
+import iconoNegocio from "../assets/imgs/Portafolio77.png";
+import iconoUsuarios from "../assets/imgs/Usuario.png";
 
 const Menu = ({ navigation }) => {
   return (
@@ -23,27 +26,25 @@ const Menu = ({ navigation }) => {
         <Pressable style={styles.touchImage} activeOpacity={1}>
           <View style={styles.navbar}>
             <Image source={Logo} style={styles.logo} />
-
             <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
           </View>
         </Pressable>
 
-        <Text style={styles.text}> {"\n"}Menu</Text>
+        <Text style={styles.text}>Menu</Text>
+        <TouchableOpacity
+          style={styles.tabItem}
+          onPress={() => navigation.navigate("Login")}
+        >
+          <Image source={flechaAtras} style={styles.tabIcon} />
+        </TouchableOpacity>
       </View>
-
-      <TouchableOpacity
-        style={styles.tabItem}
-        onPress={() => navigation.navigate("Login")}
-      >
-        <Image source={flechaAtras} style={styles.tabIcon} />
-        {/* Render user name or placeholder text here */}
-      </TouchableOpacity>
 
       <View style={styles.botonesContainer}>
         <Pressable
           style={styles.botones}
           onPress={() => navigation.navigate("Productos")}
         >
+          <Image source={iconoProductos} style={styles.iconoBoton} />
           <Text style={styles.botonesText}>Productos</Text>
         </Pressable>
 
@@ -51,6 +52,7 @@ const Menu = ({ navigation }) => {
           style={styles.botones}
           onPress={() => navigation.navigate("Proveedores")}
         >
+          <Image source={iconoProveedores} style={styles.iconoBoton} />
           <Text style={styles.botonesText}>Proveedores</Text>
         </Pressable>
 
@@ -58,6 +60,7 @@ const Menu = ({ navigation }) => {
           style={styles.botones}
           onPress={() => navigation.navigate("Negocio")}
         >
+          <Image source={iconoNegocio} style={styles.iconoBoton} />
           <Text style={styles.botonesText}>Negocio</Text>
         </Pressable>
 
@@ -65,13 +68,13 @@ const Menu = ({ navigation }) => {
           style={styles.botones}
           onPress={() => navigation.navigate("Users")}
         >
+          <Image source={iconoUsuarios} style={styles.iconoBoton} />
           <Text style={styles.botonesText}>Usuarios</Text>
         </Pressable>
       </View>
     </ScrollView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -81,11 +84,11 @@ const styles = StyleSheet.create({
     paddingTop: "5%",
   },
   botonesContainer: {
-    height: "70%",
+    flex: 1,
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    margin: "10%",
+    marginTop: 20,
   },
   imagenContainer: {
     height: "20%",
@@ -95,20 +98,23 @@ const styles = StyleSheet.create({
     display: "flex",
   },
   botones: {
-    padding: 5,
+    flexDirection: "row",
+    padding: 20,
     backgroundColor: "#f80759",
     borderColor: "#000000",
     borderWidth: 3,
     borderRadius: 10,
-    fontSize: 25,
     width: "80%",
-    margin: 5,
-    boxshadowColor: "#000000",
-    boxshadowOpacity: 0,
-    fontFamily: "sans-",
+    marginVertical: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  iconoBoton: {
+    width: 50,
+    height: 50,
+    marginRight: 10,
   },
   botonesText: {
-    textAlign: "center",
     fontSize: 25,
     color: "#fff",
     textTransform: "uppercase",
@@ -128,37 +134,30 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-evenly",
     alignItems: "center",
-    padding: 30,
+    padding: 40,
     fontWeight: 500,
-
     marginTop: 1,
   },
   logo: {
     width: 107,
     height: 57,
     resizeMode: "contain",
-    marginLeft: 50,
   },
   title: {
     fontSize: 18,
     color: "#fff",
     fontWeight: "bold",
-    marginLeft: 128,
-    marginRight: -21,
-    marginBottom: -19,
-    width: 269.906,
-    height: 68,
   },
-  //icons
   tabItem: {
-    padding: 70,
-    display: "flex",
-    alignItems: "flex-end",
+    marginTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   tabIcon: {
     width: 54,
     height: 54,
-    // ... other styles
+    marginRight: 10,
   },
 });
 export default Menu;
