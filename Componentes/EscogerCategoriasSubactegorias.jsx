@@ -18,7 +18,7 @@ const EscogerCategoriasSubactegorias = ({ navigation }) => {
         <Text style={styles.sectionTitle}>CATEGORIAS</Text>
         <Pressable
           style={styles.button}
-          onPress={() => navigation.navigate("AllAutoparts")}
+          onPress={() => navigation.navigate("AllCategories")}
         >
           <Image source={categoriaIcon} style={styles.icon} />
           <Text style={styles.buttonText}>Lista de Categorias</Text>
