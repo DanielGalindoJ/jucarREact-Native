@@ -11,7 +11,7 @@ import AllAutoparts from "./Componentes/AllAutoparts";
 import { NavigationContainer } from "@react-navigation/native";
 import AutoparteID from "./Componentes/AutoparteID";
 import EscogerCategoriasSubactegorias from "./Componentes/EscogerCategoriasSubactegorias";
-
+import AllCategories from "./Componentes/AllCategories";
 const Stack = createNativeStackNavigator();
 
 //
@@ -79,6 +79,14 @@ const App = () => {
           options={{
             headerShown: false,
             title: "EscogerCategoriasSubactegorias",
+          }}
+        />
+        <Stack.Screen
+          name="AllCategories"
+          component={AllCategories}
+          options={{
+            headerShown: false,
+            title: "AllCategories",
           }}
         />
       </Stack.Navigator>
