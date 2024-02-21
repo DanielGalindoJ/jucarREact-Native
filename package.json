@@ -21,6 +21,7 @@
     "react-dom": "^18.2.0",
     "react-hooks": "^1.0.1",
     "react-native": "0.72.10",
+    "react-native-dotenv": "^3.4.10",
     "react-native-hook-form": "^1.0.12",
     "react-native-modal": "^13.0.1",
     "react-native-paper": "^5.12.1",
