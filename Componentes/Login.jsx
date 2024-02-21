@@ -14,40 +14,34 @@ import React from "react";
 import { useState } from "react";
 import Logo from "../assets/imgs/jucar.jpg";
 import axios from "axios";
+//import { useAuthToken } from "expo-auth";
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   // const val = useContext (AuthContext)
-  //   const {isLoading, login} =useContext(AuthConstext)
+  // const [authToken, setAuthToken] = useAuthToken();
 
-  const handleLogin = async () => {
-    try {
-      // Configura la URL de tu API
-      const apiUrl = "https://localhost:7028/api/authentication/login";
+  // const login = async (username, password) => {
+  //   try {
+  //     const { token } = await axios.post(
+  //       "https://localhost:7028/api/authentication/login",
+  //       {
+  //         username,
+  //         password,
+  //       }
+  //     );
 
-      // Realiza la llamada a la API con Axios
-      const response = await axios.post(apiUrl, {
-        username: username,
-        password: password,
-      });
+  //     // Almacenar el token de forma segura
+  //     setAuthToken(token);
 
-      // Aquí puedes manejar la respuesta de la API según tus necesidades
-      console.log("Respuesta de la API:", response.data);
-
-      // Por ejemplo, puedes mostrar un mensaje de éxito
-      Alert.alert("Éxito", "Inicio de sesión exitoso");
-    } catch (error) {
-      // Maneja los errores de la llamada a la API
-      console.error("Error al iniciar sesión:", error);
-
-      // Muestra un mensaje de error
-      Alert.alert(
-        "Error",
-        "Error al iniciar sesión. Por favor, intenta nuevamente."
-      );
-    }
-  };
+  //     // Redirigir a la página principal
+  //     // ...
+  //   } catch (error) {
+  //     // Manejar el error
+  //     console.log(error);
+  //   }
+  // };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -88,7 +82,8 @@ const Login = ({ navigation }) => {
 
         <Pressable
           style={styles.button}
-          onPress={(handleLogin) => navigation.navigate("Menu")}
+          onPress={(login) => navigation.navigate("Menu")}
+          //onPress={login}
         >
           <Text style={styles.buttontxt}> Ingresar </Text>
         </Pressable>
