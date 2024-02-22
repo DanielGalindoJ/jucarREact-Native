@@ -66,9 +66,9 @@ const AllCategories = () => {
       <Text style={styles.title}>Lista de Categorías</Text>
       <FlatList
         data={categorias}
-        renderItem={({ item }) => (
-          <View style={styles.item} key={item.id}>
-            <Text>{item.nombre}</Text>
+        renderItem={({ item, index }) => (
+          <View style={styles.item} key={index}>
+            <Text style={styles.text}>{item.name}</Text>
             <Button
               title="Editar"
               onPress={() =>
@@ -77,11 +77,10 @@ const AllCategories = () => {
             />
             <Button
               title="Eliminar"
-              onPress={() => handleEliminarCategoria(item.id.toString())}
+              onPress={() => handleEliminarCategoria(item.id)}
             />
           </View>
         )}
-        keyExtractor={(item) => item.id}
       />
       <TextInput
         style={styles.input}
@@ -116,6 +115,9 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
+  },
+  text: {
+    color: "black",
   },
 });
 
