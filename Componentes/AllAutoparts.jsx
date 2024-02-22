@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Pressable,
   Image,
+  Button,
   FlatList,
 } from "react-native";
 import { Text } from "react-native-paper";
@@ -14,21 +15,59 @@ import agregarUsu from "../assets/imgs/agregarUsuario.png";
 import ajustes from "../assets/imgs/ajustes.png";
 import { DataTable } from "react-native-paper";
 import axios from "axios";
+import {
+  crearAutoparte,
+  obtenerAutoaprte,
+  actualizarAutoparte,
+  eliminarAutoparte,
+} from "./cruds/autopartes";
 import Logo from "../assets/imgs/jucar.jpg";
 
 const AllAutoparts = () => {
   const [autopartes, setAutopartes] = useState([]);
+  const [nuevoAutoparte, setNuevaAutoparte] = useState("");
+  const [AutoparteEditada, setAutoparteEditada] = useState("");
+  const [AutoparteEliminada, setAutoparteEliminada] = useState("");
 
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await axios.get("https://localhost:7028/api/autoparts");
-      setAutopartes(response.data);
-    };
-    fetchData();
-  }, []);
+    obtenerAutoparteAPI();
+  }, [AutoparteEditada, AutoparteEliminada]);
 
-  const onPressItem = (autoparte) => {
-    navigation.navigate("PantallaFormulario", { autoparte });
+  const obtenerAutoparteAPI = async () => {
+    try {
+      const autopartesObtenidas = await obtenerAutoaprte();
+      setAutopartes(autopartesObtenidas);
+    } catch (error) {
+      console.error("Error al obtener las Autoparte:", error);
+    }
+  };
+
+  const handleCrearAutoparte = async () => {
+    try {
+      await crearAutoparte({ nombre: nuevoAutoparte });
+      setNuevaAutoparte("");
+      obtenerAutoparteAPI();
+    } catch (error) {
+      console.error("Error al crear la categoría:", error);
+    }
+  };
+
+  const handleActualizarAutoparte = async (id, nuevaInfo) => {
+    try {
+      await actualizarAutoparte(id, nuevaInfo);
+      setAutoparteEditada(id);
+    } catch (error) {
+      console.error("Error al actualizar la categoría:", error);
+    }
+  };
+
+  const handleEliminarAutoparte = async (id) => {
+    try {
+      await eliminarAutoparte(id);
+      setAutoparteEliminada(id);
+    } catch (error) {
+      console.error("Error al eliminar la categoría:", error);
+    }
   };
 
   return (
@@ -40,131 +79,27 @@ const AllAutoparts = () => {
       </View>
       <FlatList
         data={autopartes}
-        renderItem={({ item }) => (
-          <TouchableOpacity onPress={() => onPressItem(item)}>
-            <Text>{item.nombre}</Text>
-          </TouchableOpacity>
+        renderItem={({ item, index }) => (
+          <View style={styles.item} key={index}>
+            <Text style={styles.text}>{item.name}</Text>
+            <Text style={styles.text}>{item.Inventory}</Text>
+            <Text style={styles.text}>{item.Value}</Text>
+
+            <Button
+              title="Editar"
+              onPress={() =>
+                handleActualizarAutoparte(item.id, { nombre: "Nuevo nombre" })
+              }
+            />
+            <Button
+              title="Eliminar"
+              onPress={() => handleEliminarAutoparte(item.id)}
+            />
+          </View>
         )}
       />
     </View>
   );
-  // const [items, setItems] = useState([]);
-  // const [selectedItem, setSelectedItem] = useState(null);
-  // const [modalVisible, setModalVisible] = useState(false);
-  // const [error, setError] = useState(null);
-  // const [autoparts, setAutopart] = useState([]);
-
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       const response = await fetch("https://localhost:7028/api/autoparts");
-
-  //       if (response.ok) {
-  //         const data = await response.json();
-  //         setAutopart(data);
-  //       } else {
-  //         console.error("Error en la solicitud a la API");
-  //       }
-  //     } catch (error) {
-  //       console.error("Error al realizar la solicitud a la API", error);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  // const handleItemPress = (item) => {
-  //   setSelectedItem(item);
-
-  //   setModalVisible(true);
-  // };
-
-  // return (
-  //   <View style={styles.container}>
-  //     <View style={styles.navbar}>
-  //       <Image source={Logo} style={styles.logo} />
-
-  //       <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
-  //     </View>
-  //     <Text style={styles.header}>Autopartes</Text>
-
-  //     <ScrollView style={styles.container}>
-  //       {/*botones crud */}
-  //       <View style={styles.tab}>
-  //         <TouchableOpacity onPress={() => navigation.navigate("AllAutoparts")}>
-  //           <Image source={agregarUsu} style={styles.tabIcon} />
-  //         </TouchableOpacity>
-
-  //         <TouchableOpacity onPress={() => navigation.navigate("AllAutoparts")}>
-  //           <Image source={ajustes} style={styles.tabIcon} />
-  //         </TouchableOpacity>
-
-  //         <TouchableOpacity onPress={() => navigation.navigate("AllAutoparts")}>
-  //           <Image source={agregarUsu} style={styles.tabIcon} />
-  //         </TouchableOpacity>
-
-  //         <TouchableOpacity onPress={() => navigation.navigate("AllAutoparts")}>
-  //           <Image source={agregarUsu} style={styles.tabIcon} />
-  //         </TouchableOpacity>
-  //       </View>
-
-  //       <View style={styles.tableContainer}>
-  //         <View style={styles.tableHeader}>
-  //           <Text style={styles.headerText}>AutopartID</Text>
-  //           <Text style={styles.headerText}>Nombre</Text>
-  //           <Text style={styles.headerText}>Descripción</Text>
-  //           <Text style={styles.headerText}>Inventario</Text>
-  //           <Text style={styles.headerText}>Valor </Text>
-  //           <Text style={styles.headerText}>Estado</Text>
-  //         </View>
-
-  //         {autoparts.map((autopart) => (
-  //           <View key={autopart.AutopartID} style={styles.row}>
-  //             <Text style={styles.cell}>{autopart.nombre}</Text>
-  //             <Text style={styles.cell}>{usuario.descripcion}</Text>
-  //             <Text style={styles.cell}>{usuario.Inventario}</Text>
-  //             <Text style={styles.cell}>{usuario.Valor}</Text>
-  //             <Text style={styles.cell}>{usuario.Estado}</Text>
-  //           </View>
-  //         ))}
-  //       </View>
-  //     </ScrollView>
-  //      <Modal
-  //       animationType="slide"
-  //       transparent={true}
-  //       visible={modalVisible}
-  //       onRequestClose={() => setModalVisible(false)}
-  //     >
-  //       <View
-  //         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-  //       >
-  //         <View
-  //           style={{ backgroundColor: "white", padding: 20, borderRadius: 10 }}
-  //         >
-  //           {selectedItem && (
-  //             <>
-  //               <Text>AutopartID: {selectedItem.AutopartID}</Text>
-
-  //               <Text>Nombre: {selectedItem.name}</Text>
-
-  //               <Text>Descripción: {selectedItem.Descripcion}</Text>
-
-  //               <Text>Inventario: {selectedItem.Inventory}</Text>
-
-  //               <Text>Valor: {selectedItem.value}</Text>
-
-  //               <Text>Estado: {selectedItem.State}</Text>
-  //             </>
-  //           )}
-
-  //           <Pressable onPress={() => setModalVisible(false)}>
-  //             <Text style={{ color: "blue", marginTop: 10 }}>Cerrar</Text>
-  //           </Pressable>
-  //         </View>
-  //       </View>
-  //     </Modal>
-  //   </View>
-  // );
 };
 
 const styles = StyleSheet.create({
