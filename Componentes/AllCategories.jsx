@@ -67,7 +67,7 @@ const AllCategories = () => {
       <FlatList
         data={categorias}
         renderItem={({ item }) => (
-          <View style={styles.item}>
+          <View style={styles.item} key={item.id}>
             <Text>{item.nombre}</Text>
             <Button
               title="Editar"
@@ -77,11 +77,11 @@ const AllCategories = () => {
             />
             <Button
               title="Eliminar"
-              onPress={() => handleEliminarCategoria(item.id)}
+              onPress={() => handleEliminarCategoria(item.id.toString())}
             />
           </View>
         )}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
       />
       <TextInput
         style={styles.input}
