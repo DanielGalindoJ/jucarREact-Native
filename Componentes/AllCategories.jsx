@@ -1,63 +1,91 @@
 import React, { useEffect, useState } from "react";
+import { View, FlatList, TextInput, StyleSheet } from "react-native";
 import {
-  View,
+  Headline,
   Text,
+  Subheading,
   Button,
-  FlatList,
-  TextInput,
-  StyleSheet,
-} from "react-native";
-import {
-  crearCategoria,
-  obtenerCategorias,
-  actualizarCategoria,
-  eliminarCategoria,
-} from "./cruds/categorias";
+  FAB,
+  Divider,
+} from "react-native-paper";
+import globalStyles from "./styles/global";
+import axios from "axios";
 
 const AllCategories = () => {
-  const [categorias, setCategorias] = useState([]);
-  const [nuevaCategoria, setNuevaCategoria] = useState("");
-  const [categoriaEditada, setCategoriaEditada] = useState("");
-  const [categoriaEliminada, setCategoriaEliminada] = useState("");
+  const [categories, setCategories] = useState([]);
+  const [newCategoryName, setNewCategoryName] = useState("");
 
   useEffect(() => {
-    obtenerCategoriasAPI();
-  }, [categoriaEditada, categoriaEliminada]);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          "https://localhost:7028/api/categories"
+        );
+        setCategories(response.data);
+      } catch (error) {
+        console.error("Error fetching categories:", error);
+      }
+    };
 
-  const obtenerCategoriasAPI = async () => {
+    fetchData();
+  }, []);
+
+  // Función para crear una nueva categoría
+  const handleCreateCategory = async () => {
     try {
-      const categoriasObtenidas = await obtenerCategorias();
-      setCategorias(categoriasObtenidas);
+      const response = await axios.post(
+        "https://localhost:7028/api/categories",
+        {
+          name: newCategoryName,
+        }
+      );
+
+      setCategories([response.data, ...categories]);
+
+      setNewCategoryName("");
+
+      setShowCreateModal(false);
     } catch (error) {
-      console.error("Error al obtener las categorías:", error);
+      console.error("Error creating category:", error);
     }
   };
+  // Función para eliminar una  categoría
 
-  const handleCrearCategoria = async () => {
+  const handleDeleteCategory = async (categoryId) => {
     try {
-      await crearCategoria({ nombre: nuevaCategoria });
-      setNuevaCategoria("");
-      obtenerCategoriasAPI();
+      await axios.delete(`https://localhost:7028/api/categories/${categoryId}`);
+
+      const updatedCategories = categories.filter(
+        (category) => category.categoryId !== categoryId
+      );
+      setCategories(updatedCategories);
     } catch (error) {
-      console.error("Error al crear la categoría:", error);
+      console.error("Error deleting category:", error);
     }
   };
+  // Función para actualizar una  categoría
 
-  const handleActualizarCategoria = async (id, nuevaInfo) => {
+  const handleUpdateCategory = async (categoryId, newName) => {
     try {
-      await actualizarCategoria(id, nuevaInfo);
-      setCategoriaEditada(id);
-    } catch (error) {
-      console.error("Error al actualizar la categoría:", error);
-    }
-  };
+      await axios.put(`https://localhost:7028/api/categories/${categoryId}`, {
+        name: newName,
+      });
 
-  const handleEliminarCategoria = async (id) => {
-    try {
-      await eliminarCategoria(id);
-      setCategoriaEliminada(id);
+      // Realiza una nueva solicitud para obtener la lista actualizada
+      const response = await axios.get("https://localhost:7028/api/categories");
+
+      const updatedCategories = response.data;
+
+      // Actualiza el estado con la nueva lista
+      setCategories(updatedCategories);
+
+      setNewCategoryName({
+        Name: "",
+      });
+
+      setShowUpdateModal(false);
     } catch (error) {
-      console.error("Error al eliminar la categoría:", error);
+      console.error("Error updating rawMaterial:", error);
     }
   };
 
@@ -65,30 +93,31 @@ const AllCategories = () => {
     <View style={styles.container}>
       <Text style={styles.title}>Lista de Categorías</Text>
       <FlatList
-        data={categorias}
-        renderItem={({ item, index }) => (
-          <View style={styles.item} key={index}>
-            <Text style={styles.text}>{item.name}</Text>
-            <Button
-              title="Editar"
-              onPress={() =>
-                handleActualizarCategoria(item.id, { nombre: "Nuevo nombre" })
-              }
-            />
-            <Button
+        data={categories}
+        renderItem={(
+          { item } // Cambio aquí: Usa 'item' en lugar de 'categories' y 'categoryId'
+        ) => (
+          <View key={item.categoryId}>
+            <Text style={styles.texto}>
+              Nombre: <Subheading>{item.name}</Subheading>{" "}
+            </Text>
+            <Divider />
+            <FAB
+              icon="delete"
+              style={globalStyles.fab}
               title="Eliminar"
-              onPress={() => handleEliminarCategoria(item.id)}
+              onPress={() => handleDeleteCategory(item.categoryId)} // Cambio aquí: Usa 'item.categoryId'
             />
           </View>
         )}
       />
       <TextInput
         style={styles.input}
-        value={nuevaCategoria}
-        onChangeText={setNuevaCategoria}
+        value={newCategoryName}
+        onChangeText={setNewCategoryName}
         placeholder="Nombre de nueva categoría"
       />
-      <Button title="Crear Categoría" onPress={handleCrearCategoria} />
+      <Button title="Crear Categoría" onPress={handleCreateCategory} />
     </View>
   );
 };
@@ -118,6 +147,13 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "black",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
   },
 });
 
