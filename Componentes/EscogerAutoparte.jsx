@@ -29,13 +29,6 @@ const EscogerAutoparte = ({ navigation }) => {
           <Image source={IconoTodas} style={styles.icon} />
           <Text style={styles.buttonText}>Todas las Autopartes</Text>
         </Pressable>
-        <Pressable
-          style={styles.button}
-          onPress={() => navigation.navigate("AutoparteID")}
-        >
-          <Image source={IconoId} style={styles.icon} />
-          <Text style={styles.buttonText}>Autopartes por Id</Text>
-        </Pressable>
       </View>
     </ScrollView>
   );
