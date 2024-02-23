@@ -43,8 +43,6 @@ const AllCategories = () => {
       setCategories([response.data, ...categories]);
 
       setNewCategoryName("");
-
-      setShowCreateModal(false);
     } catch (error) {
       console.error("Error creating category:", error);
     }
@@ -97,14 +95,14 @@ const AllCategories = () => {
         renderItem={(
           { item } // Cambio aquí: Usa 'item' en lugar de 'categories' y 'categoryId'
         ) => (
-          <View key={item.categoryId}>
+          <View style={styles.item} key={item.categoryId}>
             <Text style={styles.texto}>
               Nombre: <Subheading>{item.name}</Subheading>{" "}
             </Text>
-            <Divider />
+
             <FAB
-              icon="delete"
               style={globalStyles.fab}
+              icon="delete"
               title="Eliminar"
               onPress={() => handleDeleteCategory(item.categoryId)} // Cambio aquí: Usa 'item.categoryId'
             />
@@ -125,7 +123,7 @@ const AllCategories = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    marginTop: 20,
   },
   title: {
     fontSize: 20,
@@ -140,7 +138,7 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "red",
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
