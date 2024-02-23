@@ -9,9 +9,9 @@ import Productos from "./Componentes/Productos";
 import EscogerAutoparte from "./Componentes/EscogerAutoparte";
 import AllAutoparts from "./Componentes/AllAutoparts";
 import { NavigationContainer } from "@react-navigation/native";
-import AutoparteID from "./Componentes/AutoparteID";
 import EscogerCategoriasSubactegorias from "./Componentes/EscogerCategoriasSubactegorias";
 import AllCategories from "./Componentes/AllCategories";
+import Subcategorias from "./Componentes/Subcategorias";
 const Stack = createNativeStackNavigator();
 
 //
@@ -62,16 +62,11 @@ const App = () => {
           options={{ headerShown: false, title: "EscogerAutoparte" }}
         />
 
-        <Stack.Screen
+        {/* <Stack.Screen
           name="AllAutoparts"
           component={AllAutoparts}
           options={{ headerShown: false, title: "AllAutoparts" }}
-        />
-        <Stack.Screen
-          name="AutoparteID"
-          component={AutoparteID}
-          options={{ headerShown: false, title: "AutoparteID" }}
-        />
+        /> */}
 
         <Stack.Screen
           name="EscogerCategoriasSubactegorias"
@@ -87,6 +82,14 @@ const App = () => {
           options={{
             headerShown: false,
             title: "AllCategories",
+          }}
+        />
+        <Stack.Screen
+          name="Subcategorias"
+          component={Subcategorias}
+          options={{
+            headerShown: false,
+            title: "Subcategorias",
           }}
         />
       </Stack.Navigator>
