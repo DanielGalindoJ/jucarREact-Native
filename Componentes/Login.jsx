@@ -76,6 +76,14 @@ const Login = ({ navigation }) => {
           <Pressable style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttontxt}>Ingresar</Text>
           </Pressable>
+          <Pressable
+            style={styles.link}
+            onPress={() => navigation.navigate("Registro")}
+          >
+            <Text style={styles.linkText}>
+              ¿No tienes una cuenta? Regístrate aquí
+            </Text>
+          </Pressable>
         </View>
 
         <View style={styles.footer}>
