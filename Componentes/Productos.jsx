@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Pressable,
   StatusBar,
+  Dimensions, // Importa Dimensions para obtener el ancho de la pantalla
 } from "react-native";
 import { Text } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
@@ -18,11 +19,12 @@ import iconoMateriaPrima from "../assets/imgs/MateriaP.png";
 const Productos = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <StatusBar backgroundColor="#f80759" />{" "}
+      {/* Cambia el color de la barra de estado */}
       <View style={styles.navbar}>
         <Image source={Logo} style={styles.logo} />
         <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
       </View>
-
       <View style={styles.content}>
         <Text style={styles.subTitle}>Productos</Text>
         <Pressable
@@ -55,7 +57,7 @@ const Productos = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#F5F5DC",
   },
   navbar: {
@@ -63,7 +65,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    padding: 40,
+    paddingVertical: 20,
+    paddingHorizontal: 10, // Agrega un padding horizontal
   },
   logo: {
     width: 107,
@@ -77,7 +80,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   content: {
-    flex: 1, // Para que ocupe todo el espacio disponible
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -85,8 +88,9 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 27,
     fontWeight: "bold",
-    marginBottom: 50,
-    color: "#000", // Color negro
+    marginBottom: 20, // Reduce el margen inferior
+    color: "#000",
+    textAlign: "center", // Centra el texto
   },
   botones: {
     flexDirection: "row",
@@ -96,11 +100,11 @@ const styles = StyleSheet.create({
     borderColor: "#000",
     borderWidth: 3,
     borderRadius: 10,
-    padding: 20,
+    paddingVertical: 20,
+    paddingHorizontal: 10, // Agrega un padding horizontal
     marginBottom: 10,
-    width: "100%",
+    width: Dimensions.get("window").width - 40, // Usa el ancho de la pantalla menos los márgenes laterales
     maxWidth: 300,
-    marginVertical: 50, // Ajusta el ancho máximo de los botones si lo deseas
   },
   iconoBoton: {
     width: 40,
@@ -113,4 +117,5 @@ const styles = StyleSheet.create({
     fontFamily: "sans-serif",
   },
 });
+
 export default Productos;
