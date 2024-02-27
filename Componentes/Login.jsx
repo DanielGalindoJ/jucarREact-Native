@@ -10,30 +10,35 @@ import {
 } from "react-native";
 import { Text } from "react-native-paper";
 import axios from "axios";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = async () => {
     try {
+      if (!username || !password) {
+        throw new Error("Por favor completa todos los campos");
+      }
+
       const apiUrl = "https://localhost:7028/api/authentication/login";
       const response = await axios.post(apiUrl, {
         username: username,
         password: password,
       });
 
-      // Aquí puedes manejar la respuesta de la API según tus necesidades
       console.log("Respuesta de la API:", response.data);
 
-      // Por ejemplo, puedes mostrar un mensaje de éxito y navegar a la pantalla del menú
       Alert.alert("Éxito", "Inicio de sesión exitoso");
       navigation.navigate("Menu");
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
+      console.error("Error al iniciar sesión:", error.message);
       Alert.alert(
         "Error",
-        "Error al iniciar sesión. Por favor, intenta nuevamente."
+        error.message ||
+          "Error al iniciar sesión. Por favor, intenta nuevamente."
       );
     }
   };
@@ -65,13 +70,22 @@ const Login = ({ navigation }) => {
             onChangeText={(text) => setUsername(text)}
           />
 
-          <TextInput
-            style={styles.input}
-            placeholder="Contraseña"
-            secureTextEntry
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={styles.passwordInput}
+              placeholder="Contraseña"
+              secureTextEntry={!showPassword}
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+            <Pressable onPress={() => setShowPassword(!showPassword)}>
+              <MaterialIcons
+                name={showPassword ? "visibility-off" : "visibility"}
+                size={24}
+                color="black"
+              />
+            </Pressable>
+          </View>
 
           <Pressable style={styles.button} onPress={handleLogin}>
             <Text style={styles.buttontxt}>Ingresar</Text>
@@ -163,6 +177,20 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     borderRadius: 10,
   },
+  passwordContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 10,
+    marginBottom: 20,
+    width: "100%",
+  },
+  passwordInput: {
+    flex: 1,
+    fontSize: 20,
+    paddingHorizontal: 20,
+  },
   button: {
     backgroundColor: "#f80759",
     paddingVertical: 15,
@@ -175,6 +203,13 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 20,
     textTransform: "uppercase",
+  },
+  link: {
+    marginBottom: 20,
+  },
+  linkText: {
+    color: "blue",
+    textDecorationLine: "underline",
   },
   footer: {
     backgroundColor: "black",
