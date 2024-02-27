@@ -14,6 +14,7 @@ const EscogerCategoriasSubactegorias = ({ navigation }) => {
         <Image source={Logo} style={styles.logo} />
         <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
       </View>
+
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>CATEGORIAS</Text>
         <Pressable
@@ -25,24 +26,24 @@ const EscogerCategoriasSubactegorias = ({ navigation }) => {
         </Pressable>
         <Pressable
           style={styles.button}
-          onPress={() => navigation.navigate("AutoparteID")}
+          onPress={() => navigation.navigate("MenuSubcategories")}
         >
           <Image source={crearCategoriaIcon} style={styles.icon} />
-          <Text style={styles.buttonText}>Crear Categoria</Text>
+          <Text style={styles.buttonText}>Menu Subcategorías</Text>
         </Pressable>
       </View>
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>SUBCATEGORIAS</Text>
         <Pressable
           style={styles.button}
-          onPress={() => navigation.navigate("AllAutoparts")}
+          onPress={() => navigation.navigate("Subcategorias")}
         >
           <Image source={todasSubcategoriasIcon} style={styles.icon} />
           <Text style={styles.buttonText}>Todas las SubCategorias</Text>
         </Pressable>
         <Pressable
           style={styles.button}
-          onPress={() => navigation.navigate("AutoparteID")}
+          onPress={() => navigation.navigate("Subcategorias")}
         >
           <Image source={subcategoriaIcon} style={styles.icon} />
           <Text style={styles.buttonText}>Subcategoria por Categoria</Text>
@@ -55,6 +56,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#F5F5DC",
+    padding: "20",
   },
   navbar: {
     backgroundColor: "#f80759",

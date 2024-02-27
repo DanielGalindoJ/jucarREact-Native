@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     textTransform: "uppercase",
     marginLeft: 5,
-    textAlignVertical: "center",
+    verticalAlign: "center",
   },
   icon: {
     width: 40,
