@@ -12,11 +12,12 @@ import {
 import globalStyles from "./styles/global";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
+//import { useRoute } from "@react-navigation/native";
 
 const Subcategorias = ({ categoryId }) => {
   const [subcategories, setSubcategories] = useState([]);
   const [newSubcategoryName, setNewSubcategoryName] = useState("");
-  const [selectedSubcategoryId, setSelectedSubcategoryId] = useState("");
+  // const route = useRoute();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +26,7 @@ const Subcategorias = ({ categoryId }) => {
           `https://localhost:7028/api/categories/${categoryId}/subcategories`
         );
         setSubcategories(response.data);
+        console.log(fetchData());
       } catch (error) {
         console.error("Error fetching subcategories:", error);
       }
@@ -49,28 +51,6 @@ const Subcategorias = ({ categoryId }) => {
     }
   };
 
-  const handleUpdateSubcategory = async () => {
-    try {
-      await axios.put(
-        `https://localhost:7028/api/categories/${categoryId}/subcategories/${selectedSubcategoryId}`,
-        {
-          name: newSubcategoryName,
-        }
-      );
-
-      const updatedSubcategories = subcategories.map((subcategory) =>
-        subcategory.subcategoryId === selectedSubcategoryId
-          ? { ...subcategory, name: newSubcategoryName }
-          : subcategory
-      );
-
-      setSubcategories(updatedSubcategories);
-      setNewSubcategoryName("");
-    } catch (error) {
-      console.error("Error updating subcategory:", error);
-    }
-  };
-
   const handleDeleteSubcategory = async (subcategoryId) => {
     try {
       await axios.delete(
@@ -88,37 +68,33 @@ const Subcategorias = ({ categoryId }) => {
 
   return (
     <View style={styles.container}>
-      <View style={styles.navbar}>
-        <Image source={Logo} style={styles.logo} />
-        <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
-      </View>
-      <Text style={styles.title}>Lista de SubCategorías</Text>
-      <FlatList
-        data={subcategories}
-        renderItem={(
-          { item } // Cambio aquí: Usa 'item' en lugar de 'categories' y 'categoryId'
-        ) => (
-          <View style={styles.item} key={item.subcategoryId}>
-            <Text style={styles.texto}>
-              Nombre: <Subheading>{item.name}</Subheading>{" "}
-            </Text>
+      <>
+        <Text style={styles.title}>Modulo de Subcategorias</Text>
+        <FlatList
+          data={subcategories}
+          renderItem={({ item }) => (
+            <View style={styles.item} key={item.categoryId}>
+              <Text style={styles.texto}>
+                Nombre: <Subheading>{item.name}</Subheading>
+              </Text>
 
-            <FAB
-              style={globalStyles.fab}
-              icon="delete"
-              title="Eliminar"
-              onPress={() => handleDeleteSubcategory(item.subcategoryId)} // Cambio aquí: Usa 'item.categoryId'
-            />
-          </View>
-        )}
-      />
-      <TextInput
-        style={styles.input}
-        value={newSubcategoryName}
-        onChangeText={setNewSubcategoryName}
-        placeholder="Nombre de nueva categoría"
-      />
-      <Button title="Crear Categoría" onPress={handleCreateSubcategory} />
+              <FAB
+                style={globalStyles.fab}
+                icon="delete"
+                title="Eliminar"
+                onPress={() => handleDeleteSubcategory(item.categoryId)} // Cambio aquí: Usa 'item.categoryId'
+              />
+            </View>
+          )}
+        />
+        <TextInput
+          style={styles.input}
+          value={newSubcategoryName}
+          onChangeText={setNewSubcategoryName}
+          placeholder="Nombre de nueva categoría"
+        />
+        <Button title="Crear Categoría" onPress={handleCreateSubcategory} />
+      </>
     </View>
   );
 };
@@ -138,6 +114,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     marginBottom: 10,
+    color: "black",
   },
   input: {
     borderWidth: 1,

@@ -20,36 +20,39 @@ const Productos = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <StatusBar backgroundColor="#f80759" />{" "}
-      {/* Cambia el color de la barra de estado */}
-      <View style={styles.navbar}>
-        <Image source={Logo} style={styles.logo} />
-        <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
-      </View>
-      <View style={styles.content}>
-        <Text style={styles.subTitle}>Productos</Text>
-        <Pressable
-          style={styles.botones}
-          onPress={() => navigation.navigate("EscogerCategoriasSubactegorias")}
-        >
-          <Image source={iconoCategoria} style={styles.iconoBoton} />
-          <Text style={styles.botonesText}>CATEGORIAS</Text>
-        </Pressable>
+      <View style={styles.card}>
+        <View style={styles.navbar}>
+          <Image source={Logo} style={styles.logo} />
+          <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
+        </View>
+        <View style={styles.content}>
+          <Text style={styles.subTitle}>Productos</Text>
+          <Pressable
+            style={styles.botones}
+            onPress={() =>
+              navigation.navigate("EscogerCategoriasSubactegorias")
+            }
+          >
+            <Image source={iconoCategoria} style={styles.iconoBoton} />
+            <Text style={styles.botonesText}>CATEGORIAS</Text>
+          </Pressable>
 
-        <Pressable
-          style={styles.botones}
-          onPress={() => navigation.navigate("EscogerAutoparte")}
-        >
-          <Image source={iconoAutoparte} style={styles.iconoBoton} />
-          <Text style={styles.botonesText}>AUTOPARTES</Text>
-        </Pressable>
+          <Pressable
+            style={styles.botones}
+            onPress={() => navigation.navigate("EscogerAutoparte")}
+          >
+            <Image source={iconoAutoparte} style={styles.iconoBoton} />
+            <Text style={styles.botonesText}>AUTOPARTES</Text>
+          </Pressable>
 
-        <Pressable
-          style={styles.botones}
-          onPress={() => navigation.navigate("MateriasPrima")}
-        >
-          <Image source={iconoMateriaPrima} style={styles.iconoBoton} />
-          <Text style={styles.botonesText}>MATERIAS PRIMAS</Text>
-        </Pressable>
+          <Pressable
+            style={styles.botones}
+            onPress={() => navigation.navigate("MateriasPrima")}
+          >
+            <Image source={iconoMateriaPrima} style={styles.iconoBoton} />
+            <Text style={styles.botonesText}>MATERIAS PRIMAS</Text>
+          </Pressable>
+        </View>
       </View>
     </ScrollView>
   );
@@ -115,6 +118,19 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: "#fff",
     fontFamily: "sans-serif",
+  },
+  card: {
+    borderRadius: 30,
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 50,
   },
 });
 
