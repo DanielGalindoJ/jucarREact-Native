@@ -21,7 +21,7 @@ const Productos = ({ navigation }) => {
     <ScrollView contentContainerStyle={styles.container}>
       <StatusBar backgroundColor="#f80759" />{" "}
       <View style={styles.card}>
-        <View style={styles.navbar}>
+        <View style={styles.header}>
           <Image source={Logo} style={styles.logo} />
           <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
         </View>
@@ -63,13 +63,10 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: "#F5F5DC",
   },
-  navbar: {
-    backgroundColor: "#f80759",
+  header: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
     paddingVertical: 20,
-    paddingHorizontal: 10, // Agrega un padding horizontal
   },
   logo: {
     width: 107,
@@ -79,7 +76,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    color: "#fff",
     fontWeight: "bold",
   },
   content: {

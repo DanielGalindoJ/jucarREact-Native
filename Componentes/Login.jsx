@@ -46,7 +46,7 @@ const Login = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.card}>
-        <View style={styles.navbar}>
+        <View style={styles.header}>
           <Image
             source={require("../assets/imgs/jucar.jpg")}
             style={styles.logo}
@@ -119,23 +119,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
   },
-  navbar: {
-    backgroundColor: "#f80759",
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 30,
-  },
   logo: {
-    width: 107,
-    height: 57,
+    width: 100,
+    height: 50,
     resizeMode: "contain",
+    marginRight: 10,
   },
   title: {
     fontSize: 18,
-    color: "#fff",
     fontWeight: "bold",
-    marginLeft: 20,
   },
   card: {
     borderRadius: 30,
@@ -227,6 +219,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     color: "white",
     marginBottom: 10,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 20,
   },
 });
 

@@ -10,7 +10,9 @@ import {
   Dialog,
   Paragraph,
 } from "react-native-paper";
+import { Image } from "react-native";
 import axios from "axios";
+import Logo from "../assets/imgs/jucar.jpg";
 
 const AllCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -88,46 +90,52 @@ const AllCategories = () => {
   return (
     <Provider>
       <View style={styles.container}>
-        <Text style={styles.title}>Lista de Categorías</Text>
-        <FlatList
-          data={categories}
-          renderItem={({ item }) => (
-            <View style={styles.item}>
-              <Text>
-                Nombre: <Subheading>{item.name}</Subheading>{" "}
-              </Text>
+        <View style={styles.card}>
+          <View style={styles.header}>
+            <Image source={Logo} style={styles.logo} />
+            <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
+          </View>
+          <Text style={styles.title}>Lista de Categorías</Text>
+          <FlatList
+            data={categories}
+            renderItem={({ item }) => (
+              <View style={styles.item}>
+                <Text>
+                  Nombre: <Subheading>{item.name}</Subheading>{" "}
+                </Text>
 
-              <Button
-                icon="pencil"
-                mode="contained"
-                onPress={() => {
-                  handleUpdateCategory(item.categoryId);
-                  setShowUpdateModal(true);
-                }}
-              >
-                Actualizar
-              </Button>
+                <Button
+                  icon="pencil"
+                  mode="contained"
+                  onPress={() => {
+                    handleUpdateCategory(item.categoryId);
+                    setShowUpdateModal(true);
+                  }}
+                >
+                  Actualizar
+                </Button>
 
-              <FAB
-                icon="delete"
-                onPress={() => {
-                  setSelectedCategoryId(item.categoryId);
-                  setShowDeleteModal(true);
-                }}
-              />
-            </View>
-          )}
-          keyExtractor={(item) => item.categoryId.toString()}
-        />
-        <TextInput
-          style={styles.input}
-          value={newCategoryName}
-          onChangeText={setNewCategoryName}
-          placeholder="Nombre de nueva categoría"
-        />
-        <Button mode="contained" onPress={handleCreateCategory}>
-          Crear Categoría
-        </Button>
+                <FAB
+                  icon="delete"
+                  onPress={() => {
+                    setSelectedCategoryId(item.categoryId);
+                    setShowDeleteModal(true);
+                  }}
+                />
+              </View>
+            )}
+            keyExtractor={(item) => item.categoryId.toString()}
+          />
+          <TextInput
+            style={styles.input}
+            value={newCategoryName}
+            onChangeText={setNewCategoryName}
+            placeholder="Nombre de nueva categoría"
+          />
+          <Button mode="contained" onPress={handleCreateCategory}>
+            Crear Categoría
+          </Button>
+        </View>
       </View>
 
       {/* Modal para actualizar categoría */}
@@ -203,7 +211,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "white",
+    backgroundColor: "#f80759",
     padding: 20,
   },
   modalTitle: {
@@ -218,6 +226,34 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
     width: "100%",
+  },
+  card: {
+    borderRadius: 30,
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 50,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  logo: {
+    width: 100,
+    height: 50,
+    resizeMode: "contain",
+    marginRight: 10,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 

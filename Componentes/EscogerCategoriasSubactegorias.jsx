@@ -10,44 +10,46 @@ import todasSubcategoriasIcon from "../assets/imgs/Tuerca.png";
 const EscogerCategoriasSubactegorias = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.navbar}>
-        <Image source={Logo} style={styles.logo} />
-        <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
-      </View>
+      <View style={styles.card}>
+        <View style={styles.header}>
+          <Image source={Logo} style={styles.logo} />
+          <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
+        </View>
 
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>CATEGORIAS</Text>
-        <Pressable
-          style={styles.button}
-          onPress={() => navigation.navigate("AllCategories")}
-        >
-          <Image source={categoriaIcon} style={styles.icon} />
-          <Text style={styles.buttonText}>Lista de Categorias</Text>
-        </Pressable>
-        <Pressable
-          style={styles.button}
-          onPress={() => navigation.navigate("MenuSubcategories")}
-        >
-          <Image source={crearCategoriaIcon} style={styles.icon} />
-          <Text style={styles.buttonText}>Menu Subcategorías</Text>
-        </Pressable>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>SUBCATEGORIAS</Text>
-        <Pressable
-          style={styles.button}
-          onPress={() => navigation.navigate("Subcategorias")}
-        >
-          <Image source={todasSubcategoriasIcon} style={styles.icon} />
-          <Text style={styles.buttonText}>Todas las SubCategorias</Text>
-        </Pressable>
-        <Pressable
-          style={styles.button}
-          onPress={() => navigation.navigate("Subcategorias")}
-        >
-          <Image source={subcategoriaIcon} style={styles.icon} />
-          <Text style={styles.buttonText}>Subcategoria por Categoria</Text>
-        </Pressable>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>CATEGORIAS</Text>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate("AllCategories")}
+          >
+            <Image source={categoriaIcon} style={styles.icon} />
+            <Text style={styles.buttonText}>Lista de Categorias</Text>
+          </Pressable>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate("MenuSubcategories")}
+          >
+            <Image source={crearCategoriaIcon} style={styles.icon} />
+            <Text style={styles.buttonText}>Menu Subcategorías</Text>
+          </Pressable>
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>SUBCATEGORIAS</Text>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate("Subcategorias")}
+          >
+            <Image source={todasSubcategoriasIcon} style={styles.icon} />
+            <Text style={styles.buttonText}>Todas las SubCategorias</Text>
+          </Pressable>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate("Subcategorias")}
+          >
+            <Image source={subcategoriaIcon} style={styles.icon} />
+            <Text style={styles.buttonText}>Subcategoria por Categoria</Text>
+          </Pressable>
+        </View>
       </View>
     </ScrollView>
   );
@@ -58,12 +60,10 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5DC",
     padding: "20",
   },
-  navbar: {
-    backgroundColor: "#f80759",
+  header: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
-    padding: 30,
+    paddingVertical: 20,
   },
   logo: {
     width: 107,
@@ -74,7 +74,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 18,
     fontWeight: "bold",
-    color: "#fff",
   },
   section: {
     alignItems: "center",
@@ -108,6 +107,19 @@ const styles = StyleSheet.create({
     color: "#fff",
     textTransform: "uppercase",
     marginLeft: 10,
+  },
+  card: {
+    borderRadius: 30,
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 50,
   },
 });
 

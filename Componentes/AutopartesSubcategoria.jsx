@@ -46,7 +46,7 @@ const AllAutoparts = () => {
   };
   return (
     <View style={styles.container}>
-      <View style={styles.navbar}>
+      <View style={styles.card}>
         <Image source={Logo} style={styles.logo} />
 
         <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
@@ -141,13 +141,20 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 18,
-    color: "#fff",
     fontWeight: "bold",
-    marginLeft: 128,
-    marginRight: -21,
-    marginBottom: -19,
-    width: 269.906,
-    height: 68,
+  },
+  card: {
+    borderRadius: 30,
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 50,
   },
 });
 export default AllAutoparts;

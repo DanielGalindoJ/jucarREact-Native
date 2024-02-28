@@ -16,19 +16,21 @@ const EscogerAutoparte = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <StatusBar backgroundColor="#f80759" barStyle="light-content" />
-      <View style={styles.navbar}>
-        <Image source={Logo} style={styles.logo} />
-        <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
-      </View>
-      <View style={styles.section}>
-        <Text style={styles.sectionTitle}>PRODUCTOS</Text>
-        <Pressable
-          style={styles.button}
-          onPress={() => navigation.navigate("AllAutoparts")}
-        >
-          <Image source={IconoTodas} style={styles.icon} />
-          <Text style={styles.buttonText}>Todas las Autopartes</Text>
-        </Pressable>
+      <View style={styles.card}>
+        <View style={styles.navbar}>
+          <Image source={Logo} style={styles.logo} />
+          <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
+        </View>
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>PRODUCTOS</Text>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate("AllAutoparts")}
+          >
+            <Image source={IconoTodas} style={styles.icon} />
+            <Text style={styles.buttonText}>Todas las Autopartes</Text>
+          </Pressable>
+        </View>
       </View>
     </ScrollView>
   );
@@ -93,6 +95,19 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     resizeMode: "contain",
+  },
+  card: {
+    borderRadius: 30,
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 50,
   },
 });
 
