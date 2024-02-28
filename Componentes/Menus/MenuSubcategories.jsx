@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-
 import axios from "axios";
-import { Button } from "react-native-paper";
-
-import { StyleSheet } from "react-native";
-import { ScrollView, TouchableOpacity } from "react-native-gesture-handler";
-import { Text } from "react-native-paper";
-import { View } from "react-native-web";
+import { StyleSheet, ScrollView, Modal, Image, View } from "react-native";
+import { Text, Button, Card } from "react-native-paper";
+import Logo from "../../assets/imgs/jucar.jpg";
 
 const MenuSubcategories = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -30,50 +28,128 @@ const MenuSubcategories = ({ navigation }) => {
     navigation.navigate("Subcategorias", { categoryId });
   };
 
+  const handleUpdate = (category) => {
+    setSelectedCategory(category);
+    setShowModal(true);
+  };
+
+  const handleDelete = async (categoryId) => {
+    try {
+      await axios.delete(`https://localhost:7028/api/categories/${categoryId}`);
+      setCategories(categories.filter((cat) => cat.categoryId !== categoryId));
+    } catch (error) {
+      console.error("Error deleting category:", error);
+    }
+  };
+
   return (
     <ScrollView>
-      <Text style={styles.title}>Categorías</Text>
-      {categories.map((category) => (
-        <View key={category.categoryId} style={styles.card}>
-          <View>
-            <Text style={styles.cardTitle}>Ver Subcategorías de:</Text>
-            <Text style={styles.cardText}>
-              <Text style={styles.bold}>{category.name}</Text>
-            </Text>
-            <TouchableOpacity
-              onPress={() => handleCategoryClick(category.categoryId)}
-            >
-              <Button style={styles.button} mode="contained" color="green">
+      <View style={styles.cardTotal}>
+        <View style={styles.header}>
+          <Image source={Logo} style={styles.logo} />
+          <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
+        </View>
+        <Text style={styles.title}>Categorías</Text>
+        {categories.map((category) => (
+          <Card key={category.categoryId} style={styles.card}>
+            <Card.Content>
+              <Text style={styles.cardTitle}>Ver Subcategorías de:</Text>
+              <Text style={styles.cardText}>{category.name}</Text>
+            </Card.Content>
+            <Card.Actions style={styles.cardActions}>
+              <Button
+                mode="contained"
+                color="green"
+                onPress={() => handleCategoryClick(category.categoryId)}
+              >
                 Ver
               </Button>
-            </TouchableOpacity>
+              <Button mode="contained" onPress={() => handleUpdate(category)}>
+                Actualizar
+              </Button>
+              <Button
+                mode="contained"
+                color="red"
+                onPress={() => handleDelete(category.categoryId)}
+              >
+                Eliminar
+              </Button>
+            </Card.Actions>
+          </Card>
+        ))}
+
+        {/* Modal para actualizar categoría */}
+        <Modal visible={showModal} onRequestClose={() => setShowModal(false)}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>Actualizar Categoría</Text>
+            {/* Aquí va el contenido del modal para actualizar */}
+            <Button onPress={() => setShowModal(false)}>Cerrar</Button>
           </View>
-        </View>
-      ))}
+        </Modal>
+      </View>
     </ScrollView>
   );
 };
+
 const styles = StyleSheet.create({
-  containerBox: {
-    backgroundColor: "#333", // Gris oscuro
-    padding: 20,
-    flexDirection: "row", // Utiliza flexbox en fila
-    flexWrap: "wrap",
-    justifyContent: "center", // Centra las cartas si no llenan una fila completa
-  },
-  textCenter: {
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
     textAlign: "center",
-    marginBottom: 20, // Asegura un poco de espacio entre el título y las cartas
   },
   card: {
-    backgroundColor: "red", // Fondo rojo
-    color: "white", // Texto blanco
-    fontWeight: "bold", // Texto en negrilla
-    width: 250, // Ancho fijo
-    marginBottom: 20, // Espacio debajo de cada carta
+    marginHorizontal: 10,
+    marginVertical: 5,
   },
-  btnSuccess: {
-    backgroundColor: "#28a745", // Opcional: personaliza el color del botón si es necesario
+  cardTitle: {
+    fontWeight: "bold",
+  },
+  cardText: {
+    marginBottom: 10,
+  },
+  cardActions: {
+    justifyContent: "space-around",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  cardTotal: {
+    borderRadius: 30,
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 50,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  logo: {
+    width: 107,
+    height: 57,
+    resizeMode: "contain",
+    marginRight: 10,
+  },
+  titleLogo: {
+    fontSize: 18,
+    fontWeight: "bold",
   },
 });
 
