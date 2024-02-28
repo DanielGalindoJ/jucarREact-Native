@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  View,
   Image,
   ScrollView,
   StyleSheet,
@@ -9,8 +8,7 @@ import {
   Dimensions, // Importa Dimensions para obtener el ancho de la pantalla
 } from "react-native";
 import { Text } from "react-native-paper";
-import { MaterialIcons } from "@expo/vector-icons";
-
+import { View } from "react-native";
 import Logo from "../assets/imgs/jucar.jpg";
 import iconoCategoria from "../assets/imgs/Categorias2.png";
 import iconoAutoparte from "../assets/imgs/Autopartes.png";
