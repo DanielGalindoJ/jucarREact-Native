@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, TextInput, StyleSheet } from "react-native";
+import { View, FlatList, TextInput, StyleSheet, Image } from "react-native";
 import {
   Headline,
   Text,
@@ -7,17 +7,17 @@ import {
   Button,
   FAB,
   Divider,
-  Image,
+  Card,
 } from "react-native-paper";
 import globalStyles from "./styles/global";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
-//import { useRoute } from "@react-navigation/native";
+import { ScrollView } from "react-native-gesture-handler";
 
-const Subcategorias = ({ categoryId }) => {
+const Subcategories = ({ route }) => {
+  const { categoryId } = route.params;
   const [subcategories, setSubcategories] = useState([]);
   const [newSubcategoryName, setNewSubcategoryName] = useState("");
-  // const route = useRoute();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,7 +26,6 @@ const Subcategorias = ({ categoryId }) => {
           `https://localhost:7028/api/categories/${categoryId}/subcategories`
         );
         setSubcategories(response.data);
-        console.log(fetchData());
       } catch (error) {
         console.error("Error fetching subcategories:", error);
       }
@@ -67,48 +66,53 @@ const Subcategorias = ({ categoryId }) => {
   };
 
   return (
-    <View style={styles.container}>
-      <>
-        <Text style={styles.title}>Modulo de Subcategorias</Text>
-        <FlatList
-          data={subcategories}
-          renderItem={({ item }) => (
-            <View style={styles.item} key={item.categoryId}>
-              <Text style={styles.texto}>
-                Nombre: <Subheading>{item.name}</Subheading>
-              </Text>
+    <>
+      <ScrollView>
+        <View style={styles.cardTotal}>
+          <Image source={Logo} style={styles.logo} />
 
-              <FAB
-                style={globalStyles.fab}
-                icon="delete"
-                title="Eliminar"
-                onPress={() => handleDeleteSubcategory(item.categoryId)} // Cambio aquí: Usa 'item.categoryId'
-              />
-            </View>
-          )}
-        />
-        <TextInput
-          style={styles.input}
-          value={newSubcategoryName}
-          onChangeText={setNewSubcategoryName}
-          placeholder="Nombre de nueva categoría"
-        />
-        <Button title="Crear Categoría" onPress={handleCreateSubcategory} />
-      </>
-    </View>
+          <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
+
+          <Text style={styles.title}>Modulo de Subcategorias</Text>
+          <FlatList
+            data={subcategories}
+            renderItem={({ item }) => (
+              <Card style={styles.card}>
+                <View style={styles.item} key={item.categoryId}>
+                  <Card.Content>
+                    <Text style={styles.cardText}>{item.name}</Text>
+                  </Card.Content>
+                  <Card.Actions style={styles.cardActions}>
+                    <Button
+                      style={styles.botones}
+                      mode="contained"
+                      onPress={() =>
+                        handleDeleteSubcategory(item.subcategoryId)
+                      }
+                    >
+                      Eliminar
+                    </Button>
+                  </Card.Actions>
+                </View>
+              </Card>
+            )}
+          />
+          <TextInput
+            style={styles.input}
+            value={newSubcategoryName}
+            onChangeText={setNewSubcategoryName}
+            placeholder="Nombre de nueva categoría"
+          />
+          <Button mode="contained" onPress={handleCreateSubcategory}>
+            Crear SubCategoría
+          </Button>
+        </View>
+      </ScrollView>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 20,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
   item: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -133,6 +137,64 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
   },
+  logo: {
+    width: 107,
+    height: 57,
+    resizeMode: "contain",
+    marginRight: 10,
+  },
+  navbar: {
+    backgroundColor: "#f80759",
+    color: "#fff",
+    borderColor: "#03a9f4",
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    alignItems: "flex-start",
+    padding: 30,
+    fontWeight: 500,
+
+    marginTop: 1,
+  },
+  titleLogo: {
+    width: 107,
+    height: 57,
+    resizeMode: "contain",
+    marginLeft: 50,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  cardTotal: {
+    borderRadius: 30,
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 50,
+  },
+  card: {
+    marginHorizontal: 10,
+    marginVertical: 5,
+  },
+  cardText: {
+    marginBottom: 10,
+  },
+  cardActions: {
+    justifyContent: "space-around",
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  botones: {
+    color: "red",
+  },
 });
 
-export default Subcategorias;
+export default Subcategories;
