@@ -12,23 +12,23 @@ import { Text } from "react-native-paper";
 import axios from "axios";
 
 const Register = ({ navigation }) => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
+  const [FirstName, setFirstName] = useState("");
+  const [LastName, setLastName] = useState("");
+  const [UserName, setUserName] = useState("");
+  const [Password, setPassword] = useState("");
+  const [Email, setEmail] = useState("");
+  const [PhoneNumber, setPhoneNumber] = useState("");
 
   const handleRegister = async () => {
     try {
       const apiUrl = "https://localhost:7028/api/authentication/login";
       const response = await axios.post(apiUrl, {
-        firstName,
-        lastName,
-        userName,
-        password,
-        email,
-        phoneNumber,
+        FirstName,
+        LastName,
+        UserName,
+        Password,
+        Email,
+        PhoneNumber,
       });
 
       console.log("Respuesta de la API:", response.data);
@@ -46,35 +46,35 @@ const Register = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.header}>
+        <Image
+          source={require("../assets/imgs/jucar.jpg")}
+          style={styles.logo}
+        />
+        <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
+      </View>
       <View style={styles.card}>
-        <View style={styles.navbar}>
-          <Image
-            source={require("../assets/imgs/jucar.jpg")}
-            style={styles.logo}
-          />
-          <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
-        </View>
         <View style={styles.form}>
           <Text style={styles.title}>Registro de Usuario</Text>
 
           <TextInput
             style={styles.input}
             placeholder="Nombre"
-            value={firstName}
+            value={FirstName}
             onChangeText={setFirstName}
           />
 
           <TextInput
             style={styles.input}
             placeholder="Apellido"
-            value={lastName}
+            value={LastName}
             onChangeText={setLastName}
           />
 
           <TextInput
             style={styles.input}
             placeholder="Nombre de usuario"
-            value={userName}
+            value={UserName}
             onChangeText={setUserName}
           />
 
@@ -82,21 +82,21 @@ const Register = ({ navigation }) => {
             style={styles.input}
             placeholder="Contraseña"
             secureTextEntry
-            value={password}
+            value={Password}
             onChangeText={setPassword}
           />
 
           <TextInput
             style={styles.input}
             placeholder="Correo electrónico"
-            value={email}
+            value={Email}
             onChangeText={setEmail}
           />
 
           <TextInput
             style={styles.input}
             placeholder="Número de teléfono"
-            value={phoneNumber}
+            value={PhoneNumber}
             onChangeText={setPhoneNumber}
           />
 
@@ -160,23 +160,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     textTransform: "uppercase",
   },
-  navbar: {
-    backgroundColor: "#f80759",
+  header: {
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
-    paddingVertical: 30,
-  },
-  logo: {
-    width: 107,
-    height: 57,
-    resizeMode: "contain",
+    paddingVertical: 20,
   },
   titleLogo: {
-    fontSize: 18,
-    color: "#fff",
-    fontWeight: "bold",
-    marginLeft: 20,
+    width: 100,
+    height: 50,
+    resizeMode: "contain",
+    marginRight: 10,
+  },
+  logo: {
+    width: 100,
+    height: 50,
+    resizeMode: "contain",
+    marginRight: 10,
   },
 });
 
