@@ -1,247 +1,230 @@
-// import React, { useEffect, useState } from "react";
-// import {
-//   ScrollView,
-//   View,
-//   StyleSheet,
-//   Modal,
-//   TouchableOpacity,
-//   Pressable,
-//   Image,
-//   FlatList,
-//   TextInput,
-// } from "react-native";
-// import {
-//   Headline,
-//   Text,
-//   Subheading,
-//   Button,
-//   FAB,
-//   Divider,
-// } from "react-native-paper";
-// //import { Text } from "react-native-paper";
-// import agregarUsu from "../assets/imgs/agregarUsuario.png";
-// import ajustes from "../assets/imgs/ajustes.png";
-// import { DataTable } from "react-native-paper";
-// import axios from "axios";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  Text,
+  Button,
+  Modal,
+  FlatList,
+  StyleSheet,
+  Image,
+} from "react-native";
+import axios from "axios";
+import Logo from "../assets/imgs/jucar.jpg";
+import { Divider } from "react-native-paper";
 
-// import Logo from "../assets/imgs/jucar.jpg";
-// import globalStyles from "./styles/global";
+const AllAutoparts = ({ subcategoryId }) => {
+  const [autoparts, setAutoparts] = useState([]);
+  const [newAutopart, setNewAutopart] = useState({
+    Name: "",
+    Description: "",
+    Inventory: 0,
+    Value: 0,
+    RawMaterialId: "",
+  });
+  const [showModal, setShowModal] = useState(false);
+  const [modalAction, setModalAction] = useState("create");
+  const [selectedAutopartId, setSelectedAutopartId] = useState("");
 
-// const AllAutoparts = () => {
-//   // const [autopartes, setAutopartes] = useState([]);
-//   // const [nuevoAutoparte, setNuevaAutoparte] = useState("");
-//   // const [AutoparteEditada, setAutoparteEditada] = useState("");
-//   // const [AutoparteEliminada, setAutoparteEliminada] = useState("");
+  useEffect(() => {
+    const fetchAutoparts = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:7028/api/autoparts`
+        );
+        setAutoparts(response.data);
+      } catch (error) {
+        console.error("Error fetching autoparts:", error);
+      }
+    };
 
-//   // useEffect(() => {
-//   //   obtenerAutoparteAPI();
-//   // }, [AutoparteEditada, AutoparteEliminada]);
+    fetchAutoparts();
+  }, [subcategoryId]);
 
-//   // const obtenerAutoparteAPI = async () => {
-//   //   try {
-//   //     const autopartesObtenidas = await obtenerAutoaprte();
-//   //     setAutopartes(autopartesObtenidas);
-//   //   } catch (error) {
-//   //     console.error("Error al obtener las Autoparte:", error);
-//   //   }
-//   // };
+  const handleCreateAutopart = async () => {
+    try {
+      const response = await axios.post(
+        `https://localhost:7028/api/subcategories/${subcategoryId}/autoparts`,
+        newAutopart
+      );
 
-//   // const handleCrearAutoparte = async () => {
-//   //   try {
-//   //     await crearAutoparte({ nombre: nuevoAutoparte });
-//   //     setNuevaAutoparte("");
-//   //     obtenerAutoparteAPI();
-//   //   } catch (error) {
-//   //     console.error("Error al crear la categoría:", error);
-//   //   }
-//   // };
+      setAutoparts([response.data, ...autoparts]);
 
-//   // const handleActualizarAutoparte = async (id, nuevaInfo) => {
-//   //   try {
-//   //     await actualizarAutoparte(id, nuevaInfo);
-//   //     setAutoparteEditada(id);
-//   //   } catch (error) {
-//   //     console.error("Error al actualizar la categoría:", error);
-//   //   }
-//   // };
+      setNewAutopart({
+        Name: "",
+        Description: "",
+        Inventory: 0,
+        Value: 0,
+        RawMaterialId: "",
+      });
+      handleCloseModal();
+    } catch (error) {
+      console.error("Error creating autopart:", error);
+    }
+  };
 
-//   // const handleEliminarAutoparte = async (id) => {
-//   //   try {
-//   //     await eliminarAutoparte(id);
-//   //     setAutoparteEliminada(id);
-//   //   } catch (error) {
-//   //     console.error("Error al eliminar la categoría:", error);
-//   //   }
-//   // };
+  const handleUpdateAutopart = async () => {
+    try {
+      await axios.put(
+        `https://localhost:7028/api/subcategories/${subcategoryId}/autoparts/${selectedAutopartId}`,
+        newAutopart
+      );
 
-//   return (
-//     <View style={styles.contenedor}>
-//       <View style={styles.navbar}>
-//         <Image source={Logo} style={styles.logo} />
+      const response = await axios.get(
+        `https://localhost:7028/api/subcategories/${subcategoryId}/autoparts`
+      );
 
-//         <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
-//       </View>
-//       <Headline style={globalStyles.titulo}>
-//         {" "}
-//         {autopartes.length > 0 ? "Clientes" : "Aún no hay Clientes"}{" "}
-//       </Headline>
+      const updatedAutoparts = response.data;
 
-//       <FlatList
-//         data={autopartes}
-//         renderItem={({ item, index }) => (
-//           <View style={styles.item} key={index}>
-//             <Headline style={globalStyles.titulo}></Headline>
-//             <Divider />
-//             <Text style={styles.texto}>
-//               Nombre: <Subheading>{item.name}</Subheading>{" "}
-//             </Text>
+      setAutoparts(updatedAutoparts);
 
-//             <Text style={styles.texto}>
-//               Inventario: <Subheading>{item.inventory}</Subheading>{" "}
-//             </Text>
+      setNewAutopart({
+        Name: "",
+        Description: "",
+        Inventory: 0,
+        Value: 0,
+        RawMaterialId: "",
+      });
 
-//             <Text style={styles.texto}>
-//               Valor: <Subheading>{item.value}</Subheading>{" "}
-//             </Text>
+      handleCloseModal();
+    } catch (error) {
+      console.error("Error updating autopart:", error);
+    }
+  };
 
-//             {/* <Text style={styles.text}>{item.name}</Text>
-//             <Text style={styles.text}>{item.inventory}</Text>
-//             <Text style={styles.text}>{item.value}</Text> */}
+  const handleDeleteAutopart = async (autopartId) => {
+    try {
+      await axios.delete(
+        `https://localhost:7028/api/subcategories/${subcategoryId}/autoparts/${autopartId}`
+      );
 
-//             {/* <Button
-//               title="Editar"
-//               onPress={() =>
-//                 handleActualizarAutoparte(item.id, { nombre: "Nuevo nombre" })
-//               }
-//             />
-//             <Button
-//               title="Eliminar"
-//               onPress={() => handleEliminarAutoparte(item.id)}
-//             /> */}
-//             <FAB
-//               icon="delete"
-//               style={globalStyles.fab}
-//               onPress={() =>
-//                 navigation.navigate("NuevoCliente", { guardarConsultarAPI })
-//               }
-//             />
-//             <Divider />
-//             <TextInput
-//               style={styles.input}
-//               value={newCategoryName}
-//               onChangeText={setNewCategoryName}
-//               placeholder="Nombre de nueva categoría"
-//             />
-//             <Button title="Crear Categoría" onPress={handleCrearAutoparte} />
-//           </View>
-//         )}
-//       />
-//     </View>
-//   );
-// };
+      const updatedAutoparts = autoparts.filter(
+        (autopart) => autopart.autopartID !== autopartId
+      );
+      setAutoparts(updatedAutoparts);
+    } catch (error) {
+      console.error("Error deleting autopart:", error);
+    }
+  };
 
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     backgroundColor: "#F5F5DC",
-//     justifyContent: "flex-start",
-//     alignItems: "center",
-//     paddingTop: "5%",
-//   },
-//   scrollContainer: {
-//     paddingHorizontal: 16,
-//     paddingTop: 16,
-//   },
-//   dataTable: {
-//     marginTop: 16,
-//   },
-//   navbar: {
-//     backgroundColor: "#f80759",
-//     color: "#fff",
-//     borderColor: "#03a9f4",
-//     flexDirection: "row",
-//     justifyContent: "space-evenly",
-//     alignItems: "flex-start",
-//     padding: 30,
-//     fontWeight: 500,
+  const handleShowCreateModal = () => {
+    setModalAction("create");
+    setShowModal(true);
+  };
 
-//     marginTop: 1,
-//   },
-//   logo: {
-//     width: 107,
-//     height: 57,
-//     resizeMode: "contain",
-//     marginLeft: 50,
-//   },
-//   title: {
-//     fontSize: 18,
-//     color: "#fff",
-//     fontWeight: "bold",
-//     marginLeft: 128,
-//     marginRight: -21,
-//     marginBottom: -19,
-//     width: 269.906,
-//     height: 68,
-//   },
-//   //table ->
-//   container: {
-//     padding: 16,
-//     backgroundColor: "#F5F5F5",
-//   },
-//   header: {
-//     fontSize: 24,
-//     fontWeight: "bold",
-//     marginBottom: 16,
-//   },
-//   tableContainer: {
-//     borderWidth: 1,
-//     borderColor: "#CCCCCC",
-//   },
-//   tableHeader: {
-//     flexDirection: "row",
-//     backgroundColor: "#EEEEEE",
-//     padding: 8,
-//   },
-//   headerText: {
-//     flex: 1,
-//     fontWeight: "bold",
-//   },
-//   row: {
-//     flexDirection: "row",
-//     borderBottomWidth: 1,
-//     borderBottomColor: "#CCCCCC",
-//     padding: 8,
-//   },
-//   cell: {
-//     flex: 1,
-//     borderRightWidth: 1,
-//     borderRightColor: "#CCCCCC",
-//     paddingHorizontal: 8,
-//   },
-//   //table <-
+  const handleShowEditModal = (autopartId) => {
+    setModalAction("edit");
+    setSelectedAutopartId(autopartId);
 
-//   //botonesCrud
-//   tab: {
-//     flex: 1,
-//     justifyContent: "center",
-//     alignItems: "flex-start",
-//     flexDirection: "row",
-//   },
-//   tabIcon: {
-//     // Adjust image dimensions as needed
-//     width: 30,
-//     height: 30,
-//   },
-//   //botonesCrud
+    const selectedAutopart = autoparts.find(
+      (autopart) => autopart.autopartID === autopartId
+    );
 
-//   texto: {
-//     marginBottom: 20,
-//     fontSize: 18,
-//   },
-//   boton: {
-//     marginTop: 100,
-//     backgroundColor: "red",
-//   },
-// });
+    if (selectedAutopart) {
+      setNewAutopart({
+        Name: selectedAutopart.name || "",
+        Description: selectedAutopart.description || "",
+        Inventory: selectedAutopart.inventory || 0,
+        Value: selectedAutopart.value || 0,
+        RawMaterialId: selectedAutopart.rawMaterialId || "",
+      });
+    }
 
-// export default AllAutoparts;
+    setShowModal(true);
+  };
+
+  const handleShowDetailModal = (autopartId) => {
+    setModalAction("detail");
+    setSelectedAutopartId(autopartId);
+
+    const selectedAutopart = autoparts.find(
+      (autopart) => autopart.autopartID === autopartId
+    );
+
+    if (selectedAutopart) {
+      setNewAutopart({
+        Name: selectedAutopart.name || "",
+        Description: selectedAutopart.description || "",
+        Inventory: selectedAutopart.inventory || 0,
+        Value: selectedAutopart.value || 0,
+        RawMaterialId: selectedAutopart.rawMaterialId || "",
+      });
+    }
+
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+    setNewAutopart({
+      Name: "",
+      Description: "",
+      Inventory: 0,
+      Value: 0,
+      RawMaterialId: "",
+    });
+    setSelectedAutopartId("");
+  };
+
+  // const handleShowLosses = (autopartId) => {
+  //   // Redirige a la ruta "/autopart-losses" con el parámetro "autopartId"
+  //   history.push("/autopart-losses", { autopartId });
+  // };
+
+  const renderItem = ({ item }) => (
+    <View>
+      <Text>Nombre: {item.name}</Text>
+      <Text>Descripción: {item.description}</Text>
+      <Text>Inventario: {item.inventory}</Text>
+      <Text>Valor: {item.value}</Text>
+      <Divider />
+    </View>
+  );
+
+  return (
+    <View>
+      <View style={styles.card}>
+        <View style={styles.header}>
+          <Image source={Logo} style={styles.logo} />
+          <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
+        </View>
+        <Text style={styles.title}>Lista de Autopartes Actuales</Text>
+        <FlatList
+          data={autoparts}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.autopartID.toString()}
+        />
+      </View>
+    </View>
+  );
+};
+const styles = StyleSheet.create({
+  card: {
+    borderRadius: 30,
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 50,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  logo: {
+    width: 100,
+    height: 50,
+    resizeMode: "contain",
+    marginRight: 10,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+});
+export default AllAutoparts;
