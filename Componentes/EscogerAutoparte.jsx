@@ -30,6 +30,13 @@ const EscogerAutoparte = ({ navigation }) => {
             <Image source={IconoTodas} style={styles.icon} />
             <Text style={styles.buttonText}>Todas las Autopartes</Text>
           </Pressable>
+          <Pressable
+            style={styles.button}
+            onPress={() => navigation.navigate("MenuAutoparts")}
+          >
+            <Image source={IconoTodas} style={styles.icon} />
+            <Text style={styles.buttonText}>Menu Autopartes</Text>
+          </Pressable>
         </View>
       </View>
     </ScrollView>
