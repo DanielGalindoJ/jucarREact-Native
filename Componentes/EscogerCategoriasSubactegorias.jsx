@@ -42,13 +42,6 @@ const EscogerCategoriasSubactegorias = ({ navigation }) => {
             <Image source={todasSubcategoriasIcon} style={styles.icon} />
             <Text style={styles.buttonText}>Todas las SubCategorias</Text>
           </Pressable>
-          <Pressable
-            style={styles.button}
-            onPress={() => navigation.navigate("Subcategorias")}
-          >
-            <Image source={subcategoriaIcon} style={styles.icon} />
-            <Text style={styles.buttonText}>Subcategoria por Categoria</Text>
-          </Pressable>
         </View>
       </View>
     </ScrollView>
