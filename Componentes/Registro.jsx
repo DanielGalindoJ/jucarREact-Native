@@ -7,6 +7,7 @@ import {
   TextInput,
   Pressable,
   Alert,
+  Picker,
 } from "react-native";
 import { Text } from "react-native-paper";
 import axios from "axios";
@@ -18,6 +19,7 @@ const Register = ({ navigation }) => {
   const [Password, setPassword] = useState("");
   const [Email, setEmail] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
+  const [userType, setUserType] = useState("Roles");
 
   const handleRegister = async () => {
     try {
@@ -29,6 +31,7 @@ const Register = ({ navigation }) => {
         Password,
         Email,
         PhoneNumber,
+        Roles: userType,
       });
 
       console.log("Respuesta de la API:", response.data);
@@ -99,6 +102,15 @@ const Register = ({ navigation }) => {
             value={PhoneNumber}
             onChangeText={setPhoneNumber}
           />
+
+          <Picker
+            selectedValue={userType}
+            style={styles.input}
+            onValueChange={(itemValue, itemIndex) => setUserType(itemValue)}
+          >
+            <Picker.Item label="Usuario" value="usuario" />
+            <Picker.Item label="Administrador" value="administrador" />
+          </Picker>
 
           <Pressable style={styles.button} onPress={handleRegister}>
             <Text style={styles.buttontxt}>Guaradar Usuario</Text>
