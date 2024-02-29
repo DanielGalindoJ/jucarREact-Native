@@ -14,13 +14,15 @@ import Menu from "./Componentes/Menu";
 import Proveedores from "./Componentes/Proveedores";
 import Productos from "./Componentes/Productos";
 import EscogerAutoparte from "./Componentes/EscogerAutoparte";
-//import AllAutoparts from "./Componentes/AllAutoparts";
+import AllAutoparts from "./Componentes/AllAutoparts";
 import EscogerCategoriasSubactegorias from "./Componentes/EscogerCategoriasSubactegorias";
 import AllCategories from "./Componentes/AllCategories";
 import Subcategorias from "./Componentes/Subcategorias";
 import MenuSubcategories from "./Componentes/Menus/MenuSubcategories";
 import salir from "./assets/imgs/salir.jpg";
 import Registro from "./Componentes/Registro";
+import MenuAutoparts from "./Componentes/Menus/MenuAutoparts";
+import Autoparts from "./Componentes/Autoparts";
 
 const Stack = createNativeStackNavigator();
 
@@ -140,7 +142,7 @@ const App = () => {
             beforeRemove: () => !isAuthenticated,
           })}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name="AllAutoparts"
           component={AllAutoparts}
           options={{
@@ -162,7 +164,7 @@ const App = () => {
           listeners={({ navigation }) => ({
             beforeRemove: () => !isAuthenticated,
           })}
-        /> */}
+        />
         <Stack.Screen
           name="EscogerCategoriasSubactegorias"
           title="Todas las Categorias"
@@ -237,6 +239,52 @@ const App = () => {
         <Stack.Screen
           name="MenuSubcategories"
           component={MenuSubcategories}
+          options={{
+            tabBarOptions: {
+              position: "bottom",
+              style: styles.tabBar, // Aplica el estilo de la barra inferior
+            },
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
+                <Text> Inicio </Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => handleLogout()}>
+                <Image source={salir} style={styles.logo}></Image>
+              </TouchableOpacity>
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            beforeRemove: () => !isAuthenticated,
+          })}
+        />
+        <Stack.Screen
+          name="MenuAutoparts"
+          component={MenuAutoparts}
+          options={{
+            tabBarOptions: {
+              position: "bottom",
+              style: styles.tabBar, // Aplica el estilo de la barra inferior
+            },
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
+                <Text> Inicio </Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => handleLogout()}>
+                <Image source={salir} style={styles.logo}></Image>
+              </TouchableOpacity>
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            beforeRemove: () => !isAuthenticated,
+          })}
+        />
+        <Stack.Screen
+          name="Autoparts"
+          component={Autoparts}
           options={{
             tabBarOptions: {
               position: "bottom",
