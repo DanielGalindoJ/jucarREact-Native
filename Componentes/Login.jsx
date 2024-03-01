@@ -59,7 +59,7 @@ const Login = ({ navigation }) => {
             source={{
               uri: "https://us.123rf.com/450wm/rigsby8131/rigsby81311704/rigsby8131170400147/75488593-tuercas-pernos-y-arandelas-en-un-fondo-de-acero.jpg?ver=6",
             }}
-            style={styles.image}
+            style={{ ...styles.image, resizeMode: "contain" }} // Ajuste aquí
           />
           <Text style={styles.titleInicard}>Iniciar sesión</Text>
 
@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
   logo: {
     width: 100,
     height: 50,
-    resizeMode: "contain",
     marginRight: 10,
   },
   title: {
