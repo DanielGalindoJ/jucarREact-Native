@@ -11,7 +11,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import Login from "./Componentes/Login";
 import Menu from "./Componentes/Menu";
-import Proveedores from "./Componentes/Proveedores";
+import Escoger_Proveedor from "./Componentes/Escoger_Proveedor";
 import Productos from "./Componentes/Productos";
 import EscogerAutoparte from "./Componentes/EscogerAutoparte";
 import AllAutoparts from "./Componentes/AllAutoparts";
@@ -98,8 +98,8 @@ const App = () => {
           })}
         />
         <Stack.Screen
-          name="Proveedores"
-          component={Proveedores}
+          name="Escoger_Proveedor"
+          component={Escoger_Proveedor}
           options={{
             tabBarOptions: {
               position: "bottom",
