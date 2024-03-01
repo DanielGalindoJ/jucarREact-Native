@@ -133,7 +133,7 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
+    boxShadow: "3px 5px 5px rgba(10, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,
