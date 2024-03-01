@@ -15,8 +15,10 @@ import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
 
 const rawMaterials = () => {
-  const [rawMaterials, setrawMaterials] = useState([]);
-  const [newrawMaterialsName, setrawMaterialsName] = useState("");
+  const [rawMaterials, setRawMaterials] = useState([]);
+  const [newRawMaterial, setNewRawMaterial] = useState({
+    Name: "",
+  });
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedrawMaterialsId, setSelectedrawMaterialsId] = useState(null);
@@ -27,65 +29,74 @@ const rawMaterials = () => {
         const response = await axios.get(
           "https://localhost:7028/api/rawMaterials"
         );
-        setrawMaterials(response.data);
+        setRawMaterials(response.data);
       } catch (error) {
-        console.error("Error fetching categories:", error);
+        console.error("Error fetching rawMaterials:", error);
       }
     };
 
     fetchData();
   }, []);
 
-  const handleCreaterawMaterials = async () => {
+  const handleCreateRawMaterial = async () => {
     try {
       const response = await axios.post(
         "https://localhost:7028/api/rawMaterials",
-        {
-          name: newrawMaterialsName,
-        }
+        newRawMaterial
       );
 
-      setrawMaterials([response.data, ...categories]);
-      setrawMaterialsName("");
+      setRawMaterials([response.data, ...rawMaterials]);
+
+      setNewRawMaterial({
+        Name: "",
+      });
+
+      handleCloseModal();
     } catch (error) {
-      console.error("Error creating rawMaterials:", error);
+      console.error("Error creating rawMaterial:", error);
     }
   };
 
-  const handleDeleterawMaterials = async (rawMaterialsId) => {
+  const handleDeleteRawMaterial = async (rawMaterialId) => {
     try {
       await axios.delete(
-        `https://localhost:7028/api/rawMaterials${rawMaterialsId}`
+        `https://localhost:7028/api/rawMaterials/${rawMaterialId}`
       );
 
-      const updatedrawMaterials = rawMaterials.filter(
-        (rawMaterial) => rawMaterial.rawMaterialsId !== rawMaterialsId
+      const updatedRawMaterials = rawMaterials.filter(
+        (rawMaterial) => rawMaterial.rawMaterialId !== rawMaterialId
       );
-      setrawMaterials(updatedrawMaterials);
-      setShowDeleteModal(false);
+
+      setRawMaterials(updatedRawMaterials);
     } catch (error) {
-      console.error("Error deleting rawMaterials:", error);
+      console.error("Error deleting rawMaterial:", error);
     }
   };
 
-  const handleUpdaterawMaterials = async () => {
+  const handelUpdateRawMaterial = async () => {
     try {
       await axios.put(
-        `https://localhost:7028/api/rawMaterials${setSelectedrawMaterialsId}`,
-        {
-          name: newrawMaterialsName,
-        }
+        `https://localhost:7028/api/rawMaterials/${selectedRawMaterialId}`,
+        newRawMaterial
       );
 
-      const updatedrawMaterials = rawMaterials.map((rawMaterial) =>
-        rawMaterial.rawMaterialsId === selectedrawMaterialsId
-          ? { ...rawMaterial, name: newrawMaterialsName }
-          : rawMaterial
+      // Realiza una nueva solicitud para obtener la lista actualizada
+      const response = await axios.get(
+        "https://localhost:7028/api/rawMaterials"
       );
-      setrawMaterials(updatedrawMaterials);
-      setShowUpdateModal(false);
+
+      const updatedRawMaterials = response.data;
+
+      // Actualiza el estado con la nueva lista
+      setRawMaterials(updatedRawMaterials);
+
+      setNewRawMaterial({
+        Name: "",
+      });
+
+      handleCloseModal();
     } catch (error) {
-      console.error("Error updating rawMaterials:", error);
+      console.error("Error updating rawMaterial:", error);
     }
   };
 
@@ -133,11 +144,11 @@ const rawMaterials = () => {
           />
           <TextInput
             style={styles.input}
-            value={newrawMaterialsName}
-            onChangeText={setrawMaterialsName}
+            value={newRawMaterial}
+            onChangeText={setNewRawMaterial}
             placeholder="Nombre de nueva Materia Prima"
           />
-          <Button mode="contained" onPress={handleCreaterawMaterials}>
+          <Button mode="contained" onPress={handleCreateRawMaterial}>
             Crear Materia Prima
           </Button>
         </View>
@@ -154,11 +165,11 @@ const rawMaterials = () => {
             <Text style={styles.modalTitle}>Actualizar Materia Prima</Text>
             <TextInput
               style={styles.modalInput}
-              value={newCategoryName}
-              onChangeText={setNewCategoryName}
+              value={newRawMaterial}
+              onChangeText={setNewRawMaterial}
               placeholder="Nuevo nombre de categoría"
             />
-            <Button mode="contained" onPress={handleUpdateCategory}>
+            <Button mode="contained" onPress={handelUpdateRawMaterial}>
               Actualizar
             </Button>
           </View>
@@ -178,7 +189,7 @@ const rawMaterials = () => {
           <Dialog.Actions>
             <Button onPress={() => setShowDeleteModal(false)}>Cancelar</Button>
             <Button
-              onPress={() => handleDeleteCategory(selectedrawMaterialsId)}
+              onPress={() => handleDeleteRawMaterial(selectedrawMaterialsId)}
             >
               Eliminar
             </Button>
