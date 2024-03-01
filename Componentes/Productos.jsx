@@ -5,7 +5,7 @@ import {
   StyleSheet,
   Pressable,
   StatusBar,
-  Dimensions, // Importa Dimensions para obtener el ancho de la pantalla
+  Dimensions,
 } from "react-native";
 import { Text } from "react-native-paper";
 import { View } from "react-native";
@@ -85,9 +85,9 @@ const styles = StyleSheet.create({
   subTitle: {
     fontSize: 27,
     fontWeight: "bold",
-    marginBottom: 20, // Reduce el margen inferior
+    marginBottom: 20,
     color: "#000",
-    textAlign: "center", // Centra el texto
+    textAlign: "center",
   },
   botones: {
     flexDirection: "row",
@@ -98,9 +98,9 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 10,
     paddingVertical: 20,
-    paddingHorizontal: 10, // Agrega un padding horizontal
+    paddingHorizontal: 10,
     marginBottom: 10,
-    width: Dimensions.get("window").width - 40, // Usa el ancho de la pantalla menos los márgenes laterales
+    width: Dimensions.get("window").width - 40,
     maxWidth: 300,
   },
   iconoBoton: {

@@ -79,7 +79,7 @@ const App = () => {
           options={{
             tabBarOptions: {
               position: "bottom",
-              style: styles.tabBar, // Aplica el estilo de la barra inferior
+              style: styles.tabBar,
             },
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
@@ -102,7 +102,7 @@ const App = () => {
           options={{
             tabBarOptions: {
               position: "bottom",
-              style: styles.tabBar, // Aplica el estilo de la barra inferior
+              style: styles.tabBar,
             },
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
@@ -125,7 +125,7 @@ const App = () => {
           options={{
             tabBarOptions: {
               position: "bottom",
-              style: styles.tabBar, // Aplica el estilo de la barra inferior
+              style: styles.tabBar,
             },
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
@@ -148,7 +148,7 @@ const App = () => {
           options={{
             tabBarOptions: {
               position: "bottom",
-              style: styles.tabBar, // Aplica el estilo de la barra inferior
+              style: styles.tabBar,
             },
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
@@ -172,7 +172,7 @@ const App = () => {
           options={{
             tabBarOptions: {
               position: "bottom",
-              style: styles.tabBar, // Aplica el estilo de la barra inferior
+              style: styles.tabBar,
             },
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
@@ -196,7 +196,7 @@ const App = () => {
           options={{
             tabBarOptions: {
               position: "bottom",
-              style: styles.tabBar, // Aplica el estilo de la barra inferior
+              style: styles.tabBar,
             },
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
@@ -219,7 +219,7 @@ const App = () => {
           options={{
             tabBarOptions: {
               position: "bottom",
-              style: styles.tabBar, // Aplica el estilo de la barra inferior
+              style: styles.tabBar,
             },
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
@@ -242,7 +242,7 @@ const App = () => {
           options={{
             tabBarOptions: {
               position: "bottom",
-              style: styles.tabBar, // Aplica el estilo de la barra inferior
+              style: styles.tabBar,
             },
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
@@ -265,7 +265,7 @@ const App = () => {
           options={{
             tabBarOptions: {
               position: "bottom",
-              style: styles.tabBar, // Aplica el estilo de la barra inferior
+              style: styles.tabBar,
             },
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
@@ -288,7 +288,7 @@ const App = () => {
           options={{
             tabBarOptions: {
               position: "bottom",
-              style: styles.tabBar, // Aplica el estilo de la barra inferior
+              style: styles.tabBar,
             },
             headerRight: () => (
               <TouchableOpacity onPress={() => navigation.navigate("Menu")}>

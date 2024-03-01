@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#F5F5DC",
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingTop: StatusBar.currentHeight, // Ajusta el paddingTop según la altura de la barra de estado
+    paddingTop: StatusBar.currentHeight,
   },
   navbar: {
     backgroundColor: "#f80759",
