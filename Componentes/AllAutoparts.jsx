@@ -1,16 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  Text,
-  Button,
-  Modal,
-  FlatList,
-  StyleSheet,
-  Image,
-} from "react-native";
+import { View, Modal, FlatList, StyleSheet, Image } from "react-native";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
-import { Divider } from "react-native-paper";
+import { Divider, Card, Text, Button } from "react-native-paper";
 
 const AllAutoparts = ({ subcategoryId }) => {
   const [autoparts, setAutoparts] = useState([]);
@@ -171,21 +163,30 @@ const AllAutoparts = ({ subcategoryId }) => {
   // };
 
   const renderItem = ({ item }) => (
-    <View>
-      <Text>Nombre: {item.name}</Text>
-      <Text>Descripción: {item.description}</Text>
-      <Text>Inventario: {item.inventory}</Text>
-      <Text>Valor: {item.value}</Text>
-      <Divider />
-    </View>
+    <Card style={styles.card}>
+      <Card.Content>
+        <Text style={styles.cardTitle}>Nombre: </Text>
+        <Text style={styles.cardText}>{item.name}</Text>
+        <Text style={styles.cardTitle}>Descripción: </Text>
+        <Text style={styles.cardText}>{item.description}</Text>
+
+        <Text style={styles.cardTitle}>Inventario: </Text>
+        <Text style={styles.cardText}>{item.inventory}</Text>
+
+        <Text style={styles.cardTitle}>Valor: </Text>
+        <Text style={styles.cardText}>{item.value}</Text>
+
+        <Divider />
+      </Card.Content>
+    </Card>
   );
 
   return (
     <View>
-      <View style={styles.card}>
+      <View style={styles.cardTotal}>
         <View style={styles.header}>
           <Image source={Logo} style={styles.logo} />
-          <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
+          <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
         </View>
         <Text style={styles.title}>Lista de Autopartes Actuales</Text>
         <FlatList
@@ -198,7 +199,7 @@ const AllAutoparts = ({ subcategoryId }) => {
   );
 };
 const styles = StyleSheet.create({
-  card: {
+  cardTotal: {
     borderRadius: 30,
     width: "80%",
     backgroundColor: "#fff",
@@ -217,14 +218,33 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   logo: {
-    width: 100,
-    height: 50,
+    width: 107,
+    height: 57,
     resizeMode: "contain",
     marginRight: 10,
   },
-  title: {
+  titleLogo: {
     fontSize: 18,
     fontWeight: "bold",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  card: {
+    marginHorizontal: 10,
+    marginVertical: 5,
+  },
+  cardTitle: {
+    fontWeight: "bold",
+  },
+  cardText: {
+    marginBottom: 10,
+  },
+  cardActions: {
+    justifyContent: "space-around",
   },
 });
 export default AllAutoparts;
