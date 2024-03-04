@@ -9,19 +9,18 @@ import {
   Provider,
   Dialog,
   Paragraph,
+  Card,
 } from "react-native-paper";
 import { Image } from "react-native";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
 
-const rawMaterials = () => {
+const RawMaterials = ({ navigation }) => {
   const [rawMaterials, setRawMaterials] = useState([]);
-  const [newRawMaterial, setNewRawMaterial] = useState({
-    Name: "",
-  });
+  const [newRawMaterial, setNewRawMaterial] = useState("");
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [selectedrawMaterialsId, setSelectedrawMaterialsId] = useState(null);
+  const [selectedRawMaterialId, setSelectedRawMaterialId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -42,7 +41,7 @@ const rawMaterials = () => {
     try {
       const response = await axios.post(
         "https://localhost:7028/api/rawMaterials",
-        newRawMaterial
+        { Name: newRawMaterial.Name }
       );
 
       setRawMaterials([response.data, ...rawMaterials]);
@@ -50,8 +49,6 @@ const rawMaterials = () => {
       setNewRawMaterial({
         Name: "",
       });
-
-      handleCloseModal();
     } catch (error) {
       console.error("Error creating rawMaterial:", error);
     }
@@ -73,26 +70,19 @@ const rawMaterials = () => {
     }
   };
 
-  const handelUpdateRawMaterial = async () => {
+  const handleUpdateRawMaterial = async () => {
     try {
       await axios.put(
         `https://localhost:7028/api/rawMaterials/${selectedRawMaterialId}`,
-        newRawMaterial
+        { Name: newRawMaterial }
       );
 
-      // Realiza una nueva solicitud para obtener la lista actualizada
       const response = await axios.get(
         "https://localhost:7028/api/rawMaterials"
       );
 
-      const updatedRawMaterials = response.data;
-
-      // Actualiza el estado con la nueva lista
-      setRawMaterials(updatedRawMaterials);
-
-      setNewRawMaterial({
-        Name: "",
-      });
+      setRawMaterials(response.data);
+      setNewRawMaterial("");
 
       handleCloseModal();
     } catch (error) {
@@ -100,45 +90,77 @@ const rawMaterials = () => {
     }
   };
 
+  const handleStockClick = (rawMaterialId) => {
+    navigation.navigate("Stocks", { rawMaterialId });
+  };
+
+  const handleMovementsClick = (rawMaterialId) => {
+    navigation.navigate("Stocks", { rawMaterialId });
+  };
+
+  const handleCloseModal = () => {
+    setShowUpdateModal(false);
+    setShowDeleteModal(false);
+  };
+
   return (
     <Provider>
       <View style={styles.container}>
-        <View style={styles.card}>
+        <View style={styles.cardTotal}>
           <View style={styles.header}>
             <Image source={Logo} style={styles.logo} />
-            <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
+            <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
           </View>
           <Text style={styles.title}>Lista de Materia Prima</Text>
           <FlatList
             data={rawMaterials}
             renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text>
-                  Id: <Subheading>{item.rawMaterialId}</Subheading>{" "}
-                </Text>
-                <Text>
-                  Nombre: <Subheading>{item.name}</Subheading>{" "}
-                </Text>
+              <Card style={styles.card} key={item.rawMaterialId}>
+                <Card.Content>
+                  <Text style={styles.cardTitle}>Ver Subcategorías de:</Text>
+                  <Text style={styles.cardText}>{item.name}</Text>
+                </Card.Content>
+                <Card.Actions style={styles.cardActions}>
+                  <Button
+                    icon="pencil"
+                    mode="contained"
+                    onPress={() => {
+                      setSelectedRawMaterialId(item.rawMaterialId);
+                      setShowUpdateModal(true);
+                    }}
+                    style={styles.button}
+                  >
+                    Actualizar
+                  </Button>
+                  <Button
+                    mode="contained"
+                    onPress={() => {
+                      handleStockClick(item.rawMaterialId);
+                    }}
+                    style={styles.button}
+                  >
+                    Ver Stock
+                  </Button>
+                  <Button
+                    mode="contained"
+                    onPress={() => {
+                      handleMovementsClick(item.rawMaterialId);
+                    }}
+                    style={styles.button}
+                  >
+                    Ver Movimientos
+                  </Button>
 
-                <Button
-                  icon="pencil"
-                  mode="contained"
-                  onPress={() => {
-                    handleUpdaterawMaterials(item.rawMaterialId);
-                    setShowUpdateModal(true);
-                  }}
-                >
-                  Actualizar
-                </Button>
-
-                <FAB
-                  icon="delete"
-                  onPress={() => {
-                    setSelectedrawMaterialsId(item.rawMaterialId);
-                    setShowDeleteModal(true);
-                  }}
-                />
-              </View>
+                  <FAB
+                    icon="delete"
+                    onPress={() => {
+                      setSelectedRawMaterialId(item.rawMaterialId);
+                      setShowDeleteModal(true);
+                    }}
+                    style={styles.fab}
+                  />
+                </Card.Actions>
+              </Card>
             )}
             keyExtractor={(item) => item.rawMaterialId.toString()}
           />
@@ -148,17 +170,20 @@ const rawMaterials = () => {
             onChangeText={setNewRawMaterial}
             placeholder="Nombre de nueva Materia Prima"
           />
-          <Button mode="contained" onPress={handleCreateRawMaterial}>
+          <Button
+            mode="contained"
+            onPress={handleCreateRawMaterial}
+            style={styles.button}
+          >
             Crear Materia Prima
           </Button>
         </View>
       </View>
 
-      {/* Modal para actualizar categoría */}
       <Portal>
         <Modal
           visible={showUpdateModal}
-          onRequestClose={() => setShowUpdateModal(false)}
+          onRequestClose={handleCloseModal}
           animationType="slide"
         >
           <View style={styles.modalContainer}>
@@ -169,27 +194,27 @@ const rawMaterials = () => {
               onChangeText={setNewRawMaterial}
               placeholder="Nuevo nombre de categoría"
             />
-            <Button mode="contained" onPress={handelUpdateRawMaterial}>
+            <Button
+              mode="contained"
+              onPress={handleUpdateRawMaterial}
+              style={styles.button}
+            >
               Actualizar
             </Button>
           </View>
         </Modal>
       </Portal>
 
-      {/* Modal para eliminar categoría */}
       <Portal>
-        <Dialog
-          visible={showDeleteModal}
-          onDismiss={() => setShowDeleteModal(false)}
-        >
+        <Dialog visible={showDeleteModal} onDismiss={handleCloseModal}>
           <Dialog.Title>Eliminar Materia Prima</Dialog.Title>
           <Dialog.Content>
             <Paragraph>¿Estás seguro de eliminar esta Materia Prima?</Paragraph>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setShowDeleteModal(false)}>Cancelar</Button>
+            <Button onPress={handleCloseModal}>Cancelar</Button>
             <Button
-              onPress={() => handleDeleteRawMaterial(selectedrawMaterialsId)}
+              onPress={() => handleDeleteRawMaterial(selectedRawMaterialId)}
             >
               Eliminar
             </Button>
@@ -206,17 +231,13 @@ const styles = StyleSheet.create({
     marginTop: 20,
     paddingHorizontal: 10,
   },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  item: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
     alignItems: "center",
-    marginBottom: 10,
-    Color: "black",
+    backgroundColor: "red",
+    padding: 20,
   },
   input: {
     borderWidth: 1,
@@ -225,13 +246,6 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 10,
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#f80759",
-    padding: 20,
-  },
   modalTitle: {
     fontSize: 20,
     fontWeight: "bold",
@@ -239,13 +253,44 @@ const styles = StyleSheet.create({
   },
   modalInput: {
     borderWidth: 1,
-    borderColor: "#ccc",
+    borderColor: "red",
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
     width: "100%",
   },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+  },
   card: {
+    marginHorizontal: 10,
+    marginVertical: 5,
+  },
+  cardTitle: {
+    fontWeight: "bold",
+  },
+  cardText: {
+    marginBottom: 10,
+  },
+  cardActions: {
+    justifyContent: "space-around",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "red",
+    padding: 20,
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  cardTotal: {
     borderRadius: 30,
     width: "80%",
     backgroundColor: "#fff",
@@ -261,15 +306,15 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   logo: {
-    width: 100,
-    height: 50,
+    width: 107,
+    height: 57,
     resizeMode: "contain",
     marginRight: 10,
   },
-  title: {
+  titleLogo: {
     fontSize: 18,
     fontWeight: "bold",
   },
 });
 
-export default rawMaterials;
+export default RawMaterials;
