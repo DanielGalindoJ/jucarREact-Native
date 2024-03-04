@@ -24,6 +24,7 @@ import Registro from "./Componentes/Registro";
 import MenuAutoparts from "./Componentes/Menus/MenuAutoparts";
 import Autoparts from "./Componentes/Autoparts";
 import rawMaterials from "./Componentes/rawMaterials";
+import stocks from "./Componentes/stocks";
 
 const Stack = createNativeStackNavigator();
 
@@ -309,6 +310,29 @@ const App = () => {
         <Stack.Screen
           name="rawMaterials"
           component={rawMaterials}
+          options={{
+            tabBarOptions: {
+              position: "bottom",
+              style: styles.tabBar,
+            },
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
+                <Text> Inicio </Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => handleLogout()}>
+                <Image source={salir} style={styles.logo}></Image>
+              </TouchableOpacity>
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            beforeRemove: () => !isAuthenticated,
+          })}
+        />
+        <Stack.Screen
+          name="stocks"
+          component={stocks}
           options={{
             tabBarOptions: {
               position: "bottom",
