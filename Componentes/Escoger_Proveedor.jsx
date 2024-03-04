@@ -14,7 +14,7 @@ import { Text } from "react-native-paper";
 import { DataTable } from "react-native-paper";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
-import usuario from "../assets/imgs/usuario.png";
+import Usuario from "../assets/imgs/Usuario.png";
 
 const Proveedores = () => {
   return (
@@ -31,14 +31,14 @@ const Proveedores = () => {
             style={styles.button}
             onPress={() => navigation.navigate("AllAutoparts")}
           >
-            <Image source={usuario} style={styles.icon} />
+            <Image source={Usuario} style={styles.icon} />
             <Text style={styles.buttonText}>Proveedor Natural</Text>
           </Pressable>
           <Pressable
             style={styles.button}
             onPress={() => navigation.navigate("MenuAutoparts")}
           >
-            <Image source={usuario} style={styles.icon} />
+            <Image source={Usuario} style={styles.icon} />
             <Text style={styles.buttonText}>Proveedor Juridico</Text>
           </Pressable>
         </View>
