@@ -9,8 +9,8 @@ import {
 } from "react-native";
 import { Text } from "react-native-paper";
 import Logo from "../assets/imgs/jucar.jpg";
-import IconoTodas from "../assets/imgs/Autopartes.png"; // Ruta de tu icono para Todas las Autopartes
-import IconoId from "../assets/imgs/Autopartes.png"; // Ruta de tu icono para Autopartes por Id
+import IconoTodas from "../assets/imgs/Autopartes.png";
+import IconoId from "../assets/imgs/Autopartes.png";
 
 const EscogerAutoparte = ({ navigation }) => {
   return (
