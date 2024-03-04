@@ -38,7 +38,7 @@ const Menu = ({ navigation }) => {
 
           <Pressable
             style={styles.button}
-            onPress={() => navigation.navigate("Proveedores")}
+            onPress={() => navigation.navigate("Escoger_Proveedor")}
           >
             <Image source={iconoProveedores} style={styles.buttonIcon} />
             <Text style={styles.buttonText}>Proveedores</Text>
