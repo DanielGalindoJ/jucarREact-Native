@@ -9,22 +9,49 @@ import {
 } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
+
+import salir from "./assets/imgs/salir.jpg";
+
+{
+  /* Componetes princiaples para el inicio de la app*/
+}
+import Registro from "./Componentes/Registro";
 import Login from "./Componentes/Login";
+
+{
+  /* Menus Principales*/
+}
 import Menu from "./Componentes/Menu";
-import Escoger_Proveedor from "./Componentes/Escoger_Proveedor";
 import Productos from "./Componentes/Productos";
-import EscogerAutoparte from "./Componentes/EscogerAutoparte";
-import AllAutoparts from "./Componentes/AllAutoparts";
+
+{
+  /* Componentes para Categorias y Sucategorias */
+}
 import EscogerCategoriasSubactegorias from "./Componentes/EscogerCategoriasSubactegorias";
 import AllCategories from "./Componentes/AllCategories";
 import Subcategorias from "./Componentes/Subcategorias";
 import MenuSubcategories from "./Componentes/Menus/MenuSubcategories";
-import salir from "./assets/imgs/salir.jpg";
-import Registro from "./Componentes/Registro";
+
+{
+  /* Compomenentes para Autopartes */
+}
 import MenuAutoparts from "./Componentes/Menus/MenuAutoparts";
 import Autoparts from "./Componentes/Autoparts";
+import EscogerAutoparte from "./Componentes/EscogerAutoparte";
+import AllAutoparts from "./Componentes/AllAutoparts";
+
+{
+  /* Componentes para Materia Primas */
+}
 import rawMaterials from "./Componentes/rawMaterials";
 import stocks from "./Componentes/stocks";
+
+{
+  /* Componentes para proveedores */
+}
+import Escoger_Proveedor from "./Componentes/Escoger_Proveedor";
+import AllProveedores from "./Componentes/AllProveedores";
+import ProveedoresNatural from "./Componentes/ProveedoresNatural";
 
 const Stack = createNativeStackNavigator();
 
@@ -333,6 +360,52 @@ const App = () => {
         <Stack.Screen
           name="stocks"
           component={stocks}
+          options={{
+            tabBarOptions: {
+              position: "bottom",
+              style: styles.tabBar,
+            },
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
+                <Text> Inicio </Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => handleLogout()}>
+                <Image source={salir} style={styles.logo}></Image>
+              </TouchableOpacity>
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            beforeRemove: () => !isAuthenticated,
+          })}
+        />
+        <Stack.Screen
+          name="AllProveedores"
+          component={AllProveedores}
+          options={{
+            tabBarOptions: {
+              position: "bottom",
+              style: styles.tabBar,
+            },
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
+                <Text> Inicio </Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => handleLogout()}>
+                <Image source={salir} style={styles.logo}></Image>
+              </TouchableOpacity>
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            beforeRemove: () => !isAuthenticated,
+          })}
+        />
+        <Stack.Screen
+          name="ProveedoresNatural"
+          component={ProveedoresNatural}
           options={{
             tabBarOptions: {
               position: "bottom",
