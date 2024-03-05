@@ -43,25 +43,19 @@ const ProveedoresNatural = () => {
       <Card.Content>
         <Text style={styles.cardTitle}>Tipo de Identificacion: </Text>
         <Text style={styles.cardText}>{item.identifierType}</Text>
-
         <Text style={styles.cardTitle}>Numero de Identificacion: </Text>
         <Text style={styles.cardText}>{item.identifierNumber}</Text>
-
         <Text style={styles.cardTitle}>Nombre : </Text>
         <Text style={styles.cardText}>{item.name}</Text>
-
         <Text style={styles.cardTitle}>Correo electronico: </Text>
         <Text style={styles.cardText}>{item.emailAddress}</Text>
-
         <Text style={styles.cardTitle}>Tipo de Producto: </Text>
         <Text style={styles.cardText}>{item.productType}</Text>
-
         <Divider />
-
         <View style={styles.buttonContainer}>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => handleUpdateProvider(item)}
+            onPress={() => handleUpdate(item)}
           >
             <Text style={styles.buttonText}>Actualizar</Text>
           </TouchableOpacity>
@@ -78,6 +72,16 @@ const ProveedoresNatural = () => {
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
+    if (!isModalVisible) {
+      // Reset newProvider state when opening the modal to add a new provider
+      setNewProvider({
+        identifierType: "",
+        identifierNumber: "",
+        name: "",
+        emailAddress: "",
+        productType: "",
+      });
+    }
   };
 
   const handleInputChange = (key, value) => {
@@ -92,15 +96,21 @@ const ProveedoresNatural = () => {
       await axios.post(`https://localhost:7028/api/providers`, newProvider);
       fetchProviders();
       setIsModalVisible(false);
-      setNewProvider({
-        identifierType: "",
-        identifierNumber: "",
-        name: "",
-        emailAddress: "",
-        productType: "",
-      });
     } catch (error) {
       console.error("Error creating provider:", error);
+    }
+  };
+
+  const handleUpdateProvider = async () => {
+    try {
+      await axios.put(
+        `https://localhost:7028/api/providers/${selectedProvider.providerID}`,
+        newProvider
+      );
+      fetchProviders();
+      setIsModalVisible(false);
+    } catch (error) {
+      console.error("Error updating provider:", error);
     }
   };
 
@@ -113,31 +123,16 @@ const ProveedoresNatural = () => {
     }
   };
 
-  const handleUpdateProvider = (provider) => {
+  const handleUpdate = (provider) => {
     setSelectedProvider(provider);
-    setNewProvider(provider); // Set current provider data in the form fields
-    toggleModal();
+    setIsModalVisible(true); // Open modal for editing
   };
 
-  const handleUpdate = async () => {
-    try {
-      await axios.put(
-        `https://localhost:7028/api/providers/${selectedProvider.providerID}`,
-        newProvider
-      );
-      fetchProviders();
-      setIsModalVisible(false);
-      setNewProvider({
-        identifierType: "",
-        identifierNumber: "",
-        name: "",
-        emailAddress: "",
-        productType: "",
-      });
-    } catch (error) {
-      console.error("Error updating provider:", error);
+  useEffect(() => {
+    if (selectedProvider) {
+      setNewProvider(selectedProvider); // Set newProvider state with selected provider data
     }
-  };
+  }, [selectedProvider]);
 
   return (
     <View style={styles.container}>
@@ -187,7 +182,12 @@ const ProveedoresNatural = () => {
               value={newProvider.productType}
               onChangeText={(text) => handleInputChange("productType", text)}
             />
-            <Button title="Guardar" onPress={handleUpdate} />
+            <Button
+              title={selectedProvider ? "Actualizar" : "Guardar"}
+              onPress={
+                selectedProvider ? handleUpdateProvider : handleCreateProvider
+              }
+            />
             <Button title="Cancelar" onPress={toggleModal} />
           </View>
         </Modal>
