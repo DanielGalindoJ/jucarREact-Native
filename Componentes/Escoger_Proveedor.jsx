@@ -43,26 +43,6 @@ const Proveedores = ({ navigation }) => {
             <Image source={Usuario} style={styles.icon} />
             <Text style={styles.buttonText}>Proveedor </Text>
           </Pressable>
-
-          <Text style={styles.sectionTitle}>CLIENTES</Text>
-
-          {/* Boton para todos los clientes */}
-          <Pressable
-            style={styles.button}
-            onPress={() => navigation.navigate("AllCustomer")}
-          >
-            <Image source={Usuario} style={styles.icon} />
-            <Text style={styles.buttonText}>Todos los Clientes</Text>
-          </Pressable>
-
-          {/* Boton para los clientes */}
-          <Pressable
-            style={styles.button}
-            onPress={() => navigation.navigate("Customers")}
-          >
-            <Image source={Usuario} style={styles.icon} />
-            <Text style={styles.buttonText}>Clientes</Text>
-          </Pressable>
         </View>
       </View>
     </ScrollView>
