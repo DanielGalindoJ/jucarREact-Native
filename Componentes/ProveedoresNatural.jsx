@@ -12,6 +12,7 @@ import {
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
 import { Divider, Card, Text } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
 
 const ProveedoresNatural = () => {
   const [providers, setProviders] = useState([]);
@@ -24,6 +25,7 @@ const ProveedoresNatural = () => {
   });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState(null);
+  const navigation = useNavigation(); // Obtener objeto de navegación
 
   useEffect(() => {
     fetchProviders();
@@ -37,7 +39,12 @@ const ProveedoresNatural = () => {
       console.error("Error fetching providers:", error);
     }
   };
-
+  const handleAdrressClick = (providerID) => {
+    navigation.navigate("AddressProviders", { providerID });
+  };
+  const handleTelefonosClick = (providerID) => {
+    navigation.navigate("PhonesProviders", { providerID });
+  };
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
       <Card.Content>
@@ -64,6 +71,18 @@ const ProveedoresNatural = () => {
             onPress={() => handleDeleteProvider(item.providerID)}
           >
             <Text style={styles.buttonText}>Eliminar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleAdrressClick(item.providerID)}
+          >
+            <Text style={styles.buttonText}>Ver Dirrecion</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleTelefonosClick(item.providerID)}
+          >
+            <Text style={styles.buttonText}>Ver Telefono</Text>
           </TouchableOpacity>
         </View>
       </Card.Content>
