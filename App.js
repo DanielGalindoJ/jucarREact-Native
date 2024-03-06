@@ -60,6 +60,7 @@ import PhonesProviders from "./Componentes/AddressProviders";
 }
 import AllCustomer from "./Componentes/AllCustomer";
 import Customers from "./Componentes/Customers";
+import Escoger_Customer from "./Componentes/Escoger_Customer";
 
 const Stack = createNativeStackNavigator();
 
@@ -509,6 +510,30 @@ const App = () => {
         <Stack.Screen
           name="Customers"
           component={Customers}
+          options={{
+            tabBarOptions: {
+              position: "bottom",
+              style: styles.tabBar,
+            },
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
+                <Text> Inicio </Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => handleLogout()}>
+                <Image source={salir} style={styles.logo}></Image>
+              </TouchableOpacity>
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            beforeRemove: () => !isAuthenticated,
+          })}
+        />
+
+        <Stack.Screen
+          name="Escoger_Customer"
+          component={Escoger_Customer}
           options={{
             tabBarOptions: {
               position: "bottom",
