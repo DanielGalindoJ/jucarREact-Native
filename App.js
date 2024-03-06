@@ -52,6 +52,14 @@ import stocks from "./Componentes/stocks";
 import Escoger_Proveedor from "./Componentes/Escoger_Proveedor";
 import AllProveedores from "./Componentes/AllProveedores";
 import ProveedoresNatural from "./Componentes/ProveedoresNatural";
+import AddressProviders from "./Componentes/AddressProviders";
+import PhonesProviders from "./Componentes/AddressProviders";
+
+{
+  /* Componentes para Customers */
+}
+import AllCustomer from "./Componentes/AllCustomer";
+import Customer from "./Componentes/AllCustomer";
 
 const Stack = createNativeStackNavigator();
 
@@ -406,6 +414,101 @@ const App = () => {
         <Stack.Screen
           name="ProveedoresNatural"
           component={ProveedoresNatural}
+          options={{
+            tabBarOptions: {
+              position: "bottom",
+              style: styles.tabBar,
+            },
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
+                <Text> Inicio </Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => handleLogout()}>
+                <Image source={salir} style={styles.logo}></Image>
+              </TouchableOpacity>
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            beforeRemove: () => !isAuthenticated,
+          })}
+        />
+        <Stack.Screen
+          name="AddressProviders"
+          component={AddressProviders}
+          options={{
+            tabBarOptions: {
+              position: "bottom",
+              style: styles.tabBar,
+            },
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
+                <Text> Inicio </Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => handleLogout()}>
+                <Image source={salir} style={styles.logo}></Image>
+              </TouchableOpacity>
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            beforeRemove: () => !isAuthenticated,
+          })}
+        />
+
+        <Stack.Screen
+          name="PhonesProviders"
+          component={PhonesProviders}
+          options={{
+            tabBarOptions: {
+              position: "bottom",
+              style: styles.tabBar,
+            },
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
+                <Text> Inicio </Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => handleLogout()}>
+                <Image source={salir} style={styles.logo}></Image>
+              </TouchableOpacity>
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            beforeRemove: () => !isAuthenticated,
+          })}
+        />
+
+        <Stack.Screen
+          name="AllCustomer"
+          component={AllCustomer}
+          options={{
+            tabBarOptions: {
+              position: "bottom",
+              style: styles.tabBar,
+            },
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
+                <Text> Inicio </Text>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => handleLogout()}>
+                <Image source={salir} style={styles.logo}></Image>
+              </TouchableOpacity>
+            ),
+          }}
+          listeners={({ navigation }) => ({
+            beforeRemove: () => !isAuthenticated,
+          })}
+        />
+
+        <Stack.Screen
+          name="Customer"
+          component={Customer}
           options={{
             tabBarOptions: {
               position: "bottom",
