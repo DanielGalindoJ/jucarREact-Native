@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, TextInput, StyleSheet, Image } from "react-native";
 import {
-  Headline,
-  Text,
-  Subheading,
-  Button,
-  FAB,
-  Divider,
-  Card,
-} from "react-native-paper";
+  View,
+  FlatList,
+  TextInput,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from "react-native";
+import { Text, Button, Divider, Card } from "react-native-paper";
 import globalStyles from "./styles/global";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
@@ -65,6 +64,26 @@ const Subcategories = ({ route }) => {
     }
   };
 
+  const renderItem = ({ item }) => (
+    <Card style={styles.card}>
+      <View style={styles.item} key={item.categoryId}>
+        <Card.Content>
+          <Text style={styles.cardTitle}>Nombre : </Text>
+
+          <Text style={styles.cardText}>{item.name}</Text>
+        </Card.Content>
+        <Divider />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.buttonText}
+            onPress={() => handleDeleteSubcategory(item.subcategoryId)}
+          >
+            <Text style={styles.buttonText}>Eliminar</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </Card>
+  );
   return (
     <>
       <ScrollView>
@@ -74,29 +93,7 @@ const Subcategories = ({ route }) => {
           <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
 
           <Text style={styles.title}>Modulo de Subcategorias</Text>
-          <FlatList
-            data={subcategories}
-            renderItem={({ item }) => (
-              <Card style={styles.card}>
-                <View style={styles.item} key={item.categoryId}>
-                  <Card.Content>
-                    <Text style={styles.cardText}>{item.name}</Text>
-                  </Card.Content>
-                  <Card.Actions style={styles.cardActions}>
-                    <Button
-                      style={styles.botones}
-                      mode="contained"
-                      onPress={() =>
-                        handleDeleteSubcategory(item.subcategoryId)
-                      }
-                    >
-                      Eliminar
-                    </Button>
-                  </Card.Actions>
-                </View>
-              </Card>
-            )}
-          />
+          <FlatList data={subcategories} renderItem={renderItem} />
           <TextInput
             style={styles.input}
             value={newSubcategoryName}
@@ -189,8 +186,22 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
-  botones: {
-    color: "red",
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
+  },
+  button: {
+    backgroundColor: "black",
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  cardTitle: {
+    fontWeight: "bold",
   },
 });
 
