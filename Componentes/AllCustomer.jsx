@@ -4,7 +4,7 @@ import axios from "axios";
 import { Divider, Card, Text } from "react-native-paper";
 import Logo from "../assets/imgs/jucar.jpg";
 
-const Customers = () => {
+const AllCustomers = () => {
   const [customers, setCustomers] = useState([]);
 
   useEffect(() => {
@@ -45,8 +45,6 @@ const Customers = () => {
     </Card>
   );
 
-  // Handle update and delete functions similarly to create
-
   return (
     <View style={styles.container}>
       <View style={styles.cardTotal}>
@@ -58,14 +56,13 @@ const Customers = () => {
         <FlatList
           data={customers}
           renderItem={renderItem}
-          keyExtractor={(item) => item.providerID.toString()}
+          keyExtractor={(item) => item.identifierNumber.toString()}
         />
-        {/* <Button title="Generar PDF" onPress={generatePdf} />
-        {pdfUri && <Text>PDF generado: {pdfUri}</Text>} */}
       </View>
     </View>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -115,4 +112,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Customers;
+export default AllCustomers;
