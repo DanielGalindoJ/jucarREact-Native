@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, FlatList, TextInput, StyleSheet, Modal } from "react-native";
 import {
   Text,
-  Subheading,
   Button,
   FAB,
   Portal,
@@ -17,7 +16,16 @@ import Logo from "../assets/imgs/jucar.jpg";
 
 const RawMaterials = ({ navigation }) => {
   const [rawMaterials, setRawMaterials] = useState([]);
-  const [newRawMaterial, setNewRawMaterial] = useState("");
+  const [newRawMaterial, setNewRawMaterial] = useState({
+    Name: "",
+    Stock: {
+      QuantityAvailable: 0,
+      InitialStock: 0,
+      ReorderPoint: 0,
+      MinimumInventory: 0,
+      MaximumInventory: 0,
+    },
+  });
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedRawMaterialId, setSelectedRawMaterialId] = useState(null);
@@ -41,13 +49,20 @@ const RawMaterials = ({ navigation }) => {
     try {
       const response = await axios.post(
         "https://localhost:7028/api/rawMaterials",
-        { Name: newRawMaterial.Name }
+        newRawMaterial
       );
 
       setRawMaterials([response.data, ...rawMaterials]);
 
       setNewRawMaterial({
         Name: "",
+        Stock: {
+          QuantityAvailable: 0,
+          InitialStock: 0,
+          ReorderPoint: 0,
+          MinimumInventory: 0,
+          MaximumInventory: 0,
+        },
       });
     } catch (error) {
       console.error("Error creating rawMaterial:", error);
@@ -74,7 +89,7 @@ const RawMaterials = ({ navigation }) => {
     try {
       await axios.put(
         `https://localhost:7028/api/rawMaterials/${selectedRawMaterialId}`,
-        { Name: newRawMaterial }
+        newRawMaterial
       );
 
       const response = await axios.get(
@@ -82,7 +97,16 @@ const RawMaterials = ({ navigation }) => {
       );
 
       setRawMaterials(response.data);
-      setNewRawMaterial("");
+      setNewRawMaterial({
+        Name: "",
+        Stock: {
+          QuantityAvailable: 0,
+          InitialStock: 0,
+          ReorderPoint: 0,
+          MinimumInventory: 0,
+          MaximumInventory: 0,
+        },
+      });
 
       handleCloseModal();
     } catch (error) {
@@ -166,9 +190,26 @@ const RawMaterials = ({ navigation }) => {
           />
           <TextInput
             style={styles.input}
-            value={newRawMaterial}
-            onChangeText={setNewRawMaterial}
+            value={newRawMaterial.Name}
+            onChangeText={(text) =>
+              setNewRawMaterial({ ...newRawMaterial, Name: text })
+            }
             placeholder="Nombre de nueva Materia Prima"
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Cantidad disponible"
+            value={newRawMaterial.Stock.QuantityAvailable.toString()}
+            onChangeText={(text) =>
+              setNewRawMaterial({
+                ...newRawMaterial,
+                Stock: {
+                  ...newRawMaterial.Stock,
+                  QuantityAvailable: parseInt(text),
+                },
+              })
+            }
+            // placeholder="Cantidad Disponible"
           />
           <Button
             mode="contained"
@@ -190,8 +231,10 @@ const RawMaterials = ({ navigation }) => {
             <Text style={styles.modalTitle}>Actualizar Materia Prima</Text>
             <TextInput
               style={styles.modalInput}
-              value={newRawMaterial}
-              onChangeText={setNewRawMaterial}
+              value={newRawMaterial.Name}
+              onChangeText={(text) =>
+                setNewRawMaterial({ ...newRawMaterial, Name: text })
+              }
               placeholder="Nuevo nombre de categoría"
             />
             <Button
@@ -236,7 +279,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "red",
     padding: 20,
   },
   input: {
@@ -253,7 +295,7 @@ const styles = StyleSheet.create({
   },
   modalInput: {
     borderWidth: 1,
-    borderColor: "red",
+    borderColor: "#ccc",
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
@@ -278,24 +320,11 @@ const styles = StyleSheet.create({
   cardActions: {
     justifyContent: "space-around",
   },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "red",
-    padding: 20,
-  },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
   cardTotal: {
     borderRadius: 30,
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,
