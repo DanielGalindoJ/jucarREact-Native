@@ -116,11 +116,11 @@ const Login = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: "#fff",
     justifyContent: "center",
+    padding: 20,
   },
   logo: {
-    width: 100,
+    width: "40%",
     height: 50,
     marginRight: 10,
   },
@@ -130,16 +130,14 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 30,
-    width: "80%",
+    width: "100%",
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "3px 5px 5px rgba(10, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
     elevation: 5,
     alignSelf: "center",
-    marginTop: 50,
   },
   image: {
-    width: 250,
+    width: "80%",
     height: 180,
     borderRadius: 10,
     marginBottom: 20,

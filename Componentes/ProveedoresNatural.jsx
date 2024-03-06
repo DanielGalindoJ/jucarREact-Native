@@ -8,6 +8,7 @@ import {
   Modal,
   TextInput,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
@@ -154,7 +155,7 @@ const ProveedoresNatural = () => {
   }, [selectedProvider]);
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.cardTotal}>
         <View style={styles.header}>
           <Image source={Logo} style={styles.logo} />
@@ -211,13 +212,13 @@ const ProveedoresNatural = () => {
           </View>
         </Modal>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#F5F5DC",
     justifyContent: "center",
     alignItems: "center",
@@ -237,7 +238,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   logo: {
-    width: 107,
+    width: "25%",
     height: 57,
     resizeMode: "contain",
     marginRight: 10,

@@ -60,6 +60,8 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     backgroundColor: "#F5F5DC",
+    alignItems: "center",
+    justifyContent: "center",
   },
   header: {
     flexDirection: "row",
@@ -100,7 +102,7 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
     paddingHorizontal: 10,
     marginBottom: 10,
-    width: Dimensions.get("window").width - 40,
+    width: "80%",
     maxWidth: 300,
   },
   iconoBoton: {
@@ -118,7 +120,6 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,

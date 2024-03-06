@@ -1,11 +1,18 @@
 import React from "react";
-import { ScrollView, View, StyleSheet, Pressable, Image } from "react-native";
+import {
+  ScrollView,
+  View,
+  StyleSheet,
+  Pressable,
+  Image,
+  Dimensions,
+} from "react-native";
 import { Text } from "react-native-paper";
 import Logo from "../assets/imgs/jucar.jpg";
 import categoriaIcon from "../assets/imgs/Tuerca.png";
 import crearCategoriaIcon from "../assets/imgs/Tuerca.png";
-import subcategoriaIcon from "../assets/imgs/Tuerca.png";
-import todasSubcategoriasIcon from "../assets/imgs/Tuerca.png";
+
+const { width } = Dimensions.get("window");
 
 const EscogerCategoriasSubactegorias = ({ navigation }) => {
   return (
@@ -33,25 +40,16 @@ const EscogerCategoriasSubactegorias = ({ navigation }) => {
             <Text style={styles.buttonText}>Menu Subcategorías</Text>
           </Pressable>
         </View>
-        <View style={styles.section}>
-          <Text style={styles.sectionTitle}>SUBCATEGORIAS</Text>
-          <Pressable
-            style={styles.button}
-            onPress={() => navigation.navigate("Subcategorias")}
-          >
-            <Image source={todasSubcategoriasIcon} style={styles.icon} />
-            <Text style={styles.buttonText}>Todas las SubCategorias</Text>
-          </Pressable>
-        </View>
       </View>
     </ScrollView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: "#F5F5DC",
-    padding: "20",
+    padding: 20,
   },
   header: {
     flexDirection: "row",
@@ -87,8 +85,8 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 10,
     marginBottom: 10,
-    width: "80%",
-    marginVertical: 50,
+    width: width * 0.8, // Utilizando el ancho del dispositivo
+    marginVertical: 10,
   },
   icon: {
     width: 24,
@@ -103,10 +101,16 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 30,
-    width: "80%",
+    width: width * 0.8, // Utilizando el ancho del dispositivo
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
+    shadowColor: "#000", // Cambiado boxShadow a shadowColor
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,

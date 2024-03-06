@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { View, FlatList, TextInput, StyleSheet, Modal } from "react-native";
 import {
-  Text,
-  Subheading,
+  View,
+  FlatList,
+  StyleSheet,
+  Image,
   Button,
-  FAB,
-  Portal,
-  Provider,
-  Dialog,
-  Paragraph,
-} from "react-native-paper";
-import { Image } from "react-native";
+  Modal,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
+import { Portal, Provider, Dialog, Paragraph } from "react-native-paper";
+import { Divider, Card, Text } from "react-native-paper";
+
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
 
@@ -86,6 +87,36 @@ const AllCategories = () => {
       console.error("Error updating category:", error);
     }
   };
+  const renderItem = ({ item }) => (
+    <Card style={styles.card}>
+      <Card.Content>
+        <Text style={styles.cardTitle}>Nombre : </Text>
+        <Text style={styles.cardText}>{item.name}</Text>
+        <Divider />
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              handleUpdateCategory(item.categoryId);
+              setShowUpdateModal(true);
+            }}
+          >
+            <Text style={styles.buttonText}>Actualizar</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              setSelectedCategoryId(item.categoryId);
+              setShowDeleteModal(true);
+            }}
+          >
+            <Text style={styles.buttonText}>Eliminar</Text>
+          </TouchableOpacity>
+        </View>
+      </Card.Content>
+    </Card>
+  );
 
   return (
     <Provider>
@@ -93,37 +124,12 @@ const AllCategories = () => {
         <View style={styles.card}>
           <View style={styles.header}>
             <Image source={Logo} style={styles.logo} />
-            <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
+            <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
           </View>
           <Text style={styles.title}>Lista de Categorías</Text>
           <FlatList
             data={categories}
-            renderItem={({ item }) => (
-              <View style={styles.item}>
-                <Text>
-                  Nombre: <Subheading>{item.name}</Subheading>{" "}
-                </Text>
-
-                <Button
-                  icon="pencil"
-                  mode="contained"
-                  onPress={() => {
-                    handleUpdateCategory(item.categoryId);
-                    setShowUpdateModal(true);
-                  }}
-                >
-                  Actualizar
-                </Button>
-
-                <FAB
-                  icon="delete"
-                  onPress={() => {
-                    setSelectedCategoryId(item.categoryId);
-                    setShowDeleteModal(true);
-                  }}
-                />
-              </View>
-            )}
+            renderItem={renderItem}
             keyExtractor={(item) => item.categoryId.toString()}
           />
           <TextInput
@@ -171,7 +177,12 @@ const AllCategories = () => {
             <Paragraph>¿Estás seguro de eliminar esta categoría?</Paragraph>
           </Dialog.Content>
           <Dialog.Actions>
-            <Button onPress={() => setShowDeleteModal(false)}>Cancelar</Button>
+            <Button
+              style={styles.textDialog}
+              onPress={() => setShowDeleteModal(false)}
+            >
+              Cancelar
+            </Button>
             <Button onPress={() => handleDeleteCategory(selectedCategoryId)}>
               Eliminar
             </Button>
@@ -185,54 +196,15 @@ const AllCategories = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
-    paddingHorizontal: 10,
-  },
-  title: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  item: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: 10,
-    Color: "black",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  modalContainer: {
-    flex: 1,
+    backgroundColor: "#F5F5DC",
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#f80759",
-    padding: 20,
   },
-  modalTitle: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 20,
-  },
-  modalInput: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 20,
-    width: "100%",
-  },
-  card: {
+  cardTotal: {
     borderRadius: 30,
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,
@@ -243,14 +215,77 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   logo: {
-    width: 100,
-    height: 50,
+    width: 107,
+    height: 57,
     resizeMode: "contain",
     marginRight: 10,
   },
-  title: {
+  titleLogo: {
     fontSize: 18,
     fontWeight: "bold",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  card: {
+    marginHorizontal: 10,
+    marginVertical: 5,
+  },
+  cardTitle: {
+    fontWeight: "bold",
+  },
+  cardText: {
+    marginBottom: 10,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F5F5DC",
+    zIndex: 1,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 10,
+    marginBottom: 10,
+    width: "80%",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
+    zIndex: 1,
+  },
+  button: {
+    backgroundColor: "#007bff",
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+    zIndex: 1,
+  },
+  modalInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 20,
+    width: "100%",
+  },
+  textDialog: {
+    color: "white",
+    fontSize: 10,
   },
 });
 

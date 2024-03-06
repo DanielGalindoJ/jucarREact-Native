@@ -6,6 +6,7 @@ import {
   StyleSheet,
   Pressable,
   StatusBar,
+  Dimensions,
 } from "react-native";
 
 import { Text } from "react-native-paper";
@@ -46,10 +47,10 @@ const Menu = ({ navigation }) => {
 
           <Pressable
             style={styles.button}
-            onPress={() => navigation.navigate("Negocio")}
+            onPress={() => navigation.navigate("Escoger_Customer")}
           >
             <Image source={iconoNegocio} style={styles.buttonIcon} />
-            <Text style={styles.buttonText}>Negocio</Text>
+            <Text style={styles.buttonText}>Ventas</Text>
           </Pressable>
 
           <Pressable
@@ -64,6 +65,9 @@ const Menu = ({ navigation }) => {
     </ScrollView>
   );
 };
+
+const { width } = Dimensions.get("window");
+const buttonWidth = width * 0.8;
 
 const styles = StyleSheet.create({
   container: {
@@ -106,7 +110,7 @@ const styles = StyleSheet.create({
     borderColor: "#000",
     borderWidth: 3,
     borderRadius: 10,
-    width: "80%",
+    width: buttonWidth,
     marginVertical: 20,
     alignItems: "center",
     justifyContent: "center",
@@ -123,10 +127,16 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 30,
-    width: "80%",
+    width: buttonWidth,
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,

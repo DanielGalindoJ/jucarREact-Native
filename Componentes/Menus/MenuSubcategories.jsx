@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { StyleSheet, ScrollView, Modal, Image, View } from "react-native";
-import { Text, Button, Card } from "react-native-paper";
+import {
+  StyleSheet,
+  ScrollView,
+  Modal,
+  Image,
+  View,
+  TouchableOpacity,
+} from "react-native";
+import { Text, Button, Card, Divider } from "react-native-paper";
 import Logo from "../../assets/imgs/jucar.jpg";
 
 const MenuSubcategories = ({ navigation }) => {
@@ -56,25 +63,30 @@ const MenuSubcategories = ({ navigation }) => {
               <Text style={styles.cardTitle}>Ver Subcategorías de:</Text>
               <Text style={styles.cardText}>{category.name}</Text>
             </Card.Content>
-            <Card.Actions style={styles.cardActions}>
-              <Button
-                mode="contained"
-                color="green"
+            <Divider />
+
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.button}
                 onPress={() => handleCategoryClick(category.categoryId)}
               >
-                Ver
-              </Button>
-              <Button mode="contained" onPress={() => handleUpdate(category)}>
-                Actualizar
-              </Button>
-              <Button
-                mode="contained"
-                color="red"
+                <Text style={styles.buttonText}>Ver</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => handleUpdate(category)}
+              >
+                <Text style={styles.buttonText}>Actulizar</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={styles.button}
                 onPress={() => handleDelete(category.categoryId)}
               >
-                Eliminar
-              </Button>
-            </Card.Actions>
+                <Text style={styles.buttonText}>Eliminar</Text>
+              </TouchableOpacity>
+            </View>
           </Card>
         ))}
 
@@ -146,6 +158,20 @@ const styles = StyleSheet.create({
   },
   titleLogo: {
     fontSize: 18,
+    fontWeight: "bold",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginTop: 10,
+  },
+  button: {
+    backgroundColor: "#007bff",
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#fff",
     fontWeight: "bold",
   },
 });
