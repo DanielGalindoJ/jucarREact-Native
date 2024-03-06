@@ -52,13 +52,13 @@ const Proveedores = ({ navigation }) => {
             onPress={() => navigation.navigate("AllCustomer")}
           >
             <Image source={Usuario} style={styles.icon} />
-            <Text style={styles.buttonText}>Todos los Proveedores</Text>
+            <Text style={styles.buttonText}>Todos los Clientes</Text>
           </Pressable>
 
           {/* Boton para los clientes */}
           <Pressable
             style={styles.button}
-            onPress={() => navigation.navigate("Customer")}
+            onPress={() => navigation.navigate("Customers")}
           >
             <Image source={Usuario} style={styles.icon} />
             <Text style={styles.buttonText}>Clientes</Text>
