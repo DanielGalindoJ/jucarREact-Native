@@ -59,7 +59,7 @@ import PhonesProviders from "./Componentes/AddressProviders";
   /* Componentes para Customers */
 }
 import AllCustomer from "./Componentes/AllCustomer";
-import Customer from "./Componentes/AllCustomer";
+import Customers from "./Componentes/Customers";
 
 const Stack = createNativeStackNavigator();
 
@@ -507,8 +507,8 @@ const App = () => {
         />
 
         <Stack.Screen
-          name="Customer"
-          component={Customer}
+          name="Customers"
+          component={Customers}
           options={{
             tabBarOptions: {
               position: "bottom",
