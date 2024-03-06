@@ -137,7 +137,20 @@ const Autoparts = ({ route }) => {
       <Text>Descripción: {item.description}</Text>
       <Text>Inventario: {item.inventory}</Text>
       <Text>Valor: {item.value}</Text>
-      <Button onPress={() => setShowEditModal(true)} title="Actualizar" />
+      <Button
+        onPress={() => {
+          setSelectedAutopartId(item.autopartID);
+          setNewAutopart({
+            Name: item.name,
+            Description: item.description,
+            Inventory: item.inventory,
+            Value: item.value,
+            RawMaterialId: item.rawMaterialId,
+          });
+          setShowEditModal(true);
+        }}
+        title="Actualizar"
+      />
       <Button
         onPress={() => handleDeleteAutopart(item.autopartID)}
         title="Eliminar"
@@ -223,7 +236,48 @@ const Autoparts = ({ route }) => {
       <Modal visible={showEditModal} animationType="slide">
         <View style={styles.modalContainer}>
           <Text>Actualizar Autoparte</Text>
-          {/* Contenido del modal para actualizar autopartes */}
+          <TextInput
+            style={styles.input}
+            placeholder="Nombre"
+            value={newAutopart.Name}
+            onChangeText={(text) =>
+              setNewAutopart({ ...newAutopart, Name: text })
+            }
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Descripción"
+            value={newAutopart.Description}
+            onChangeText={(text) =>
+              setNewAutopart({ ...newAutopart, Description: text })
+            }
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Inventario"
+            keyboardType="numeric"
+            value={newAutopart.Inventory.toString()}
+            onChangeText={(text) =>
+              setNewAutopart({ ...newAutopart, Inventory: parseInt(text) })
+            }
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Valor"
+            keyboardType="numeric"
+            value={newAutopart.Value.toString()}
+            onChangeText={(text) =>
+              setNewAutopart({ ...newAutopart, Value: parseInt(text) })
+            }
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="ID de Materia Prima"
+            value={newAutopart.RawMaterialId.toString()}
+            onChangeText={(text) =>
+              setNewAutopart({ ...newAutopart, RawMaterialId: text })
+            }
+          />
           <Button
             onPress={handleUpdateAutopart}
             title="Actualizar"
@@ -270,7 +324,7 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
+    // boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Esta propiedad no es válida en React Native
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,
