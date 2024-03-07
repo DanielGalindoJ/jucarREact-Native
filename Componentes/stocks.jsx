@@ -107,12 +107,12 @@ const Stocks = ({ route }) => {
           />
           <TextInput
             style={styles.input}
-            value={newSubcategoryName}
-            onChangeText={setNewSubcategoryName}
+            value={newStock}
+            onChangeText={setNewStock}
             placeholder="Nombre de nueva categoría"
           />
-          <Button mode="contained" onPress={handleCreateSubcategory}>
-            Crear SubCategoría
+          <Button mode="contained" onPress={handleUpdateStock}>
+            Actualizar
           </Button>
         </View>
       </ScrollView>
