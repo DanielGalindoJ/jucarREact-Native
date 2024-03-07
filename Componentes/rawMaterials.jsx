@@ -29,6 +29,7 @@ const RawMaterials = ({ navigation }) => {
   const [showUpdateModal, setShowUpdateModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedRawMaterialId, setSelectedRawMaterialId] = useState(null);
+  const [newRawMaterialId, setNewRawMaterialId] = useState(null); // Nuevo estado para almacenar el ID de la materia prima recién creada
 
   useEffect(() => {
     const fetchData = async () => {
@@ -53,7 +54,7 @@ const RawMaterials = ({ navigation }) => {
       );
 
       setRawMaterials([response.data, ...rawMaterials]);
-
+      setNewRawMaterialId(response.data.rawMaterialId); // Guarda el ID de la materia prima recién creada
       setNewRawMaterial({
         Name: "",
         Stock: {
@@ -115,7 +116,7 @@ const RawMaterials = ({ navigation }) => {
   };
 
   const handleStockClick = (rawMaterialId) => {
-    navigation.navigate("Stocks", { rawMaterialId });
+    navigation.navigate("stocks", { rawMaterialId });
   };
 
   const handleMovementsClick = (rawMaterialId) => {
