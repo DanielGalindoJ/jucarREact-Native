@@ -19,11 +19,11 @@ const Register = ({ navigation }) => {
   const [Password, setPassword] = useState("");
   const [Email, setEmail] = useState("");
   const [PhoneNumber, setPhoneNumber] = useState("");
-  const [userType, setUserType] = useState("Roles");
+  const [userType, setUserType] = useState("usuario");
 
   const handleRegister = async () => {
     try {
-      const apiUrl = "https://localhost:7028/api/authentication/login";
+      const apiUrl = "https://localhost:7028/api/authentication";
       const response = await axios.post(apiUrl, {
         FirstName,
         LastName,
@@ -31,7 +31,7 @@ const Register = ({ navigation }) => {
         Password,
         Email,
         PhoneNumber,
-        Roles: userType,
+        Roles: [userType], // Envía el userType dentro de un array
       });
 
       console.log("Respuesta de la API:", response.data);
@@ -113,7 +113,7 @@ const Register = ({ navigation }) => {
           </Picker>
 
           <Pressable style={styles.button} onPress={handleRegister}>
-            <Text style={styles.buttontxt}>Guaradar Usuario</Text>
+            <Text style={styles.buttontxt}>Guardar Usuario</Text>
           </Pressable>
         </View>
       </View>
@@ -132,7 +132,13 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,
