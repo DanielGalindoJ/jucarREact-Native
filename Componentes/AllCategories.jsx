@@ -4,14 +4,20 @@ import {
   FlatList,
   StyleSheet,
   Image,
-  Button,
   Modal,
   TextInput,
   TouchableOpacity,
 } from "react-native";
-import { Portal, Provider, Dialog, Paragraph } from "react-native-paper";
-import { Divider, Card, Text } from "react-native-paper";
-
+import {
+  Portal,
+  Provider,
+  Dialog,
+  Paragraph,
+  Text,
+  Button,
+  Divider,
+  Card,
+} from "react-native-paper";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
 
@@ -87,13 +93,14 @@ const AllCategories = () => {
       console.error("Error updating category:", error);
     }
   };
+
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
       <Card.Content>
         <Text style={styles.cardTitle}>Nombre : </Text>
         <Text style={styles.cardText}>{item.name}</Text>
-        <Divider />
       </Card.Content>
+      <Divider />
     </Card>
   );
 
@@ -117,7 +124,11 @@ const AllCategories = () => {
             onChangeText={setNewCategoryName}
             placeholder="Nombre de nueva categoría"
           />
-          <Button mode="contained" onPress={handleCreateCategory}>
+          <Button
+            mode="contained"
+            onPress={handleCreateCategory}
+            style={styles.button}
+          >
             Crear Categoría
           </Button>
         </View>
@@ -138,7 +149,11 @@ const AllCategories = () => {
               onChangeText={setNewCategoryName}
               placeholder="Nuevo nombre de categoría"
             />
-            <Button mode="contained" onPress={handleUpdateCategory}>
+            <Button
+              mode="contained"
+              onPress={handleUpdateCategory}
+              style={styles.button}
+            >
               Actualizar
             </Button>
           </View>
@@ -157,8 +172,8 @@ const AllCategories = () => {
           </Dialog.Content>
           <Dialog.Actions>
             <Button
-              style={styles.textDialog}
               onPress={() => setShowDeleteModal(false)}
+              style={styles.textDialog}
             >
               Cancelar
             </Button>
@@ -240,9 +255,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   button: {
-    backgroundColor: "#007bff",
-    padding: 10,
-    borderRadius: 5,
+    marginTop: 10,
   },
   buttonText: {
     color: "#fff",
@@ -260,11 +273,10 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
-    width: "100%",
+    width: "80%",
   },
   textDialog: {
-    color: "white",
-    fontSize: 10,
+    color: "black",
   },
 });
 

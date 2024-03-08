@@ -69,13 +69,12 @@ const Subcategories = ({ route }) => {
       <View style={styles.item} key={item.categoryId}>
         <Card.Content>
           <Text style={styles.cardTitle}>Nombre : </Text>
-
           <Text style={styles.cardText}>{item.name}</Text>
         </Card.Content>
         <Divider />
         <View style={styles.buttonContainer}>
           <TouchableOpacity
-            style={styles.buttonText}
+            style={styles.button}
             onPress={() => handleDeleteSubcategory(item.subcategoryId)}
           >
             <Text style={styles.buttonText}>Eliminar</Text>
@@ -89,9 +88,7 @@ const Subcategories = ({ route }) => {
       <ScrollView>
         <View style={styles.cardTotal}>
           <Image source={Logo} style={styles.logo} />
-
           <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
-
           <Text style={styles.title}>Modulo de Subcategorias</Text>
           <FlatList data={subcategories} renderItem={renderItem} />
           <TextInput
@@ -100,7 +97,11 @@ const Subcategories = ({ route }) => {
             onChangeText={setNewSubcategoryName}
             placeholder="Nombre de nueva categoría"
           />
-          <Button mode="contained" onPress={handleCreateSubcategory}>
+          <Button
+            mode="contained"
+            onPress={handleCreateSubcategory}
+            style={styles.button}
+          >
             Crear SubCategoría
           </Button>
         </View>
@@ -119,16 +120,6 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: "red",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  text: {
-    color: "black",
-  },
-  input: {
-    borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 5,
     padding: 10,
@@ -139,18 +130,6 @@ const styles = StyleSheet.create({
     height: 57,
     resizeMode: "contain",
     marginRight: 10,
-  },
-  navbar: {
-    backgroundColor: "#f80759",
-    color: "#fff",
-    borderColor: "#03a9f4",
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    alignItems: "flex-start",
-    padding: 30,
-    fontWeight: 500,
-
-    marginTop: 1,
   },
   titleLogo: {
     width: 107,
@@ -167,7 +146,13 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,
@@ -182,17 +167,13 @@ const styles = StyleSheet.create({
   cardActions: {
     justifyContent: "space-around",
   },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
-  },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
     marginTop: 10,
   },
   button: {
-    backgroundColor: "black",
+    backgroundColor: "#007bff",
     padding: 10,
     borderRadius: 5,
   },
