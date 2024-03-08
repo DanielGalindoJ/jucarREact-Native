@@ -12,8 +12,6 @@ const Address = ({ providerID }) => {
 
   const [showModal, setShowModal] = useState(false);
   const [modalAction, setModalAction] = useState("create");
-  const [selectedAddressProviderId, setSelectedAddressProviderId] =
-    useState("");
 
   useEffect(() => {
     const fetchAddressProviders = async () => {
@@ -23,7 +21,7 @@ const Address = ({ providerID }) => {
         );
         setAddressProviders(response.data);
       } catch (error) {
-        console.error("error fetching AddressProvider");
+        console.error("Error fetching AddressProviders:", error);
       }
     };
     fetchAddressProviders();
@@ -35,72 +33,16 @@ const Address = ({ providerID }) => {
         `https://localhost:7028/api/providers/${providerID}/addresses`,
         newAddressProvider
       );
-      setAddressProviders([response.data, ...addressProviders]);
-      setNewAddressProvider({
-        Address: "",
-        AddressType: "",
-        NeighborhoodId: "",
-      });
+      setAddressProviders([...addressProviders, response.data]);
       setShowModal(false);
     } catch (error) {
-      console.error("Error creating Address");
+      console.error("Error creating Address:", error);
     }
   };
 
-  const handleUpdateAddressProvider = async () => {
-    try {
-      await axios.put(
-        `https://localhost:7028/api/providers/${providerID}/addresses/${selectedAddressProviderId}`,
-        newAddressProvider
-      );
-      const response = await axios.get(
-        `https://localhost:7028/api/providers/${providerID}/addresses`
-      );
-      const updatedAddressProviders = response.data;
-      setAddressProviders(updatedAddressProviders);
-      setNewAddressProvider({
-        Address: "",
-        AddressType: "",
-        NeighborhoodId: "",
-      });
-      setShowModal(false);
-    } catch (error) {
-      console.error("Error updating Address");
-    }
-  };
-
-  const handleDeleteAddressProvider = async (addressProviderId) => {
-    try {
-      await axios.delete(
-        `https://localhost:7028/api/providers/${providerID}/addresses/${addressProviderId}`
-      );
-      const updatedAddressProviders = addressProviders.filter(
-        (addressProvider) =>
-          addressProvider.addressProviderId !== addressProviderId
-      );
-      setAddressProviders(updatedAddressProviders);
-    } catch (error) {
-      console.error("Error deleting Address");
-    }
-  };
-
-  const handleShowModal = (action, addressProviderId) => {
+  const handleShowModal = (action) => {
     setModalAction(action);
-    setSelectedAddressProviderId(addressProviderId);
     setShowModal(true);
-    if (action === "edit" || action === "detail") {
-      const selectedAddressProvider = addressProviders.find(
-        (addressProvider) =>
-          addressProvider.addressProviderId === addressProviderId
-      );
-      if (selectedAddressProvider) {
-        setNewAddressProvider({
-          Address: selectedAddressProvider.Address || "",
-          AddressType: selectedAddressProvider.AddressType || "",
-          NeighborhoodId: selectedAddressProvider.NeighborhoodId || "",
-        });
-      }
-    }
   };
 
   const handleCloseModal = () => {
@@ -110,12 +52,11 @@ const Address = ({ providerID }) => {
       AddressType: "",
       NeighborhoodId: "",
     });
-    setSelectedAddressProviderId("");
   };
 
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Direcciones Provedores</Text>
+      <Text>Direcciones Proveedores</Text>
       <Button
         title="Nueva Dirección"
         onPress={() => handleShowModal("create")}
@@ -127,20 +68,6 @@ const Address = ({ providerID }) => {
             <Text>{item.Address}</Text>
             <Text>{item.AddressType}</Text>
             <Text>{item.NeighborhoodId}</Text>
-            <Button
-              title="Actualizar"
-              onPress={() => handleShowModal("edit", item.addressProviderId)}
-            />
-            <Button
-              title="Eliminar"
-              onPress={() =>
-                handleDeleteAddressProvider(item.addressProviderId)
-              }
-            />
-            <Button
-              title="Ver Detalle"
-              onPress={() => handleShowModal("detail", item.addressProviderId)}
-            />
           </View>
         )}
         keyExtractor={(item) => item.addressProviderId.toString()}
@@ -152,9 +79,7 @@ const Address = ({ providerID }) => {
           <Text>
             {modalAction === "create"
               ? "Nueva dirección"
-              : modalAction === "edit"
-              ? "Actualizar dirección"
-              : "Detalle de dirección"}
+              : "Actualizar dirección"}
           </Text>
           <TextInput
             placeholder="Dirección"
@@ -184,16 +109,10 @@ const Address = ({ providerID }) => {
             }
           />
           <Button title="Cancelar" onPress={handleCloseModal} />
-          {modalAction !== "detail" && (
-            <Button
-              title={modalAction === "create" ? "Crear" : "Actualizar"}
-              onPress={
-                modalAction === "create"
-                  ? handleCreateAddressProvider
-                  : handleUpdateAddressProvider
-              }
-            />
-          )}
+          <Button
+            title={modalAction === "create" ? "Crear" : "Actualizar"}
+            onPress={handleCreateAddressProvider}
+          />
         </View>
       </Modal>
     </View>
