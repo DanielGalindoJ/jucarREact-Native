@@ -34,7 +34,7 @@ const AllCustomers = () => {
         <Text style={styles.cardText}>{item.name}</Text>
 
         <Text style={styles.cardTitle}>Correo electronico: </Text>
-        <Text style={styles.cardText}>{item.emailAddress}</Text>
+        <Text style={styles.cardText}>{item.email}</Text>
 
         <Text style={styles.cardTitle}>Dirrecion </Text>
         <Text style={styles.cardText}>{item.address}</Text>

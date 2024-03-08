@@ -28,7 +28,22 @@ const Customers = () => {
   const fetchCustomers = async () => {
     try {
       const response = await axios.get("https://localhost:7028/api/customers");
-      setCustomers(response.data);
+      const customersData = await Promise.all(
+        response.data.map(async (customer) => {
+          const addressResponse = await axios.get(
+            `https://localhost:7028/api/customers/${customer.customerID}/addresses`
+          );
+          const phoneResponse = await axios.get(
+            `https://localhost:7028/api/customers/${customer.customerID}/phones`
+          );
+          return {
+            ...customer,
+            addresses: addressResponse.data,
+            phones: phoneResponse.data,
+          };
+        })
+      );
+      setCustomers(customersData);
     } catch (error) {
       console.error("Error fetching customers:", error);
     }
@@ -107,6 +122,20 @@ const Customers = () => {
 
         <Text style={styles.cardTitle}>Correo electronico: </Text>
         <Text style={styles.cardText}>{item.email}</Text>
+
+        <Text style={styles.cardTitle}>Direcciones: </Text>
+        {item.addresses.map((address, index) => (
+          <Text key={index} style={styles.cardText}>
+            {address}
+          </Text>
+        ))}
+
+        <Text style={styles.cardTitle}>Teléfonos: </Text>
+        {item.phones.map((phone, index) => (
+          <Text key={index} style={styles.cardText}>
+            {phone}
+          </Text>
+        ))}
 
         <Divider />
 
