@@ -7,6 +7,7 @@ import {
   Image,
   View,
   TouchableOpacity,
+  TextInput,
 } from "react-native";
 import { Text, Button, Card, Divider } from "react-native-paper";
 import Logo from "../../assets/imgs/jucar.jpg";
@@ -15,6 +16,7 @@ const MenuSubcategories = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [showModal, setShowModal] = useState(false);
+  const [categoryName, setCategoryName] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,6 +39,7 @@ const MenuSubcategories = ({ navigation }) => {
 
   const handleUpdate = (category) => {
     setSelectedCategory(category);
+    setCategoryName(category.name); // Setea el nombre actual de la categoría en el TextInput
     setShowModal(true);
   };
 
@@ -46,6 +49,27 @@ const MenuSubcategories = ({ navigation }) => {
       setCategories(categories.filter((cat) => cat.categoryId !== categoryId));
     } catch (error) {
       console.error("Error deleting category:", error);
+    }
+  };
+
+  const handleSaveChanges = async () => {
+    try {
+      await axios.put(
+        `https://localhost:7028/api/categories/${selectedCategory.categoryId}`,
+        {
+          name: categoryName, // Enviar el nuevo nombre de la categoría al servidor
+        }
+      );
+      setShowModal(false);
+      // Actualizar la lista de categorías después de la modificación
+      const updatedCategories = categories.map((cat) =>
+        cat.categoryId === selectedCategory.categoryId
+          ? { ...cat, name: categoryName }
+          : cat
+      );
+      setCategories(updatedCategories);
+    } catch (error) {
+      console.error("Error updating category:", error);
     }
   };
 
@@ -77,7 +101,7 @@ const MenuSubcategories = ({ navigation }) => {
                 style={styles.button}
                 onPress={() => handleUpdate(category)}
               >
-                <Text style={styles.buttonText}>Actulizar</Text>
+                <Text style={styles.buttonText}>Actualizar</Text>
               </TouchableOpacity>
 
               <TouchableOpacity
@@ -91,10 +115,15 @@ const MenuSubcategories = ({ navigation }) => {
         ))}
 
         {/* Modal para actualizar categoría */}
-        <Modal visible={showModal} onRequestClose={() => setShowModal(false)}>
+        <Modal visible={showModal} animationType="slide">
           <View style={styles.modalContainer}>
             <Text style={styles.modalTitle}>Actualizar Categoría</Text>
-            {/* Aquí va el contenido del modal para actualizar */}
+            <TextInput
+              style={styles.input}
+              value={categoryName}
+              onChangeText={setCategoryName}
+            />
+            <Button onPress={handleSaveChanges}>Guardar Cambios</Button>
             <Button onPress={() => setShowModal(false)}>Cerrar</Button>
           </View>
         </Modal>
@@ -140,7 +169,13 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,
@@ -173,6 +208,15 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "#fff",
     fontWeight: "bold",
+  },
+  input: {
+    width: "80%",
+    height: 40,
+    marginVertical: 10,
+    paddingHorizontal: 10,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    borderRadius: 5,
   },
 });
 
