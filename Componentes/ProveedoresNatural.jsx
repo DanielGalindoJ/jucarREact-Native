@@ -26,6 +26,8 @@ const ProveedoresNatural = () => {
   });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState(null);
+  const [providerAddresses, setProviderAddresses] = useState({});
+  const [providerPhones, setProviderPhones] = useState({});
   const navigation = useNavigation(); // Obtener objeto de navegación
 
   useEffect(() => {
@@ -35,17 +37,43 @@ const ProveedoresNatural = () => {
   const fetchProviders = async () => {
     try {
       const response = await axios.get(`https://localhost:7028/api/providers`);
-      setProviders(response.data);
+      const providersData = await Promise.all(
+        response.data.map(async (provider) => {
+          const addressResponse = await axios.get(
+            `https://localhost:7028/api/providers/${provider.providerID}/addresses`
+          );
+          const phoneResponse = await axios.get(
+            `https://localhost:7028/api/providers/${provider.providerID}/phones`
+          );
+          setProviderAddresses((prevState) => ({
+            ...prevState,
+            [provider.providerID]: addressResponse.data,
+          }));
+          setProviderPhones((prevState) => ({
+            ...prevState,
+            [provider.providerID]: phoneResponse.data,
+          }));
+          return {
+            ...provider,
+            addresses: addressResponse.data,
+            phones: phoneResponse.data,
+          };
+        })
+      );
+      setProviders(providersData);
     } catch (error) {
       console.error("Error fetching providers:", error);
     }
   };
+
   const handleAdrressClick = (providerID) => {
     navigation.navigate("AddressProviders", { providerID });
   };
+
   const handleTelefonosClick = (providerID) => {
     navigation.navigate("PhonesProviders", { providerID });
   };
+
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
       <Card.Content>
@@ -59,6 +87,18 @@ const ProveedoresNatural = () => {
         <Text style={styles.cardText}>{item.emailAddress}</Text>
         <Text style={styles.cardTitle}>Tipo de Producto: </Text>
         <Text style={styles.cardText}>{item.productType}</Text>
+        <Text style={styles.cardTitle}>Direcciones: </Text>
+        {providerAddresses[item.providerID]?.map((address, index) => (
+          <Text key={index} style={styles.cardText}>
+            {address}
+          </Text>
+        ))}
+        <Text style={styles.cardTitle}>Teléfonos: </Text>
+        {providerPhones[item.providerID]?.map((phone, index) => (
+          <Text key={index} style={styles.cardText}>
+            {phone}
+          </Text>
+        ))}
         <Divider />
         <View style={styles.buttonContainer}>
           <TouchableOpacity
@@ -77,13 +117,13 @@ const ProveedoresNatural = () => {
             style={styles.button}
             onPress={() => handleAdrressClick(item.providerID)}
           >
-            <Text style={styles.buttonText}>Ver Dirrecion</Text>
+            <Text style={styles.buttonText}>Ver Dirección</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleTelefonosClick(item.providerID)}
           >
-            <Text style={styles.buttonText}>Ver Telefono</Text>
+            <Text style={styles.buttonText}>Ver Teléfono</Text>
           </TouchableOpacity>
         </View>
       </Card.Content>

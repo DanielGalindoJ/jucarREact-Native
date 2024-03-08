@@ -5,17 +5,15 @@ import {
   StyleSheet,
   Image,
   Button,
-  Platform,
+  TouchableOpacity,
+  Text,
 } from "react-native";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
-import { Divider, Card, Text } from "react-native-paper";
-// import RNHTMLtoPDF from "react-native-html-to-pdf";
-// import RNFS from "react-native-fs";
+import { Divider, Card } from "react-native-paper";
 
 const AllProveedores = () => {
   const [providers, setProviders] = useState([]);
-  //   const [pdfUri, setPdfUri] = useState(null);
 
   useEffect(() => {
     const fetchProviders = async () => {
@@ -49,36 +47,25 @@ const AllProveedores = () => {
 
         <Text style={styles.cardTitle}>Tipo de Producto: </Text>
         <Text style={styles.cardText}>{item.productType}</Text>
+
+        <Text style={styles.cardTitle}>Direcciones: </Text>
+        {item.addresses?.map((address, index) => (
+          <Text key={index} style={styles.cardText}>
+            {address}
+          </Text>
+        ))}
+
+        <Text style={styles.cardTitle}>Teléfonos: </Text>
+        {item.phones?.map((phone, index) => (
+          <Text key={index} style={styles.cardText}>
+            {phone}
+          </Text>
+        ))}
+
         <Divider />
       </Card.Content>
     </Card>
   );
-
-  //   const generatePdf = async () => {
-  //     let htmlContent = "";
-  //     providers.forEach((provider) => {
-  //       htmlContent += `
-  //         <div>
-  //           <h2>${provider.Name}</h2>
-  //           <p><strong>Tipo de Identificacion:</strong> ${provider.IdentifierType}</p>
-  //           <p><strong>Numero de Identificacion:</strong> ${provider.IdentifierNumber}</p>
-  //           <p><strong>Correo electronico:</strong> ${provider.EmailAddress}</p>
-  //           <p><strong>Tipo de Producto:</strong> ${provider.ProductType}</p>
-  //           <p><strong>Estado:</strong> ${provider.State}</p>
-  //           <hr />
-  //         </div>
-  //       `;
-  //     });
-
-  //     const options = {
-  //       html: htmlContent,
-  //       fileName: "proveedores.pdf",
-  //       directory: "Documents",
-  //     };
-
-  //     const pdf = await RNHTMLtoPDF.convert(options);
-  //     setPdfUri(pdf.filePath);
-  //   };
 
   return (
     <View style={styles.container}>
@@ -93,8 +80,6 @@ const AllProveedores = () => {
           renderItem={renderItem}
           keyExtractor={(item) => item.providerID.toString()}
         />
-        {/* <Button title="Generar PDF" onPress={generatePdf} />
-        {pdfUri && <Text>PDF generado: {pdfUri}</Text>} */}
       </View>
     </View>
   );
