@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Image,
   FlatList,
+  Picker,
 } from "react-native";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
@@ -15,6 +16,7 @@ import Logo from "../assets/imgs/jucar.jpg";
 const Autoparts = ({ route }) => {
   const { subcategoryId } = route.params;
   const [autoparts, setAutoparts] = useState([]);
+  const [rawMaterials, setRawMaterials] = useState([]);
   const [newAutopart, setNewAutopart] = useState({
     Name: "",
     Description: "",
@@ -39,7 +41,19 @@ const Autoparts = ({ route }) => {
       }
     };
 
+    const fetchRawMaterials = async () => {
+      try {
+        const response = await axios.get(
+          `https://localhost:7028/api/rawMaterials`
+        );
+        setRawMaterials(response.data);
+      } catch (error) {
+        console.error("Error fetching raw materials:", error);
+      }
+    };
+
     fetchAutoparts();
+    fetchRawMaterials();
   }, [subcategoryId]);
 
   const handleCloseModal = () => {
@@ -54,8 +68,8 @@ const Autoparts = ({ route }) => {
       if (
         !newAutopart.Name ||
         !newAutopart.Description ||
-        newAutopart.Inventory === 0 ||
-        newAutopart.Value === 0 ||
+        !newAutopart.Inventory === 0 ||
+        !newAutopart.Value === 0 ||
         !newAutopart.RawMaterialId ||
         typeof newAutopart.Inventory !== "number" ||
         typeof newAutopart.Value !== "number"
@@ -100,14 +114,6 @@ const Autoparts = ({ route }) => {
 
       setAutoparts(updatedAutoparts);
 
-      setNewAutopart({
-        Name: "",
-        Description: "",
-        Inventory: 0,
-        Value: 0,
-        RawMaterialId: "",
-      });
-
       handleCloseModal(); // Cierra el modal después de actualizar una autoparte exitosamente
     } catch (error) {
       console.error("Error updating autopart:", error);
@@ -129,6 +135,17 @@ const Autoparts = ({ route }) => {
     } catch (error) {
       console.error("Error deleting autopart:", error);
     }
+  };
+
+  const handleShowCreateModal = () => {
+    setNewAutopart({
+      Name: "",
+      Description: "",
+      Inventory: 0,
+      Value: 0,
+      RawMaterialId: "",
+    });
+    setShowCreateModal(true);
   };
 
   const renderItem = ({ item }) => (
@@ -195,7 +212,7 @@ const Autoparts = ({ route }) => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Inventario"
+            placeholder="Ingrese la cantidad de productos en el inventario"
             keyboardType="numeric"
             value={newAutopart.Inventory.toString()}
             onChangeText={(text) =>
@@ -204,31 +221,31 @@ const Autoparts = ({ route }) => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Valor"
+            placeholder="Ingrese el valor del producto"
             keyboardType="numeric"
             value={newAutopart.Value.toString()}
             onChangeText={(text) =>
               setNewAutopart({ ...newAutopart, Value: parseInt(text) })
             }
           />
-          <TextInput
+          <Picker
+            selectedValue={newAutopart.RawMaterialId}
             style={styles.input}
-            placeholder="ID de Materia Prima"
-            value={newAutopart.RawMaterialId.toString()}
-            onChangeText={(text) =>
-              setNewAutopart({ ...newAutopart, RawMaterialId: text })
+            onValueChange={(itemValue) =>
+              setNewAutopart({ ...newAutopart, RawMaterialId: itemValue })
             }
-          />
-          <Button
-            onPress={handleCreateAutopart}
-            title="Crear"
-            style={styles.inputButtones}
-          />
-          <Button
-            onPress={() => setShowCreateModal(false)}
-            title="Cancelar"
-            style={styles.inputButtones}
-          />
+          >
+            <Picker.Item label="Seleccionar Materia Prima" value="" />
+            {rawMaterials.map((material) => (
+              <Picker.Item
+                key={material.rawMaterialId}
+                label={material.name}
+                value={material.rawMaterialId}
+              />
+            ))}
+          </Picker>
+          <Button onPress={handleCreateAutopart} title="Crear" />
+          <Button onPress={() => setShowCreateModal(false)} title="Cancelar" />
         </View>
       </Modal>
 
@@ -254,16 +271,7 @@ const Autoparts = ({ route }) => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Inventario"
-            keyboardType="numeric"
-            value={newAutopart.Inventory.toString()}
-            onChangeText={(text) =>
-              setNewAutopart({ ...newAutopart, Inventory: parseInt(text) })
-            }
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Valor"
+            placeholder="Ingrese el valor"
             keyboardType="numeric"
             value={newAutopart.Value.toString()}
             onChangeText={(text) =>
@@ -272,22 +280,31 @@ const Autoparts = ({ route }) => {
           />
           <TextInput
             style={styles.input}
-            placeholder="ID de Materia Prima"
-            value={newAutopart.RawMaterialId.toString()}
+            placeholder="Ingrese la cantidad del inventario"
+            keyboardType="numeric"
+            value={newAutopart.Inventory.toString()}
             onChangeText={(text) =>
-              setNewAutopart({ ...newAutopart, RawMaterialId: text })
+              setNewAutopart({ ...newAutopart, Inventory: parseInt(text) })
             }
           />
-          <Button
-            onPress={handleUpdateAutopart}
-            title="Actualizar"
-            style={styles.inputButtones}
-          />
-          <Button
-            onPress={() => setShowEditModal(false)}
-            title="Cancelar"
-            style={styles.inputButtones}
-          />
+          <Picker
+            selectedValue={newAutopart.RawMaterialId}
+            style={styles.input}
+            onValueChange={(itemValue) =>
+              setNewAutopart({ ...newAutopart, RawMaterialId: itemValue })
+            }
+          >
+            <Picker.Item label="Seleccionar Materia Prima" value="" />
+            {rawMaterials.map((material) => (
+              <Picker.Item
+                key={material.rawMaterialId}
+                label={material.name}
+                value={material.rawMaterialId}
+              />
+            ))}
+          </Picker>
+          <Button onPress={handleUpdateAutopart} title="Actualizar" />
+          <Button onPress={() => setShowEditModal(false)} title="Cancelar" />
         </View>
       </Modal>
 
@@ -296,24 +313,12 @@ const Autoparts = ({ route }) => {
         <View style={styles.modalContainer}>
           <Text>Eliminar Autoparte</Text>
           {/* Contenido del modal para eliminar autopartes */}
-          <Button
-            onPress={handleDeleteAutopart}
-            title="Eliminar"
-            style={styles.inputButtones}
-          />
-          <Button
-            onPress={() => setShowDeleteModal(false)}
-            title="Cancelar"
-            style={styles.inputButtones}
-          />
+          <Button onPress={handleDeleteAutopart} title="Eliminar" />
+          <Button onPress={() => setShowDeleteModal(false)} title="Cancelar" />
         </View>
       </Modal>
 
-      <Button
-        onPress={() => setShowCreateModal(true)}
-        title="Crear Autoparte"
-        style={styles.inputButtones}
-      />
+      <Button onPress={handleShowCreateModal} title="Crear Autoparte" />
     </View>
   );
 };
@@ -324,7 +329,6 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    // boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Esta propiedad no es válida en React Native
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,
