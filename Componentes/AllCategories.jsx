@@ -93,27 +93,6 @@ const AllCategories = () => {
         <Text style={styles.cardTitle}>Nombre : </Text>
         <Text style={styles.cardText}>{item.name}</Text>
         <Divider />
-        <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              handleUpdateCategory(item.categoryId);
-              setShowUpdateModal(true);
-            }}
-          >
-            <Text style={styles.buttonText}>Actualizar</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              setSelectedCategoryId(item.categoryId);
-              setShowDeleteModal(true);
-            }}
-          >
-            <Text style={styles.buttonText}>Eliminar</Text>
-          </TouchableOpacity>
-        </View>
       </Card.Content>
     </Card>
   );
