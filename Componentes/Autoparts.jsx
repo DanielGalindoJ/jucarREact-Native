@@ -20,8 +20,8 @@ const Autoparts = ({ route }) => {
   const [newAutopart, setNewAutopart] = useState({
     Name: "",
     Description: "",
-    Inventory: 0,
-    Value: 0,
+    Inventory: "",
+    Value: "",
     RawMaterialId: "",
   });
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -68,8 +68,8 @@ const Autoparts = ({ route }) => {
       if (
         !newAutopart.Name ||
         !newAutopart.Description ||
-        !newAutopart.Inventory === 0 ||
-        !newAutopart.Value === 0 ||
+        !newAutopart.Inventory ||
+        !newAutopart.Value ||
         !newAutopart.RawMaterialId ||
         typeof newAutopart.Inventory !== "number" ||
         typeof newAutopart.Value !== "number"
@@ -88,8 +88,8 @@ const Autoparts = ({ route }) => {
       setNewAutopart({
         Name: "",
         Description: "",
-        Inventory: 0,
-        Value: 0,
+        Inventory: "",
+        Value: "",
         RawMaterialId: "",
       });
 
@@ -141,8 +141,8 @@ const Autoparts = ({ route }) => {
     setNewAutopart({
       Name: "",
       Description: "",
-      Inventory: 0,
-      Value: 0,
+      Inventory: "",
+      Value: "",
       RawMaterialId: "",
     });
     setShowCreateModal(true);
@@ -196,7 +196,7 @@ const Autoparts = ({ route }) => {
           <Text>Crear Autoparte</Text>
           <TextInput
             style={styles.input}
-            placeholder="Nombre"
+            placeholder="Nombre del Autoparte"
             value={newAutopart.Name}
             onChangeText={(text) =>
               setNewAutopart({ ...newAutopart, Name: text })
@@ -204,7 +204,7 @@ const Autoparts = ({ route }) => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Descripción"
+            placeholder="Descripción del Autoparte"
             value={newAutopart.Description}
             onChangeText={(text) =>
               setNewAutopart({ ...newAutopart, Description: text })
@@ -212,7 +212,7 @@ const Autoparts = ({ route }) => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Ingrese la cantidad de productos en el inventario"
+            placeholder="Ingrese la cantidad de Autoparte en el inventario"
             keyboardType="numeric"
             value={newAutopart.Inventory.toString()}
             onChangeText={(text) =>
@@ -221,7 +221,7 @@ const Autoparts = ({ route }) => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Ingrese el valor del producto"
+            placeholder="Ingrese el valor del Autoparte"
             keyboardType="numeric"
             value={newAutopart.Value.toString()}
             onChangeText={(text) =>
