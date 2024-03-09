@@ -26,7 +26,7 @@ const RawMaterials = ({ navigation }) => {
   const [newRawMaterial, setNewRawMaterial] = useState({
     Name: "",
     Stock: {
-      QuantityAvailable: 0,
+      QuantityAvailable: "",
       InitialStock: 0,
       ReorderPoint: 0,
       MinimumInventory: 0,
@@ -63,7 +63,7 @@ const RawMaterials = ({ navigation }) => {
       setNewRawMaterial({
         Name: "",
         Stock: {
-          QuantityAvailable: 0,
+          QuantityAvailable: "",
           InitialStock: 0,
           ReorderPoint: 0,
           MinimumInventory: 0,
@@ -107,7 +107,7 @@ const RawMaterials = ({ navigation }) => {
       setNewRawMaterial({
         Name: "",
         Stock: {
-          QuantityAvailable: 0,
+          QuantityAvailable: "",
           InitialStock: 0,
           ReorderPoint: 0,
           MinimumInventory: 0,
@@ -197,7 +197,7 @@ const RawMaterials = ({ navigation }) => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Cantidad disponible"
+            placeholder=" cantidad disponible de existencias del Autoparte"
             value={
               newRawMaterial.Stock &&
               newRawMaterial.Stock.QuantityAvailable !== undefined
