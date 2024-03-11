@@ -35,7 +35,7 @@ const ProveedoresNatural = () => {
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [providerAddresses, setProviderAddresses] = useState({});
   const [providerPhones, setProviderPhones] = useState({});
-  const navigation = useNavigation();
+  const navigation = useNavigation(); // Obtener objeto de navegación
 
   useEffect(() => {
     fetchProviders();
@@ -59,6 +59,12 @@ const ProveedoresNatural = () => {
           };
         })
       );
+      // Actualiza el estado de providerPhones después de completar el bucle
+      const phonesData = {};
+      providersData.forEach((provider) => {
+        phonesData[provider.providerID] = provider.phones;
+      });
+      setProviderPhones(phonesData);
       setProviders(providersData);
     } catch (error) {
       console.error("Error fetching providers:", error);
@@ -132,6 +138,7 @@ const ProveedoresNatural = () => {
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
     if (!isModalVisible) {
+      // Reset newProvider state when opening the modal to add a new provider
       setNewProvider({
         identifierType: "",
         identifierNumber: "",
@@ -183,12 +190,12 @@ const ProveedoresNatural = () => {
 
   const handleUpdate = (provider) => {
     setSelectedProvider(provider);
-    setIsModalVisible(true);
+    setIsModalVisible(true); // Open modal for editing
   };
 
   useEffect(() => {
     if (selectedProvider) {
-      setNewProvider(selectedProvider);
+      setNewProvider(selectedProvider); // Set newProvider state with selected provider data
     }
   }, [selectedProvider]);
 
