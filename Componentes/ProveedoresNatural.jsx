@@ -150,10 +150,10 @@ const ProveedoresNatural = () => {
   };
 
   const handleInputChange = (key, value) => {
-    setNewProvider({
-      ...newProvider,
+    setNewProvider((prevState) => ({
+      ...prevState,
       [key]: value,
-    });
+    }));
   };
 
   const handleCreateProvider = async () => {
