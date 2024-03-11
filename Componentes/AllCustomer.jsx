@@ -53,6 +53,8 @@ const AllCustomers = () => {
           <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
         </View>
         <Text style={styles.title}>Lista de Clientes Actuales</Text>
+        <Text>Aqui falta boton para generar Pdf (reporte) :)</Text>
+
         <FlatList
           data={customers}
           renderItem={renderItem}

@@ -7,11 +7,12 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import { Text, Button, Divider, Card } from "react-native-paper";
-import globalStyles from "./styles/global";
+import { Text, Card } from "react-native-paper";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
 import { ScrollView } from "react-native-gesture-handler";
+import agregar from "../assets/imgs/boton-agregar.png";
+import basura from "../assets/imgs/basura.png";
 
 const Subcategories = ({ route }) => {
   const { categoryId } = route.params;
@@ -66,123 +67,127 @@ const Subcategories = ({ route }) => {
 
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
-      <View style={styles.item} key={item.categoryId}>
-        <Card.Content>
-          <Text style={styles.cardTitle}>Nombre : </Text>
-          <Text style={styles.cardText}>{item.name}</Text>
-        </Card.Content>
-        <Divider />
-        <View style={styles.buttonContainer}>
+      <Card.Content>
+        <View style={styles.item}>
+          <Text style={styles.cardTitle}>Nombre: {item.name}</Text>
+
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleDeleteSubcategory(item.subcategoryId)}
           >
-            <Text style={styles.buttonText}>Eliminar</Text>
+            <Image source={basura} style={styles.icon} />
           </TouchableOpacity>
         </View>
-      </View>
+      </Card.Content>
     </Card>
   );
+
   return (
-    <>
-      <ScrollView>
-        <View style={styles.cardTotal}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.cardTotal}>
+        <View style={styles.header}>
           <Image source={Logo} style={styles.logo} />
           <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
-          <Text style={styles.title}>Modulo de Subcategorias</Text>
-          <FlatList data={subcategories} renderItem={renderItem} />
+        </View>
+        <Text style={styles.title}>Módulo de Subcategorías</Text>
+        <FlatList
+          data={subcategories}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.subcategoryId.toString()}
+        />
+        <View style={styles.inputContainer}>
           <TextInput
             style={styles.input}
             value={newSubcategoryName}
             onChangeText={setNewSubcategoryName}
-            placeholder="Nombre de nueva categoría"
+            placeholder="Nombre de nueva subcategoría"
           />
-          <Button
-            mode="contained"
+          <TouchableOpacity
             onPress={handleCreateSubcategory}
-            style={styles.button}
+            style={[styles.button, styles.addButton]}
           >
-            Crear SubCategoría
-          </Button>
+            <Image source={agregar} style={styles.icon} />
+          </TouchableOpacity>
         </View>
-      </ScrollView>
-    </>
+      </View>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  item: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  container: {
+    flexGrow: 1,
     alignItems: "center",
-    marginBottom: 10,
-    color: "black",
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
-    padding: 10,
-    marginBottom: 10,
-  },
-  logo: {
-    width: 107,
-    height: 57,
-    resizeMode: "contain",
-    marginRight: 10,
-  },
-  titleLogo: {
-    width: 107,
-    height: 57,
-    resizeMode: "contain",
-    marginLeft: 50,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: "bold",
+    paddingVertical: 20,
+    paddingHorizontal: 10,
   },
   cardTotal: {
     borderRadius: 30,
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,
   },
-  card: {
-    marginHorizontal: 10,
-    marginVertical: 5,
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 20,
   },
-  cardText: {
+  logo: {
+    width: "25%",
+    height: 57,
+    resizeMode: "contain",
+    marginRight: 10,
+  },
+  titleLogo: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+    textAlign: "center",
+  },
+  card: {
+    width: "100%",
     marginBottom: 10,
   },
-  cardActions: {
-    justifyContent: "space-around",
-  },
-  buttonContainer: {
+  item: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 10,
-  },
-  button: {
-    backgroundColor: "#007bff",
+    justifyContent: "space-between",
+    alignItems: "center",
     padding: 10,
-    borderRadius: 5,
-  },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
   },
   cardTitle: {
-    fontWeight: "bold",
+    fontSize: 16,
+  },
+  button: {
+    padding: 10,
+    borderRadius: 5,
+    backgroundColor: "#007bff",
+  },
+  addButton: {
+    marginLeft: 10,
+  },
+  inputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  input: {
+    flex: 1,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginRight: 10,
+  },
+  icon: {
+    width: 24,
+    height: 24,
+    tintColor: "#fff",
   },
 });
 

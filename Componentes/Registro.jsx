@@ -59,6 +59,7 @@ const Register = ({ navigation }) => {
       <View style={styles.card}>
         <View style={styles.form}>
           <Text style={styles.title}>Registro de Usuario</Text>
+          <Text>Aun no sirve el registro de usuarios :)</Text>
 
           <TextInput
             style={styles.input}

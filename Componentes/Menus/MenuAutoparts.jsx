@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { StyleSheet, ScrollView, Modal, Image, View } from "react-native";
-import { Text, Button, Card } from "react-native-paper";
+import {
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Image,
+  View,
+} from "react-native";
+import { Text, Card } from "react-native-paper";
 import Logo from "../../assets/imgs/jucar.jpg";
-
+import basura from "../../assets/imgs/basura.png";
+import ver from "../../assets/imgs/ver.png";
+import boligrafo from "../../assets/imgs/boligrafo.png";
 const MenuAutoparts = ({ navigation }) => {
   const [subcategories, setSubcategories] = useState([]);
 
@@ -41,20 +49,14 @@ const MenuAutoparts = ({ navigation }) => {
               <Text style={styles.cardText}>{subcategory.name}</Text>
             </Card.Content>
             <Card.Actions style={styles.cardActions}>
-              <Button
-                mode="contained"
-                color="green"
+              <TouchableOpacity
                 onPress={() =>
                   handleSubcategoryClick(subcategory.subcategoryId)
                 }
               >
-                Ver
-              </Button>
+                <Image source={ver} style={styles.icon} />{" "}
+              </TouchableOpacity>
             </Card.Actions>
-            {/* <Button
-            title={subcategory.name}
-            onPress={() => handleSubcategoryClick(subcategory.subcategoryId)}
-          /> */}
           </Card>
         ))}
       </View>
@@ -105,6 +107,10 @@ const styles = StyleSheet.create({
   },
   cardActions: {
     justifyContent: "space-around",
+  },
+  icon: {
+    width: 24,
+    height: 24,
   },
 });
 export default MenuAutoparts;

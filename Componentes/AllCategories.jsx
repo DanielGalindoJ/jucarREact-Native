@@ -20,6 +20,7 @@ import {
 } from "react-native-paper";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
+import agregar from "../assets/imgs/boton-agregar.png";
 
 const AllCategories = () => {
   const [categories, setCategories] = useState([]);
@@ -97,8 +98,7 @@ const AllCategories = () => {
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
       <Card.Content>
-        <Text style={styles.cardTitle}>Nombre : </Text>
-        <Text style={styles.cardText}>{item.name}</Text>
+        <Text style={styles.cardTitle}>Nombre: {item.name}</Text>
       </Card.Content>
       <Divider />
     </Card>
@@ -107,7 +107,7 @@ const AllCategories = () => {
   return (
     <Provider>
       <View style={styles.container}>
-        <View style={styles.card}>
+        <View style={styles.cardTotal}>
           <View style={styles.header}>
             <Image source={Logo} style={styles.logo} />
             <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
@@ -118,71 +118,79 @@ const AllCategories = () => {
             renderItem={renderItem}
             keyExtractor={(item) => item.categoryId.toString()}
           />
-          <TextInput
-            style={styles.input}
-            value={newCategoryName}
-            onChangeText={setNewCategoryName}
-            placeholder="Nombre de nueva categoría"
-          />
-          <Button
-            mode="contained"
-            onPress={handleCreateCategory}
-            style={styles.button}
-          >
-            Crear Categoría
-          </Button>
-        </View>
-      </View>
-
-      {/* Modal para actualizar categoría */}
-      <Portal>
-        <Modal
-          visible={showUpdateModal}
-          onRequestClose={() => setShowUpdateModal(false)}
-          animationType="slide"
-        >
-          <View style={styles.modalContainer}>
-            <Text style={styles.modalTitle}>Actualizar Categoría</Text>
+          <View style={styles.inputContainer}>
             <TextInput
-              style={styles.modalInput}
+              style={styles.input}
               value={newCategoryName}
               onChangeText={setNewCategoryName}
-              placeholder="Nuevo nombre de categoría"
+              placeholder="Nombre de nueva categoría"
+              placeholderTextColor="#000"
             />
-            <Button
-              mode="contained"
-              onPress={handleUpdateCategory}
-              style={styles.button}
+            <TouchableOpacity
+              onPress={handleCreateCategory}
+              style={styles.addButton}
             >
-              Actualizar
-            </Button>
+              <Image source={agregar} style={styles.icon} />
+            </TouchableOpacity>
           </View>
-        </Modal>
-      </Portal>
+        </View>
 
-      {/* Modal para eliminar categoría */}
-      <Portal>
-        <Dialog
-          visible={showDeleteModal}
-          onDismiss={() => setShowDeleteModal(false)}
-        >
-          <Dialog.Title>Eliminar Categoría</Dialog.Title>
-          <Dialog.Content>
-            <Paragraph>¿Estás seguro de eliminar esta categoría?</Paragraph>
-          </Dialog.Content>
-          <Dialog.Actions>
-            <Button
-              onPress={() => setShowDeleteModal(false)}
-              style={styles.textDialog}
-            >
-              Cancelar
-            </Button>
-            <Button onPress={() => handleDeleteCategory(selectedCategoryId)}>
-              Eliminar
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
+        {/* Modal para actualizar categoría */}
+        <Portal>
+          <Modal
+            visible={showUpdateModal}
+            onRequestClose={() => setShowUpdateModal(false)}
+            animationType="slide"
+          >
+            <View style={styles.modalContainer}>
+              <Text style={styles.modalTitle}>Actualizar Categoría</Text>
+              <TextInput
+                style={styles.modalInput}
+                value={newCategoryName}
+                onChangeText={setNewCategoryName}
+                placeholder="Nuevo nombre de categoría"
+                placeholderTextColor="#000"
+              />
+              <Button
+                mode="contained"
+                onPress={handleUpdateCategory}
+                style={styles.button}
+                labelStyle={styles.buttonText}
+              >
+                Actualizar
+              </Button>
+            </View>
+          </Modal>
+        </Portal>
+
+        {/* Modal para eliminar categoría */}
+        <Portal>
+          <Dialog
+            visible={showDeleteModal}
+            onDismiss={() => setShowDeleteModal(false)}
+          >
+            <Dialog.Title>Eliminar Categoría</Dialog.Title>
+            <Dialog.Content>
+              <Paragraph>¿Estás seguro de eliminar esta categoría?</Paragraph>
+            </Dialog.Content>
+            <Dialog.Actions>
+              <Button
+                onPress={() => setShowDeleteModal(false)}
+                style={styles.textDialog}
+                labelStyle={styles.buttonText}
+              >
+                Cancelar
+              </Button>
+              <Button
+                onPress={() => handleDeleteCategory(selectedCategoryId)}
+                labelStyle={styles.buttonText}
+              >
+                Eliminar
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+      </View>
     </Provider>
   );
 };
@@ -190,15 +198,15 @@ const AllCategories = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F5F5DC",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: "#fff",
+    padding: 10,
   },
   cardTotal: {
     borderRadius: 30,
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,
@@ -217,55 +225,63 @@ const styles = StyleSheet.create({
   titleLogo: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#000",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
+    color: "#000",
   },
   card: {
-    marginHorizontal: 10,
     marginVertical: 5,
+    elevation: 2,
+    backgroundColor: "#fff",
+    borderRadius: 10,
   },
   cardTitle: {
     fontWeight: "bold",
+    fontSize: 16,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    color: "#000",
   },
-  cardText: {
-    marginBottom: 10,
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: "center",
+  inputContainer: {
+    flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#F5F5DC",
-    zIndex: 1,
   },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 10,
     marginBottom: 10,
-    width: "80%",
+    flex: 1,
+    marginRight: 10,
+    color: "#000",
+    borderRadius: 10,
   },
-  buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    marginTop: 10,
-    zIndex: 1,
+  addButton: {
+    backgroundColor: "#007bff",
+    padding: 10,
+    borderRadius: 10,
   },
-  button: {
-    marginTop: 10,
+  icon: {
+    width: 24,
+    height: 24,
+    tintColor: "#fff",
   },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fff",
   },
   modalTitle: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
-    zIndex: 1,
+    color: "#000",
   },
   modalInput: {
     borderWidth: 1,
@@ -274,9 +290,19 @@ const styles = StyleSheet.create({
     padding: 10,
     marginBottom: 20,
     width: "80%",
+    color: "#000",
+  },
+  button: {
+    marginTop: 10,
+    backgroundColor: "#007bff",
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
   },
   textDialog: {
-    color: "black",
+    color: "#000",
   },
 });
 

@@ -9,9 +9,15 @@ import {
   Image,
   FlatList,
   Picker,
+  TouchableOpacity,
 } from "react-native";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
+import basura from "../assets/imgs/basura.png";
+import boligrafo from "../assets/imgs/boligrafo.png";
+import agregar from "../assets/imgs/boton-agregar.png";
+import x from "../assets/imgs/error.png";
+import { Divider } from "react-native-paper";
 
 const Autoparts = ({ route }) => {
   const { subcategoryId } = route.params;
@@ -149,34 +155,41 @@ const Autoparts = ({ route }) => {
   };
 
   const renderItem = ({ item }) => (
-    <View>
+    <View style={styles.itemContainer}>
       <Text>Nombre: {item.name}</Text>
       <Text>Descripción: {item.description}</Text>
       <Text>Inventario: {item.inventory}</Text>
       <Text>Valor: {item.value}</Text>
-      <Button
-        onPress={() => {
-          setSelectedAutopartId(item.autopartID);
-          setNewAutopart({
-            Name: item.name,
-            Description: item.description,
-            Inventory: item.inventory,
-            Value: item.value,
-            RawMaterialId: item.rawMaterialId,
-          });
-          setShowEditModal(true);
-        }}
-        title="Actualizar"
-      />
-      <Button
-        onPress={() => handleDeleteAutopart(item.autopartID)}
-        title="Eliminar"
-      />
+      <View style={styles.iconContainer}>
+        <Divider />
+        <TouchableOpacity
+          onPress={() => {
+            setSelectedAutopartId(item.autopartID);
+            setNewAutopart({
+              Name: item.name,
+              Description: item.description,
+              Inventory: item.inventory,
+              Value: item.value,
+              RawMaterialId: item.rawMaterialId,
+            });
+            setShowEditModal(true);
+          }}
+          style={[styles.iconButton, { marginRight: 10 }]}
+        >
+          <Image source={boligrafo} style={styles.icon} />{" "}
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => setShowDeleteModal(true)}
+          style={styles.iconButton}
+        >
+          <Image source={basura} style={styles.icon} />{" "}
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
   return (
-    <View>
+    <View style={styles.container}>
       <View style={styles.card}>
         <View style={styles.header}>
           <Image source={Logo} style={styles.logo} />
@@ -190,10 +203,17 @@ const Autoparts = ({ route }) => {
         />
       </View>
 
+      <TouchableOpacity
+        onPress={handleShowCreateModal}
+        style={styles.addButton}
+      >
+        <Image source={agregar} style={styles.icon} />
+      </TouchableOpacity>
+
       {/* Modal para crear autopartes */}
       <Modal visible={showCreateModal} animationType="slide">
         <View style={styles.modalContainer}>
-          <Text>Crear Autoparte</Text>
+          <Text style={styles.modalTitle}>Crear Autoparte</Text>
           <TextInput
             style={styles.input}
             placeholder="Nombre del Autoparte"
@@ -204,7 +224,7 @@ const Autoparts = ({ route }) => {
           />
           <TextInput
             style={styles.input}
-            placeholder="Descripción del Autoparte"
+            placeholder="Descripción del Autoparte (solo letras)"
             value={newAutopart.Description}
             onChangeText={(text) =>
               setNewAutopart({ ...newAutopart, Description: text })
@@ -244,15 +264,27 @@ const Autoparts = ({ route }) => {
               />
             ))}
           </Picker>
-          <Button onPress={handleCreateAutopart} title="Crear" />
-          <Button onPress={() => setShowCreateModal(false)} title="Cancelar" />
+          <View style={styles.modalButtonContainer}>
+            <TouchableOpacity
+              onPress={handleCreateAutopart}
+              style={styles.modalButton}
+            >
+              <Text style={styles.buttonText}>Crear</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleCloseModal}
+              style={styles.modalButton}
+            >
+              <Text style={styles.buttonText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
 
       {/* Modal para actualizar autopartes */}
       <Modal visible={showEditModal} animationType="slide">
         <View style={styles.modalContainer}>
-          <Text>Actualizar Autoparte</Text>
+          <Text style={styles.modalTitle}>Actualizar Autoparte</Text>
           <TextInput
             style={styles.input}
             placeholder="Nombre"
@@ -303,27 +335,53 @@ const Autoparts = ({ route }) => {
               />
             ))}
           </Picker>
-          <Button onPress={handleUpdateAutopart} title="Actualizar" />
-          <Button onPress={() => setShowEditModal(false)} title="Cancelar" />
+          <View style={styles.modalButtonContainer}>
+            <TouchableOpacity
+              onPress={handleUpdateAutopart}
+              style={styles.modalButton}
+            >
+              <Text style={styles.buttonText}>Actualizar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleCloseModal}
+              style={styles.modalButton}
+            >
+              <Text style={styles.buttonText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
 
       {/* Modal para eliminar autopartes */}
       <Modal visible={showDeleteModal} animationType="slide">
         <View style={styles.modalContainer}>
-          <Text>Eliminar Autoparte</Text>
-          {/* Contenido del modal para eliminar autopartes */}
-          <Button onPress={handleDeleteAutopart} title="Eliminar" />
-          <Button onPress={() => setShowDeleteModal(false)} title="Cancelar" />
+          <Text style={styles.modalTitle}>Eliminar Autoparte</Text>
+          <View style={styles.modalButtonContainer}>
+            <TouchableOpacity
+              onPress={() => handleDeleteAutopart(selectedAutopartId)}
+              style={styles.modalButton}
+            >
+              <Text style={styles.buttonText}>Eliminar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              onPress={handleCloseModal}
+              style={styles.modalButton}
+            >
+              <Text style={styles.buttonText}>Cancelar</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </Modal>
-
-      <Button onPress={handleShowCreateModal} title="Crear Autoparte" />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
   card: {
     borderRadius: 30,
     width: "80%",
@@ -348,6 +406,27 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  itemContainer: {
+    marginVertical: 10,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  iconContainer: {
+    flexDirection: "row",
+    marginTop: 5,
+  },
+  iconButton: {
+    marginRight: 10,
+  },
+  addButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "#007bff",
+    padding: 10,
+    borderRadius: 50,
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -361,11 +440,28 @@ const styles = StyleSheet.create({
     marginVertical: 5,
     width: "80%",
   },
-  inputButtones: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 5,
+  modalButtonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "80%",
+    marginTop: 20,
+  },
+  modalButton: {
+    backgroundColor: "#007bff",
     padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  icon: {
+    width: 24,
+    height: 24,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
     marginBottom: 10,
   },
 });

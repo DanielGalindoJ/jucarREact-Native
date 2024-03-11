@@ -52,6 +52,7 @@ const Menu = ({ navigation }) => {
             <Image source={iconoNegocio} style={styles.buttonIcon} />
             <Text style={styles.buttonText}>Ventas</Text>
           </Pressable>
+          <Text>boton USUARIOS aun no tiene funcionalidad :)</Text>
 
           <Pressable
             style={styles.button}

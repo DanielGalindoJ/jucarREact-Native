@@ -13,6 +13,12 @@ import {
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
 import { Divider, Card, Text } from "react-native-paper";
+import { useNavigation } from "@react-navigation/native";
+
+import basura from "../assets/imgs/basura.png";
+import boligrafo from "../assets/imgs/boligrafo.png";
+import carritocompras from "../assets/imgs/carrito-de-compras.png";
+import x from "../assets/imgs/error.png";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
@@ -24,6 +30,7 @@ const Customers = () => {
   });
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedCustomer, setSelectedCustomer] = useState(null);
+  const navigation = useNavigation();
 
   const fetchCustomers = async () => {
     try {
@@ -108,6 +115,10 @@ const Customers = () => {
     }
   }, [selectedCustomer]);
 
+  const handlePedidosClick = (customerID) => {
+    navigation.navigate("Pedidos", { customerId: customerID }); // Pasar customerId como parámetro
+  };
+
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
       <Card.Content>
@@ -144,13 +155,20 @@ const Customers = () => {
             style={styles.button}
             onPress={() => handleUpdate(item)}
           >
-            <Text style={styles.buttonText}>Actualizar</Text>
+            <Image source={boligrafo} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleDeleteCustomer(item.customerID)}
           >
-            <Text style={styles.buttonText}>Eliminar</Text>
+            <Image source={basura} style={styles.icon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handlePedidosClick(item.customerID)}
+          >
+            <Image source={carritocompras} style={styles.icon} />
           </TouchableOpacity>
         </View>
       </Card.Content>
@@ -229,13 +247,24 @@ const Customers = () => {
               value={newCustomer.email}
               onChangeText={(text) => handleInputChange("email", text)}
             />
-            <Button
-              title={selectedCustomer ? "Actualizar" : "Guardar"}
-              onPress={
-                selectedCustomer ? handleUpdateCustomer : handleCreateCustomer
-              }
-            />
-            <Button title="Cancelar" onPress={handleCloseModal} />
+            <View style={styles.buttonGroup}>
+              <TouchableOpacity
+                onPress={
+                  selectedCustomer ? handleUpdateCustomer : handleCreateCustomer
+                }
+                style={[styles.button, styles.actionButton]}
+              >
+                <Image source={boligrafo} style={styles.icon} />
+                <Text style={styles.buttonText}>Guardar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.button, styles.cancelButton]}
+                onPress={handleCloseModal}
+              >
+                <Image source={x} style={styles.icon} />
+                <Text style={styles.buttonText}>Cancelar</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </Modal>
       </View>
@@ -309,13 +338,30 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   button: {
-    backgroundColor: "#007bff",
     padding: 10,
     borderRadius: 5,
+    flexDirection: "row",
+    alignItems: "center",
+  },
+  actionButton: {
+    backgroundColor: "#007bff",
+  },
+  cancelButton: {
+    backgroundColor: "#dc3545",
   },
   buttonText: {
     color: "#fff",
-    fontWeight: "bold",
+    marginLeft: 5,
+  },
+  buttonGroup: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "80%",
+    marginTop: 20,
+  },
+  icon: {
+    width: 24,
+    height: 24,
   },
 });
 

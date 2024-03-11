@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Modal,
+  ScrollView,
 } from "react-native";
 import {
   Text,
@@ -147,26 +148,29 @@ const RawMaterials = ({ navigation }) => {
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
       <Card.Content>
-        <Text style={styles.cardTitle}>Ver SubCategoria de: </Text>
-        <Text style={styles.cardText}>{item.name}</Text>
-
+        <Text style={styles.cardTitle}>Ver SubCategoría de: </Text>
+        <Text style={styles.cardText}>{item.Name}</Text>
         <Divider />
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
+          <Button
             onPress={() => handleShowUpdateModal(item.rawMaterialId)}
+            mode="contained"
             style={styles.button}
+            labelStyle={styles.buttonLabel}
           >
             Actualizar
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.button}
+          </Button>
+          <Button
             onPress={() => {
               setSelectedRawMaterialId(item.rawMaterialId);
               setShowDeleteModal(true);
             }}
+            mode="contained"
+            style={styles.button}
+            labelStyle={styles.buttonLabel}
           >
-            <Text style={styles.buttonText}>Eliminar</Text>
-          </TouchableOpacity>
+            Eliminar
+          </Button>
         </View>
       </Card.Content>
     </Card>
@@ -174,19 +178,19 @@ const RawMaterials = ({ navigation }) => {
 
   return (
     <Provider>
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.overlay} />
         <View style={styles.cardTotal}>
           <View style={styles.header}>
             <Image source={Logo} style={styles.logo} />
             <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
           </View>
-          <Text style={styles.title}>Lista de Materia Prima</Text>
+          <Text style={styles.title}>Lista de Materias Primas</Text>
           <FlatList
             data={rawMaterials}
             renderItem={renderItem}
             keyExtractor={(item) => item.rawMaterialId.toString()}
           />
-
           <TextInput
             style={styles.input}
             value={newRawMaterial.Name}
@@ -194,10 +198,11 @@ const RawMaterials = ({ navigation }) => {
               setNewRawMaterial({ ...newRawMaterial, Name: text })
             }
             placeholder="Nombre de nueva Materia Prima"
+            placeholderTextColor="#000"
           />
           <TextInput
             style={styles.input}
-            placeholder=" cantidad disponible de existencias del Autoparte"
+            placeholder="Cantidad disponible de existencias del Autoparte"
             value={
               newRawMaterial.Stock &&
               newRawMaterial.Stock.QuantityAvailable !== undefined
@@ -213,6 +218,7 @@ const RawMaterials = ({ navigation }) => {
                 },
               })
             }
+            placeholderTextColor="#000"
           />
           <Button
             mode="contained"
@@ -222,7 +228,7 @@ const RawMaterials = ({ navigation }) => {
             Crear Materia Prima
           </Button>
         </View>
-      </View>
+      </ScrollView>
 
       <Portal>
         <Modal
@@ -238,7 +244,8 @@ const RawMaterials = ({ navigation }) => {
               onChangeText={(text) =>
                 setNewRawMaterial({ ...newRawMaterial, Name: text })
               }
-              placeholder="Nuevo nombre de categoría"
+              placeholder="Nuevo nombre de Materia Prima"
+              placeholderTextColor="#000"
             />
             <Button
               mode="contained"
@@ -284,45 +291,53 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
   cardTotal: {
-    borderRadius: 30,
-    width: "80%",
+    borderRadius: 20,
+    width: "90%",
     backgroundColor: "#fff",
-    padding: 25,
+    padding: 20,
     elevation: 5,
     alignSelf: "center",
-    marginTop: 50,
+    marginTop: 20,
   },
   header: {
     flexDirection: "row",
     alignItems: "center",
-    paddingVertical: 20,
+    paddingBottom: 10,
   },
   logo: {
-    width: "25%",
-    height: 57,
+    width: 100,
+    height: 50,
     resizeMode: "contain",
     marginRight: 10,
   },
   titleLogo: {
     fontSize: 18,
     fontWeight: "bold",
+    color: "#000",
   },
   title: {
     fontSize: 20,
     fontWeight: "bold",
     marginBottom: 20,
     textAlign: "center",
+    color: "#000",
   },
   card: {
-    marginHorizontal: 10,
-    marginVertical: 5,
+    marginBottom: 10,
   },
   cardTitle: {
     fontWeight: "bold",
+    marginBottom: 5,
+    color: "#000",
   },
   cardText: {
     marginBottom: 10,
+    color: "#000",
   },
   modalContainer: {
     flex: 1,
@@ -330,24 +345,40 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "#F5F5DC",
   },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+    color: "#000",
+  },
+  modalInput: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 20,
+    width: "80%",
+    color: "#000",
+  },
   input: {
     borderWidth: 1,
     borderColor: "#ccc",
+    borderRadius: 5,
     padding: 10,
     marginBottom: 10,
     width: "80%",
+    color: "#000",
   },
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    marginTop: 10,
   },
   button: {
+    marginTop: 10,
+    borderRadius: 10,
     backgroundColor: "#007bff",
-    padding: 10,
-    borderRadius: 5,
   },
-  buttonText: {
+  buttonLabel: {
     color: "#fff",
     fontWeight: "bold",
   },

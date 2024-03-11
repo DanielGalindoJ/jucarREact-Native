@@ -14,6 +14,11 @@ import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
 import { Divider, Card, Text } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
+import basura from "../assets/imgs/basura.png";
+import boligrafo from "../assets/imgs/boligrafo.png";
+import ubicacion from "../assets/imgs/ubicacion.png";
+import phone from "../assets/imgs/ring-phone.png";
+import x from "../assets/imgs/error.png";
 
 const ProveedoresNatural = () => {
   const [providers, setProviders] = useState([]);
@@ -105,25 +110,25 @@ const ProveedoresNatural = () => {
             style={styles.button}
             onPress={() => handleUpdate(item)}
           >
-            <Text style={styles.buttonText}>Actualizar</Text>
+            <Image source={boligrafo} style={styles.icon} />{" "}
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleDeleteProvider(item.providerID)}
           >
-            <Text style={styles.buttonText}>Eliminar</Text>
+            <Image source={basura} style={styles.icon} />{" "}
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleAdrressClick(item.providerID)}
           >
-            <Text style={styles.buttonText}>Ver Dirección</Text>
+            <Image source={ubicacion} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleTelefonosClick(item.providerID)}
           >
-            <Text style={styles.buttonText}>Ver Teléfono</Text>
+            <Image source={phone} style={styles.icon} />
           </TouchableOpacity>
         </View>
       </Card.Content>
@@ -242,13 +247,18 @@ const ProveedoresNatural = () => {
               value={newProvider.productType}
               onChangeText={(text) => handleInputChange("productType", text)}
             />
-            <Button
-              title={selectedProvider ? "Actualizar" : "Guardar"}
+            <TouchableOpacity
+              style={styles.button}
               onPress={
                 selectedProvider ? handleUpdateProvider : handleCreateProvider
               }
-            />
-            <Button title="Cancelar" onPress={toggleModal} />
+            >
+              <Image source={boligrafo} style={styles.icon} />
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.button} onPress={toggleModal}>
+              <Image source={x} style={styles.icon} />
+            </TouchableOpacity>
           </View>
         </Modal>
       </View>
@@ -326,9 +336,9 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  buttonText: {
-    color: "#fff",
-    fontWeight: "bold",
+  icon: {
+    width: 24, // Ajusta el ancho de acuerdo a tus necesidades
+    height: 24, // Ajusta la altura de acuerdo a tus necesidades
   },
 });
 

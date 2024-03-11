@@ -11,6 +11,9 @@ import {
 } from "react-native";
 import { Text, Button, Card, Divider } from "react-native-paper";
 import Logo from "../../assets/imgs/jucar.jpg";
+import basura from "../../assets/imgs/basura.png";
+import ver from "../../assets/imgs/ver.png";
+import boligrafo from "../../assets/imgs/boligrafo.png";
 
 const MenuSubcategories = ({ navigation }) => {
   const [categories, setCategories] = useState([]);
@@ -39,7 +42,7 @@ const MenuSubcategories = ({ navigation }) => {
 
   const handleUpdate = (category) => {
     setSelectedCategory(category);
-    setCategoryName(category.name); // Setea el nombre actual de la categoría en el TextInput
+    setCategoryName(category.name);
     setShowModal(true);
   };
 
@@ -94,21 +97,21 @@ const MenuSubcategories = ({ navigation }) => {
                 style={styles.button}
                 onPress={() => handleCategoryClick(category.categoryId)}
               >
-                <Text style={styles.buttonText}>Ver</Text>
+                <Image source={ver} style={styles.icon} />{" "}
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => handleUpdate(category)}
               >
-                <Text style={styles.buttonText}>Actualizar</Text>
+                <Image source={boligrafo} style={styles.icon} />{" "}
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => handleDelete(category.categoryId)}
               >
-                <Text style={styles.buttonText}>Eliminar</Text>
+                <Image source={basura} style={styles.icon} />{" "}
               </TouchableOpacity>
             </View>
           </Card>
@@ -217,6 +220,10 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderWidth: 1,
     borderRadius: 5,
+  },
+  icon: {
+    width: 24,
+    height: 24,
   },
 });
 

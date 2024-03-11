@@ -75,6 +75,8 @@ const AllProveedores = () => {
           <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
         </View>
         <Text style={styles.title}>Lista de Proveedores Actuales</Text>
+        <Text>Aqui falta boton para generar Pdf (reporte) :)</Text>
+
         <FlatList
           data={providers}
           renderItem={renderItem}

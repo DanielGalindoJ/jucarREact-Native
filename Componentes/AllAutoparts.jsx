@@ -189,6 +189,8 @@ const AllAutoparts = ({ subcategoryId }) => {
           <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
         </View>
         <Text style={styles.title}>Lista de Autopartes Actuales</Text>
+        <Text>Aqui falta boton para generar Pdf (reporte) :)</Text>
+
         <FlatList
           data={autoparts}
           renderItem={renderItem}
