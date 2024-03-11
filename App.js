@@ -53,7 +53,7 @@ import Escoger_Proveedor from "./Componentes/Escoger_Proveedor";
 import AllProveedores from "./Componentes/AllProveedores";
 import ProveedoresNatural from "./Componentes/ProveedoresNatural";
 import AddressProviders from "./Componentes/AddressProviders";
-import PhonesProviders from "./Componentes/AddressProviders";
+import PhonesProviders from "./Componentes/PhonesProviders";
 
 {
   /* Componentes para Customers */
