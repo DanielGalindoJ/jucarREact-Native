@@ -9,7 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
-  Text, // Importamos Text de react-native
+  Text,
 } from "react-native";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
@@ -35,7 +35,7 @@ const ProveedoresNatural = () => {
   const [selectedProvider, setSelectedProvider] = useState(null);
   const [providerAddresses, setProviderAddresses] = useState({});
   const [providerPhones, setProviderPhones] = useState({});
-  const navigation = useNavigation(); // Obtener objeto de navegación
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchProviders();
@@ -52,14 +52,6 @@ const ProveedoresNatural = () => {
           const phoneResponse = await axios.get(
             `https://localhost:7028/api/providers/${provider.providerID}/phones`
           );
-          setProviderAddresses((prevState) => ({
-            ...prevState,
-            [provider.providerID]: addressResponse.data,
-          }));
-          setProviderPhones((prevState) => ({
-            ...prevState,
-            [provider.providerID]: phoneResponse.data,
-          }));
           return {
             ...provider,
             addresses: addressResponse.data,
@@ -140,7 +132,6 @@ const ProveedoresNatural = () => {
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
     if (!isModalVisible) {
-      // Reset newProvider state when opening the modal to add a new provider
       setNewProvider({
         identifierType: "",
         identifierNumber: "",
@@ -192,12 +183,12 @@ const ProveedoresNatural = () => {
 
   const handleUpdate = (provider) => {
     setSelectedProvider(provider);
-    setIsModalVisible(true); // Open modal for editing
+    setIsModalVisible(true);
   };
 
   useEffect(() => {
     if (selectedProvider) {
-      setNewProvider(selectedProvider); // Set newProvider state with selected provider data
+      setNewProvider(selectedProvider);
     }
   }, [selectedProvider]);
 
