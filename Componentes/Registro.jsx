@@ -13,37 +13,63 @@ import { Text } from "react-native-paper";
 import axios from "axios";
 
 const Register = ({ navigation }) => {
-  const [FirstName, setFirstName] = useState("");
-  const [LastName, setLastName] = useState("");
-  const [UserName, setUserName] = useState("");
-  const [Password, setPassword] = useState("");
-  const [Email, setEmail] = useState("");
-  const [PhoneNumber, setPhoneNumber] = useState("");
-  const [userType, setUserType] = useState("usuario");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [userType, setUserType] = useState("Usuario");
 
   const handleRegister = async () => {
     try {
+      if (
+        !firstName ||
+        !lastName ||
+        !userName ||
+        !password ||
+        !email ||
+        !phoneNumber
+      ) {
+        Alert.alert("Error", "Por favor, completa todos los campos");
+        return;
+      }
+
       const apiUrl = "https://localhost:7028/api/authentication";
       const response = await axios.post(apiUrl, {
-        FirstName,
-        LastName,
-        UserName,
-        Password,
-        Email,
-        PhoneNumber,
-        Roles: [userType], // Envía el userType dentro de un array
+        FirstName: firstName,
+        LastName: lastName,
+        UserName: userName,
+        Password: password,
+        Email: email,
+        PhoneNumber: phoneNumber,
+        Roles: [userType === "Administrador" ? "Administrator" : "User"],
       });
 
       console.log("Respuesta de la API:", response.data);
 
-      Alert.alert("Éxito", "Usuario creado exitosamente");
-      navigation.goBack();
+      if (response.status === 200) {
+        Alert.alert("Éxito", "Usuario creado exitosamente", [
+          {
+            text: "OK",
+            onPress: () => navigation.goBack(),
+          },
+        ]);
+      } else {
+        throw new Error("Error en la creación de usuario");
+      }
     } catch (error) {
       console.error("Error al registrar usuario:", error);
-      Alert.alert(
-        "Error",
-        "Error al registrar usuario. Por favor, intenta nuevamente."
-      );
+      let errorMessage =
+        "Error al registrar usuario. Por favor, intenta nuevamente.";
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        errorMessage = error.response.data.message;
+      }
+      Alert.alert("Error", errorMessage);
     }
   };
 
@@ -59,58 +85,64 @@ const Register = ({ navigation }) => {
       <View style={styles.card}>
         <View style={styles.form}>
           <Text style={styles.title}>Registro de Usuario</Text>
-          <Text>Aun no sirve el registro de usuarios :)</Text>
 
           <TextInput
             style={styles.input}
             placeholder="Nombre"
-            value={FirstName}
+            value={firstName}
             onChangeText={setFirstName}
+            key="firstName"
           />
 
           <TextInput
             style={styles.input}
             placeholder="Apellido"
-            value={LastName}
+            value={lastName}
             onChangeText={setLastName}
+            key="lastName"
           />
 
           <TextInput
             style={styles.input}
             placeholder="Nombre de usuario"
-            value={UserName}
+            value={userName}
             onChangeText={setUserName}
+            key="userName"
           />
 
           <TextInput
             style={styles.input}
             placeholder="Contraseña"
             secureTextEntry
-            value={Password}
+            value={password}
             onChangeText={setPassword}
+            key="password"
           />
 
           <TextInput
             style={styles.input}
             placeholder="Correo electrónico"
-            value={Email}
+            value={email}
             onChangeText={setEmail}
+            key="email"
           />
 
           <TextInput
             style={styles.input}
             placeholder="Número de teléfono"
-            value={PhoneNumber}
+            value={phoneNumber}
             onChangeText={setPhoneNumber}
+            key="phoneNumber"
           />
 
           <Picker
             selectedValue={userType}
             style={styles.input}
             onValueChange={(itemValue, itemIndex) => setUserType(itemValue)}
+            key="userType"
           >
-            <Picker.Item label="Usuario" value="usuario" />
-            <Picker.Item label="Administrador" value="administrador" />
+            <Picker.Item label="Usuario" value="Usuario" />
+            <Picker.Item label="Administrador" value="Administrador" />
           </Picker>
 
           <Pressable style={styles.button} onPress={handleRegister}>
