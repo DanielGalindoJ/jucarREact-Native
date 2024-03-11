@@ -9,16 +9,18 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  Text, // Importamos Text de react-native
 } from "react-native";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
-import { Divider, Card, Text } from "react-native-paper";
+import { Divider, Card } from "react-native-paper";
 import { useNavigation } from "@react-navigation/native";
 import basura from "../assets/imgs/basura.png";
 import boligrafo from "../assets/imgs/boligrafo.png";
 import ubicacion from "../assets/imgs/ubicacion.png";
 import phone from "../assets/imgs/ring-phone.png";
 import x from "../assets/imgs/error.png";
+import agregar from "../assets/imgs/boton-agregar.png";
 
 const ProveedoresNatural = () => {
   const [providers, setProviders] = useState([]);
@@ -75,33 +77,33 @@ const ProveedoresNatural = () => {
     navigation.navigate("AddressProviders", { providerID });
   };
 
-  const handleTelefonosClick = (providerID) => {
-    navigation.navigate("PhonesProviders", { providerID });
+  const handlePhonesClick = (providerID) => {
+    navigation.navigate("PhonesProviders", { providerId: providerID });
   };
 
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
       <Card.Content>
-        <Text style={styles.cardTitle}>Tipo de Identificacion: </Text>
+        <Text style={styles.cardTitle}>Tipo de Identificacion:</Text>
         <Text style={styles.cardText}>{item.identifierType}</Text>
-        <Text style={styles.cardTitle}>Numero de Identificacion: </Text>
+        <Text style={styles.cardTitle}>Numero de Identificacion:</Text>
         <Text style={styles.cardText}>{item.identifierNumber}</Text>
-        <Text style={styles.cardTitle}>Nombre : </Text>
+        <Text style={styles.cardTitle}>Nombre :</Text>
         <Text style={styles.cardText}>{item.name}</Text>
-        <Text style={styles.cardTitle}>Correo electronico: </Text>
+        <Text style={styles.cardTitle}>Correo electronico:</Text>
         <Text style={styles.cardText}>{item.emailAddress}</Text>
-        <Text style={styles.cardTitle}>Tipo de Producto: </Text>
+        <Text style={styles.cardTitle}>Tipo de Producto:</Text>
         <Text style={styles.cardText}>{item.productType}</Text>
-        <Text style={styles.cardTitle}>Direcciones: </Text>
+        <Text style={styles.cardTitle}>Direcciones:</Text>
         {providerAddresses[item.providerID]?.map((address, index) => (
           <Text key={index} style={styles.cardText}>
             {address}
           </Text>
         ))}
-        <Text style={styles.cardTitle}>Teléfonos: </Text>
+        <Text style={styles.cardTitle}>Teléfonos:</Text>
         {providerPhones[item.providerID]?.map((phone, index) => (
           <Text key={index} style={styles.cardText}>
-            {phone}
+            {phone.phoneType}: {phone.phoneNumber}
           </Text>
         ))}
         <Divider />
@@ -110,13 +112,13 @@ const ProveedoresNatural = () => {
             style={styles.button}
             onPress={() => handleUpdate(item)}
           >
-            <Image source={boligrafo} style={styles.icon} />{" "}
+            <Image source={boligrafo} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={() => handleDeleteProvider(item.providerID)}
           >
-            <Image source={basura} style={styles.icon} />{" "}
+            <Image source={basura} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
@@ -126,7 +128,7 @@ const ProveedoresNatural = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
-            onPress={() => handleTelefonosClick(item.providerID)}
+            onPress={() => handlePhonesClick(item.providerID)}
           >
             <Image source={phone} style={styles.icon} />
           </TouchableOpacity>
@@ -212,7 +214,9 @@ const ProveedoresNatural = () => {
           renderItem={renderItem}
           keyExtractor={(item) => item.providerID.toString()}
         />
-        <Button title="Agregar Proveedor" onPress={toggleModal} />
+        <TouchableOpacity onPress={toggleModal} style={styles.addButton}>
+          <Image source={agregar} style={styles.icon} />
+        </TouchableOpacity>
         <Modal visible={isModalVisible} animationType="slide">
           <View style={styles.modalContainer}>
             <TextInput
@@ -337,8 +341,16 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   icon: {
-    width: 24, // Ajusta el ancho de acuerdo a tus necesidades
-    height: 24, // Ajusta la altura de acuerdo a tus necesidades
+    width: 24,
+    height: 24,
+  },
+  addButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "#007bff",
+    padding: 10,
+    borderRadius: 50,
   },
 });
 

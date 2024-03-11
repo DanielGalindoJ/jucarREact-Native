@@ -19,6 +19,7 @@ import basura from "../assets/imgs/basura.png";
 import boligrafo from "../assets/imgs/boligrafo.png";
 import carritocompras from "../assets/imgs/carrito-de-compras.png";
 import x from "../assets/imgs/error.png";
+import agregar from "../assets/imgs/boton-agregar.png";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
@@ -217,8 +218,9 @@ const Customers = () => {
           renderItem={renderItem}
           keyExtractor={(item) => item.customerID.toString()}
         />
-        <Button title="Agregar Cliente" onPress={toggleModal} />
-
+        <TouchableOpacity onPress={toggleModal} style={styles.addButton}>
+          <Image source={agregar} style={styles.icon} />
+        </TouchableOpacity>
         <Modal visible={isModalVisible} animationType="slide">
           <View style={styles.modalContainer}>
             <TextInput
@@ -362,6 +364,18 @@ const styles = StyleSheet.create({
   icon: {
     width: 24,
     height: 24,
+  },
+  icon: {
+    width: 24,
+    height: 24,
+  },
+  addButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "#007bff",
+    padding: 10,
+    borderRadius: 50,
   },
 });
 
