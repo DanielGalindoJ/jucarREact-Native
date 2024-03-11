@@ -46,8 +46,12 @@ const Customers = () => {
           );
           return {
             ...customer,
-            addresses: addressResponse.data,
-            phones: phoneResponse.data,
+            addresses: addressResponse.data
+              ? addressResponse.data.map((address) => address.address)
+              : [],
+            phones: phoneResponse.data
+              ? phoneResponse.data.map((phone) => phone.phoneNumber)
+              : [],
           };
         })
       );
@@ -136,18 +140,20 @@ const Customers = () => {
         <Text style={styles.cardText}>{item.email}</Text>
 
         <Text style={styles.cardTitle}>Direcciones: </Text>
-        {item.addresses.map((address, index) => (
-          <Text key={index} style={styles.cardText}>
-            {address}
-          </Text>
-        ))}
+        {item.addresses &&
+          item.addresses.map((address, index) => (
+            <Text key={index} style={styles.cardText}>
+              {address}
+            </Text>
+          ))}
 
         <Text style={styles.cardTitle}>Teléfonos: </Text>
-        {item.phones.map((phone, index) => (
-          <Text key={index} style={styles.cardText}>
-            {phone}
-          </Text>
-        ))}
+        {item.phones &&
+          item.phones.map((phone, index) => (
+            <Text key={index} style={styles.cardText}>
+              {phone}
+            </Text>
+          ))}
 
         <Divider />
 
@@ -360,10 +366,6 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "80%",
     marginTop: 20,
-  },
-  icon: {
-    width: 24,
-    height: 24,
   },
   icon: {
     width: 24,
