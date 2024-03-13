@@ -20,6 +20,9 @@ const Register = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [userType, setUserType] = useState("Usuario");
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
+  const [camposIncompletos, setCamposIncompletos] = useState(false);
 
   const handleRegister = async () => {
     try {
@@ -31,8 +34,11 @@ const Register = ({ navigation }) => {
         !email ||
         !phoneNumber
       ) {
-        Alert.alert("Error", "Por favor, completa todos los campos");
-        return;
+        setCamposIncompletos(true);
+        setTimeout(() => {
+          setCamposIncompletos(false);
+        }, 1000);
+        throw new Error("Por favor, completa todos los campos");
       }
 
       const apiUrl = "https://localhost:7028/api/authentication";
@@ -48,18 +54,29 @@ const Register = ({ navigation }) => {
 
       console.log("Respuesta de la API:", response.data);
 
-      if (response.status === 200) {
+      if ((response.status === 200, 201, 203, 204)) {
         Alert.alert("Éxito", "Usuario creado exitosamente", [
           {
             text: "OK",
             onPress: () => navigation.goBack(),
           },
         ]);
+        setShowSuccessMessage(true);
+        setTimeout(() => {
+          setShowSuccessMessage(false);
+          navigation.navigate("Login");
+        }, 1000);
       } else {
-        throw new Error("Error en la creación de usuario");
+        throw new Error(
+          response.data.error || "Error en la creación de usuario"
+        );
       }
     } catch (error) {
       console.error("Error al registrar usuario:", error);
+      setShowErrorMessage(true);
+      setTimeout(() => {
+        setShowErrorMessage(false);
+      }, 1000);
       let errorMessage =
         "Error al registrar usuario. Por favor, intenta nuevamente.";
       if (
@@ -75,6 +92,27 @@ const Register = ({ navigation }) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      {showSuccessMessage && (
+        <View style={styles.successMessageContainer}>
+          <Text style={styles.successMessageText}>
+            Registro de Usuario exitoso
+          </Text>
+        </View>
+      )}
+      {showErrorMessage && (
+        <View style={styles.errorMessageContainer}>
+          <Text style={styles.errorMessageText}>
+            Registro de Usuario fallido, Intente nuevamenente
+          </Text>
+        </View>
+      )}
+      {camposIncompletos && (
+        <View style={styles.camposIncompletos}>
+          <Text style={styles.camposIncompletosText}>
+            Por favor, completa todos los campos
+          </Text>
+        </View>
+      )}
       <View style={styles.header}>
         <Image
           source={require("../assets/imgs/jucar.jpg")}
@@ -227,6 +265,48 @@ const styles = StyleSheet.create({
     height: 50,
     resizeMode: "contain",
     marginRight: 10,
+  },
+  successMessageContainer: {
+    backgroundColor: "#4caf50",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    alignItems: "center",
+    justifyContent: "flex-start",
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  successMessageText: {
+    color: "#ffffff",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  errorMessageContainer: {
+    backgroundColor: "#f44336",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    alignItems: "center", // Cambiado de "flex-start" a "center"
+    justifyContent: "center", // Cambiado de "flex-start" a "center"
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  errorMessageText: {
+    color: "#ffffff",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  camposIncompletos: {
+    backgroundColor: "#F1C40F ",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    alignItems: "center", // Cambiado de "flex-start" a "center"
+    justifyContent: "center", // Cambiado de "flex-start" a "center"
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  camposIncompletosText: {
+    color: "#ffffff",
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });
 
