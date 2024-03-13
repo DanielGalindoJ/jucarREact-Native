@@ -1,60 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { View, Button, Modal, TextInput } from "react-native";
+import {
+  View,
+  Button,
+  Modal,
+  TextInput,
+  Text,
+  FlatList,
+  Picker,
+  StyleSheet,
+} from "react-native";
 import axios from "axios";
 
 const Orders = ({ customerId }) => {
   const currentDate = new Date();
   const formattedDate = currentDate.toISOString().split("T")[0];
   const [orders, setOrders] = useState([]);
-
+  const [autoparts, setAutoparts] = useState([]);
+  const [showModal, setShowModal] = useState(false);
   const [newOrder, setNewOrder] = useState({
     OrderDate: formattedDate,
-    Total: "",
     PaymentStatus: "",
+    ShippingAddress: "",
     ShippingStatus: "",
     Observation: "",
-    OrderDetails: [
-      {
-        AutopartId: "",
-        Quantity: "",
-        UnitValue: "",
-        SubtotalValue: "",
-      },
-    ],
-    Contributions: [
-      {
-        PaymentMethodId: "",
-        AmountPaid: "",
-        ContributionDate: "",
-      },
-    ],
+    OrderDetails: [],
+    Contributions: [],
   });
 
-  const [showModal, setShowModal] = useState(false);
-  const [modalAction, setModalAction] = useState("create");
-  const [selectedOrderId, setSelectedOrderId] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(10);
-  // No se necesita pagination en React Native
-
-  const currentOrders = orders.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
-
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchAutoparts = async () => {
       try {
         const response = await axios.get(
-          `https://localhost:7028/api/customers/${customerId}/orders`
+          "https://localhost:7028/api/autoparts"
         );
-        setOrders(response.data);
+        setAutoparts(response.data);
       } catch (error) {
-        console.error("error fetching Order", error);
+        console.error("Error fetching autoparts:", error);
       }
     };
-    fetchOrders();
-  }, [customerId]);
+    fetchAutoparts();
+  }, []);
 
   const handleCreateOrder = async () => {
     try {
@@ -65,132 +50,188 @@ const Orders = ({ customerId }) => {
       setOrders([response.data, ...orders]);
       handleCloseModal();
     } catch (error) {
-      console.error("error creating order", error);
+      console.error("Error creating order:", error);
+      console.error("Server error message:", error.response.data);
     }
-  };
-
-  const handleUpdateOrder = async () => {
-    try {
-      await axios.put(
-        `https://localhost:7028/api/customers/${customerId}/orders/${selectedOrderId}`,
-        newOrder
-      );
-      // Actualizar la lista de pedidos
-      handleCloseModal();
-    } catch (error) {
-      console.error("error updating  order", error);
-    }
-  };
-
-  const handleDeleteOrder = async (orderId) => {
-    try {
-      await axios.delete(
-        `https://localhost:7028/api/customers/${customerId}/orders/${orderId}`
-      );
-      const updatedOrders = orders.filter((order) => order.orderId !== orderId);
-      setOrders(updatedOrders);
-    } catch (error) {
-      console.error("error deleting order", error);
-    }
-  };
-
-  const handleShowCreateModal = () => {
-    setModalAction("create");
-    setShowModal(true);
-  };
-
-  const handleShowEditModal = (orderId) => {
-    setModalAction("edit");
-    setSelectedOrderId(orderId);
-    const selectedOrder = orders.find((order) => order.orderId === orderId);
-    if (selectedOrder) {
-      setNewOrder({
-        OrderDate: selectedOrder.OrderDate || formattedDate,
-        Total: selectedOrder.Total || "",
-        PaymentStatus: selectedOrder.PaymentStatus || "",
-        ShippingStatus: selectedOrder.ShippingStatus || "",
-        Observation: selectedOrder.Observation || "",
-        OrderDetails: [
-          {
-            AutopartId: selectedOrder.AutopartId || "",
-            Quantity: selectedOrder.Quantity || 0,
-            UnitValue: selectedOrder.UnitValue || 0,
-            SubtotalValue: selectedOrder.SubtotalValue || 0,
-          },
-        ],
-        Contributions: [
-          {
-            PaymentMethodId: selectedOrder.PaymentMethodId || "",
-            AmountPaid: selectedOrder.AmountPaid || 0,
-            ContributionDate: selectedOrder.ContributionDate || formattedDate,
-          },
-        ],
-      });
-    }
-    setShowModal(true);
-  };
-
-  const handleShowDetailModal = (orderId) => {
-    setModalAction("detail");
-    setSelectedOrderId(orderId);
-    const selectedOrder = orders.find((order) => order.orderId === orderId);
-    if (selectedOrder) {
-      setNewOrder({
-        OrderDate: selectedOrder.OrderDate || formattedDate,
-        Total: selectedOrder.Total || "",
-        PaymentStatus: selectedOrder.PaymentStatus || "",
-        ShippingStatus: selectedOrder.ShippingStatus || "",
-        Observation: selectedOrder.Observation || "",
-        OrderDetails: [
-          {
-            AutopartId: selectedOrder.AutopartId || "",
-            Quantity: selectedOrder.Quantity || 0,
-            UnitValue: selectedOrder.UnitValue || 0,
-            SubtotalValue: selectedOrder.SubtotalValue || 0,
-          },
-        ],
-        Contributions: [
-          {
-            PaymentMethodId: selectedOrder.PaymentMethodId || "",
-            AmountPaid: selectedOrder.AmountPaid || 0,
-            ContributionDate: selectedOrder.ContributionDate || formattedDate,
-          },
-        ],
-      });
-    }
-    setShowModal(true);
   };
 
   const handleCloseModal = () => {
     setShowModal(false);
     setNewOrder({
       OrderDate: formattedDate,
-      Total: "",
       PaymentStatus: "",
+      ShippingAddress: "",
       ShippingStatus: "",
       Observation: "",
-      OrderDetails: [
-        {
-          AutopartId: "",
-          Quantity: "",
-          UnitValue: "",
-          SubtotalValue: "",
-        },
-      ],
-      Contributions: [
-        {
-          PaymentMethodId: "",
-          AmountPaid: "",
-          ContributionDate: "",
-        },
-      ],
+      OrderDetails: [],
+      Contributions: [],
     });
-    setSelectedOrderId("");
   };
 
-  // No es necesario paginate en React Native
+  const renderItem = ({ item }) => (
+    <View style={styles.orderItem}>
+      <Text>Nombre de la autoparte: {item.AutopartName}</Text>
+      <Text>Cantidad: {item.Quantity}</Text>
+    </View>
+  );
 
-  return <View></View>;
+  return (
+    <View style={styles.container}>
+      <Button title="Crear Pedido" onPress={() => setShowModal(true)} />
+      <FlatList
+        data={orders}
+        renderItem={renderItem}
+        keyExtractor={(item) => item.OrderId.toString()}
+      />
+      <Modal visible={showModal} animationType="slide">
+        <View style={styles.modalContainer}>
+          <Text style={styles.modalTitle}>Crear Nuevo Pedido</Text>
+          <TextInput
+            style={styles.input}
+            placeholder="Estado de Pago"
+            value={newOrder.PaymentStatus}
+            onChangeText={(text) =>
+              setNewOrder({ ...newOrder, PaymentStatus: text })
+            }
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Dirección de Envío"
+            value={newOrder.ShippingAddress}
+            onChangeText={(text) =>
+              setNewOrder({ ...newOrder, ShippingAddress: text })
+            }
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Estado de Envío"
+            value={newOrder.ShippingStatus}
+            onChangeText={(text) =>
+              setNewOrder({ ...newOrder, ShippingStatus: text })
+            }
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Observación"
+            value={newOrder.Observation}
+            onChangeText={(text) =>
+              setNewOrder({ ...newOrder, Observation: text })
+            }
+          />
+          <View style={styles.orderDetailsContainer}>
+            {newOrder.OrderDetails.map((detail, index) => (
+              <View
+                key={`${detail.AutopartId}-${index}`}
+                style={styles.orderDetail}
+              >
+                <Picker
+                  selectedValue={detail.AutopartId}
+                  style={styles.picker}
+                  onValueChange={(itemValue) => {
+                    const updatedOrderDetails = [...newOrder.OrderDetails];
+                    updatedOrderDetails[index].AutopartId = itemValue;
+                    setNewOrder({
+                      ...newOrder,
+                      OrderDetails: updatedOrderDetails,
+                    });
+                  }}
+                >
+                  {autoparts.map((autopart) => (
+                    <Picker.Item
+                      key={autopart.AutopartId}
+                      label={autopart.Name}
+                      value={autopart.AutopartId}
+                    />
+                  ))}
+                </Picker>
+                <TextInput
+                  style={[styles.input, styles.quantityInput]}
+                  placeholder="Cantidad"
+                  value={detail.Quantity.toString()}
+                  onChangeText={(text) => {
+                    const updatedOrderDetails = [...newOrder.OrderDetails];
+                    updatedOrderDetails[index].Quantity = text;
+                    setNewOrder({
+                      ...newOrder,
+                      OrderDetails: updatedOrderDetails,
+                    });
+                  }}
+                />
+              </View>
+            ))}
+
+            <Button
+              title="Agregar Item"
+              onPress={() =>
+                setNewOrder({
+                  ...newOrder,
+                  OrderDetails: [
+                    ...newOrder.OrderDetails,
+                    { AutopartId: "", Quantity: "" },
+                  ],
+                })
+              }
+            />
+          </View>
+          <Button title="Crear" onPress={handleCreateOrder} />
+          <Button title="Cancelar" onPress={handleCloseModal} />
+        </View>
+      </Modal>
+    </View>
+  );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 20,
+    fontWeight: "bold",
+    marginBottom: 20,
+  },
+  input: {
+    width: "80%",
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  orderDetailsContainer: {
+    width: "80%",
+    marginBottom: 20,
+  },
+  orderDetail: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  picker: {
+    flex: 1,
+    height: 40,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    marginRight: 10,
+  },
+  quantityInput: {
+    flex: 1,
+  },
+  orderItem: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginBottom: 10,
+  },
+});
 
 export default Orders;
