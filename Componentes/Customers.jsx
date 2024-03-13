@@ -20,6 +20,8 @@ import boligrafo from "../assets/imgs/boligrafo.png";
 import carritocompras from "../assets/imgs/carrito-de-compras.png";
 import x from "../assets/imgs/error.png";
 import agregar from "../assets/imgs/boton-agregar.png";
+import ubicacion from "../assets/imgs/ubicacion.png";
+import phone from "../assets/imgs/ring-phone.png";
 
 const Customers = () => {
   const [customers, setCustomers] = useState([]);
@@ -123,6 +125,12 @@ const Customers = () => {
   const handlePedidosClick = (customerID) => {
     navigation.navigate("Pedidos", { customerId: customerID }); // Pasar customerId como parámetro
   };
+  const handleTelefonosClick = (customerID) => {
+    navigation.navigate("PhonesCustomer", { customerId: customerID }); // Pasar customerId como parámetro
+  };
+  const handleDirrecionesClick = (customerID) => {
+    navigation.navigate("AddressCustomer", { customerId: customerID }); // Pasar customerId como parámetro
+  };
 
   const renderItem = ({ item }) => (
     <Card style={styles.card}>
@@ -176,6 +184,20 @@ const Customers = () => {
             onPress={() => handlePedidosClick(item.customerID)}
           >
             <Image source={carritocompras} style={styles.icon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleDirrecionesClick(item.customerID)}
+          >
+            <Image source={ubicacion} style={styles.icon} />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => handleTelefonosClick(item.customerID)}
+          >
+            <Image source={phone} style={styles.icon} />
           </TouchableOpacity>
         </View>
       </Card.Content>
