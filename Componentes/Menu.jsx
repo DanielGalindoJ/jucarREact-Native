@@ -52,15 +52,6 @@ const Menu = ({ navigation }) => {
             <Image source={iconoNegocio} style={styles.buttonIcon} />
             <Text style={styles.buttonText}>Ventas</Text>
           </Pressable>
-          <Text>boton USUARIOS aun no tiene funcionalidad :)</Text>
-
-          <Pressable
-            style={styles.button}
-            onPress={() => navigation.navigate("Users")}
-          >
-            <Image source={iconoUsuarios} style={styles.buttonIcon} />
-            <Text style={styles.buttonText}>Usuarios</Text>
-          </Pressable>
         </View>
       </View>
     </ScrollView>
