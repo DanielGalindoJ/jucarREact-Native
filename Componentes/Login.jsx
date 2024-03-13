@@ -33,17 +33,17 @@ const Login = ({ navigation }) => {
 
       console.log("Respuesta de la API:", response.data);
 
-      setShowSuccessMessage(true); // Mostrar el mensaje de éxito
+      setShowSuccessMessage(true);
       setTimeout(() => {
-        setShowSuccessMessage(false); // Ocultar el mensaje de éxito después de 2 segundos
+        setShowSuccessMessage(false);
         navigation.navigate("Menu");
-      }, 2000);
+      }, 1000);
     } catch (error) {
       console.error("Error al iniciar sesión:", error.message);
-      setShowErrorMessage(true); // Mostrar el mensaje de error
+      setShowErrorMessage(true);
       setTimeout(() => {
-        setShowErrorMessage(false); // Ocultar el mensaje de error después de 2 segundos
-      }, 2000);
+        setShowErrorMessage(false);
+      }, 1000);
     }
   };
 
@@ -242,7 +242,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#4caf50",
     paddingVertical: 15,
     paddingHorizontal: 10,
-    alignItems: "flex-start",
+    alignItems: "center",
     justifyContent: "flex-start",
     marginBottom: 20,
     borderRadius: 10,
