@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   ScrollView,
   Image,
@@ -16,6 +16,8 @@ const Login = ({ navigation }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -31,20 +33,36 @@ const Login = ({ navigation }) => {
 
       console.log("Respuesta de la API:", response.data);
 
-      Alert.alert("Éxito", "Inicio de sesión exitoso");
-      navigation.navigate("Menu");
+      setShowSuccessMessage(true); // Mostrar el mensaje de éxito
+      setTimeout(() => {
+        setShowSuccessMessage(false); // Ocultar el mensaje de éxito después de 2 segundos
+        navigation.navigate("Menu");
+      }, 2000);
     } catch (error) {
       console.error("Error al iniciar sesión:", error.message);
-      Alert.alert(
-        "Error",
-        error.message ||
-          "Error al iniciar sesión. Por favor, intenta nuevamente."
-      );
+      setShowErrorMessage(true); // Mostrar el mensaje de error
+      setTimeout(() => {
+        setShowErrorMessage(false); // Ocultar el mensaje de error después de 2 segundos
+      }, 2000);
     }
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      {showSuccessMessage && (
+        <View style={styles.successMessageContainer}>
+          <Text style={styles.successMessageText}>
+            Inicio de sesión exitoso
+          </Text>
+        </View>
+      )}
+      {showErrorMessage && (
+        <View style={styles.errorMessageContainer}>
+          <Text style={styles.errorMessageText}>
+            Credenciales incorrectas. Por favor, intenta nuevamente.
+          </Text>
+        </View>
+      )}
       <View style={styles.card}>
         <View style={styles.header}>
           <Image
@@ -117,7 +135,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     justifyContent: "center",
-    padding: 20,
+    backgroundColor: "#f0f0f0",
   },
   logo: {
     width: "40%",
@@ -218,6 +236,35 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     paddingVertical: 20,
+  },
+
+  successMessageContainer: {
+    backgroundColor: "#4caf50",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  successMessageText: {
+    color: "#ffffff",
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  errorMessageContainer: {
+    backgroundColor: "#f44336",
+    paddingVertical: 15,
+    paddingHorizontal: 10,
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    marginBottom: 20,
+    borderRadius: 10,
+  },
+  errorMessageText: {
+    color: "#ffffff",
+    fontSize: 20,
+    fontWeight: "bold",
   },
 });
 
