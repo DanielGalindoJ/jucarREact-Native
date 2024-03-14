@@ -23,7 +23,7 @@ const Orders = ({ customerId }) => {
     ShippingAddress: "",
     ShippingStatus: "",
     Observation: "",
-    OrderDetails: [],
+    OrderDetails: [], // Change here: initialize as an empty array
     Contributions: [],
   });
 
@@ -40,6 +40,12 @@ const Orders = ({ customerId }) => {
     };
     fetchAutoparts();
   }, []);
+
+  const handleAutopartSelect = (index, autopartId) => {
+    const updatedOrderDetails = [...newOrder.OrderDetails];
+    updatedOrderDetails[index].AutopartId = autopartId;
+    setNewOrder({ ...newOrder, OrderDetails: updatedOrderDetails });
+  };
 
   const handleCreateOrder = async () => {
     try {
@@ -86,38 +92,7 @@ const Orders = ({ customerId }) => {
       <Modal visible={showModal} animationType="slide">
         <View style={styles.modalContainer}>
           <Text style={styles.modalTitle}>Crear Nuevo Pedido</Text>
-          <TextInput
-            style={styles.input}
-            placeholder="Estado de Pago"
-            value={newOrder.PaymentStatus}
-            onChangeText={(text) =>
-              setNewOrder({ ...newOrder, PaymentStatus: text })
-            }
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Dirección de Envío"
-            value={newOrder.ShippingAddress}
-            onChangeText={(text) =>
-              setNewOrder({ ...newOrder, ShippingAddress: text })
-            }
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Estado de Envío"
-            value={newOrder.ShippingStatus}
-            onChangeText={(text) =>
-              setNewOrder({ ...newOrder, ShippingStatus: text })
-            }
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Observación"
-            value={newOrder.Observation}
-            onChangeText={(text) =>
-              setNewOrder({ ...newOrder, Observation: text })
-            }
-          />
+          {/* ... */}
           <View style={styles.orderDetailsContainer}>
             {newOrder.OrderDetails.map((detail, index) => (
               <View
@@ -127,14 +102,9 @@ const Orders = ({ customerId }) => {
                 <Picker
                   selectedValue={detail.AutopartId}
                   style={styles.picker}
-                  onValueChange={(itemValue) => {
-                    const updatedOrderDetails = [...newOrder.OrderDetails];
-                    updatedOrderDetails[index].AutopartId = itemValue;
-                    setNewOrder({
-                      ...newOrder,
-                      OrderDetails: updatedOrderDetails,
-                    });
-                  }}
+                  onValueChange={(itemValue) =>
+                    handleAutopartSelect(index, itemValue)
+                  }
                 >
                   {autoparts.map((autopart) => (
                     <Picker.Item
@@ -180,7 +150,6 @@ const Orders = ({ customerId }) => {
     </View>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
