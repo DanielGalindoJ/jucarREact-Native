@@ -97,21 +97,21 @@ const MenuSubcategories = ({ navigation }) => {
                 style={styles.button}
                 onPress={() => handleCategoryClick(category.categoryId)}
               >
-                <Image source={ver} style={styles.icon} />{" "}
+                <Image source={ver} style={styles.icon} />
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => handleUpdate(category)}
               >
-                <Image source={boligrafo} style={styles.icon} />{" "}
+                <Image source={boligrafo} style={styles.icon} />
               </TouchableOpacity>
 
               <TouchableOpacity
                 style={styles.button}
                 onPress={() => handleDelete(category.categoryId)}
               >
-                <Image source={basura} style={styles.icon} />{" "}
+                <Image source={basura} style={styles.icon} />
               </TouchableOpacity>
             </View>
           </Card>
@@ -172,14 +172,7 @@ const styles = StyleSheet.create({
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de shadow* por boxShadow
     alignSelf: "center",
     marginTop: 50,
   },

@@ -102,7 +102,7 @@ const Register = ({ navigation }) => {
       {showErrorMessage && (
         <View style={styles.errorMessageContainer}>
           <Text style={styles.errorMessageText}>
-            Registro de Usuario fallido, Intente nuevamenente
+            Registro de Usuario fallido, Intente nuevamente
           </Text>
         </View>
       )}
@@ -113,14 +113,15 @@ const Register = ({ navigation }) => {
           </Text>
         </View>
       )}
-      <View style={styles.header}>
+      <View style={styles.header} role="banner">
         <Image
           source={require("../assets/imgs/jucar.jpg")}
-          style={styles.logo}
+          style={[styles.logo, { tintColor: "#ffffff" }]}
+          resizeMode="contain"
         />
         <Text style={styles.titleLogo}>AUTOPARTES JUCAR SAS</Text>
       </View>
-      <View style={styles.card}>
+      <View style={styles.card} role="form">
         <View style={styles.form}>
           <Text style={styles.title}>Registro de Usuario</Text>
 
@@ -206,14 +207,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     borderRadius: 10,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
     alignSelf: "center",
     marginTop: 50,
   },
@@ -284,8 +278,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#f44336",
     paddingVertical: 15,
     paddingHorizontal: 10,
-    alignItems: "center", // Cambiado de "flex-start" a "center"
-    justifyContent: "center", // Cambiado de "flex-start" a "center"
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 20,
     borderRadius: 10,
   },
@@ -298,8 +292,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1C40F ",
     paddingVertical: 15,
     paddingHorizontal: 10,
-    alignItems: "center", // Cambiado de "flex-start" a "center"
-    justifyContent: "center", // Cambiado de "flex-start" a "center"
+    alignItems: "center",
+    justifyContent: "center",
     marginBottom: 20,
     borderRadius: 10,
   },

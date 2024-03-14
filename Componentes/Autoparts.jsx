@@ -176,13 +176,13 @@ const Autoparts = ({ route }) => {
           }}
           style={[styles.iconButton, { marginRight: 10 }]}
         >
-          <Image source={boligrafo} style={styles.icon} />{" "}
+          <Image source={boligrafo} style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => setShowDeleteModal(true)}
           style={styles.iconButton}
         >
-          <Image source={basura} style={styles.icon} />{" "}
+          <Image source={basura} style={styles.icon} />
         </TouchableOpacity>
       </View>
     </View>
@@ -269,13 +269,13 @@ const Autoparts = ({ route }) => {
               onPress={handleCreateAutopart}
               style={styles.modalButton}
             >
-              <Text style={styles.buttonText}>Crear</Text>
+              <Image source={agregar} style={styles.icon} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleCloseModal}
               style={styles.modalButton}
             >
-              <Text style={styles.buttonText}>Cancelar</Text>
+              <Image source={x} style={styles.icon} />
             </TouchableOpacity>
           </View>
         </View>
@@ -340,13 +340,13 @@ const Autoparts = ({ route }) => {
               onPress={handleUpdateAutopart}
               style={styles.modalButton}
             >
-              <Text style={styles.buttonText}>Actualizar</Text>
+              <Image source={boligrafo} style={styles.icon} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleCloseModal}
               style={styles.modalButton}
             >
-              <Text style={styles.buttonText}>Cancelar</Text>
+              <Image source={x} style={styles.icon} />
             </TouchableOpacity>
           </View>
         </View>
@@ -361,13 +361,13 @@ const Autoparts = ({ route }) => {
               onPress={() => handleDeleteAutopart(selectedAutopartId)}
               style={styles.modalButton}
             >
-              <Text style={styles.buttonText}>Eliminar</Text>
+              <Image source={basura} style={styles.icon} />
             </TouchableOpacity>
             <TouchableOpacity
               onPress={handleCloseModal}
               style={styles.modalButton}
             >
-              <Text style={styles.buttonText}>Cancelar</Text>
+              <Image source={x} style={styles.icon} />
             </TouchableOpacity>
           </View>
         </View>

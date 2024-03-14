@@ -106,6 +106,7 @@ const styles = StyleSheet.create({
     marginVertical: 20,
     alignItems: "center",
     justifyContent: "center",
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
   },
   buttonIcon: {
     width: 50,
@@ -122,14 +123,7 @@ const styles = StyleSheet.create({
     width: buttonWidth,
     backgroundColor: "#fff",
     padding: 25,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
     alignSelf: "center",
     marginTop: 50,
   },

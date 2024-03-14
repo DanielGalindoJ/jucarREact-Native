@@ -12,6 +12,7 @@ import Logo from "../../assets/imgs/jucar.jpg";
 import basura from "../../assets/imgs/basura.png";
 import ver from "../../assets/imgs/ver.png";
 import boligrafo from "../../assets/imgs/boligrafo.png";
+
 const MenuAutoparts = ({ navigation }) => {
   const [subcategories, setSubcategories] = useState([]);
 
@@ -54,7 +55,7 @@ const MenuAutoparts = ({ navigation }) => {
                   handleSubcategoryClick(subcategory.subcategoryId)
                 }
               >
-                <Image source={ver} style={styles.icon} />{" "}
+                <Image source={ver} style={styles.icon} />
               </TouchableOpacity>
             </Card.Actions>
           </Card>
@@ -63,13 +64,14 @@ const MenuAutoparts = ({ navigation }) => {
     </ScrollView>
   );
 };
+
 const styles = StyleSheet.create({
   cardTotal: {
     borderRadius: 30,
     width: "80%",
     backgroundColor: "#fff",
     padding: 25,
-    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)", // Reemplazo de las propiedades de sombra
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
     elevation: 5,
     alignSelf: "center",
     marginTop: 50,
@@ -113,4 +115,5 @@ const styles = StyleSheet.create({
     height: 24,
   },
 });
+
 export default MenuAutoparts;

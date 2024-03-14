@@ -85,8 +85,9 @@ const styles = StyleSheet.create({
     borderWidth: 3,
     borderRadius: 10,
     marginBottom: 10,
-    width: width * 0.8, // Utilizando el ancho del dispositivo
+    width: width * 0.8,
     marginVertical: 10,
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
   },
   icon: {
     width: 24,
@@ -101,17 +102,10 @@ const styles = StyleSheet.create({
   },
   card: {
     borderRadius: 30,
-    width: width * 0.8, // Utilizando el ancho del dispositivo
+    width: width * 0.8,
     backgroundColor: "#fff",
     padding: 25,
-    shadowColor: "#000", // Cambiado boxShadow a shadowColor
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
-    elevation: 5,
+    boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
     alignSelf: "center",
     marginTop: 50,
   },

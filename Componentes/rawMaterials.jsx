@@ -21,6 +21,10 @@ import {
 import { Image } from "react-native";
 import axios from "axios";
 import Logo from "../assets/imgs/jucar.jpg";
+import basura from "../assets/imgs/basura.png";
+import boligrafo from "../assets/imgs/boligrafo.png";
+import agregar from "../assets/imgs/boton-agregar.png";
+import x from "../assets/imgs/error.png";
 
 const RawMaterials = ({ navigation }) => {
   const [rawMaterials, setRawMaterials] = useState([]);
@@ -149,28 +153,24 @@ const RawMaterials = ({ navigation }) => {
     <Card style={styles.card}>
       <Card.Content>
         <Text style={styles.cardTitle}>Ver SubCategoría de: </Text>
-        <Text style={styles.cardText}>{item.Name}</Text>
+        <Text style={styles.cardText}>{item.name}</Text>
         <Divider />
         <View style={styles.buttonContainer}>
-          <Button
+          <TouchableOpacity
             onPress={() => handleShowUpdateModal(item.rawMaterialId)}
-            mode="contained"
-            style={styles.button}
-            labelStyle={styles.buttonLabel}
+            style={[styles.iconButton, { marginRight: 10 }]}
           >
-            Actualizar
-          </Button>
-          <Button
+            <Image source={boligrafo} style={styles.icon} />
+          </TouchableOpacity>
+          <TouchableOpacity
             onPress={() => {
               setSelectedRawMaterialId(item.rawMaterialId);
               setShowDeleteModal(true);
             }}
-            mode="contained"
-            style={styles.button}
-            labelStyle={styles.buttonLabel}
+            style={styles.iconButton}
           >
-            Eliminar
-          </Button>
+            <Image source={basura} style={styles.icon} />
+          </TouchableOpacity>
         </View>
       </Card.Content>
     </Card>
@@ -179,7 +179,6 @@ const RawMaterials = ({ navigation }) => {
   return (
     <Provider>
       <ScrollView contentContainerStyle={styles.container}>
-        <View style={styles.overlay} />
         <View style={styles.cardTotal}>
           <View style={styles.header}>
             <Image source={Logo} style={styles.logo} />
@@ -286,15 +285,11 @@ const RawMaterials = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexGrow: 1,
-    backgroundColor: "#F5F5DC",
-    justifyContent: "center",
+    flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
-  overlay: {
-    ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
+
   cardTotal: {
     borderRadius: 20,
     width: "90%",
@@ -328,7 +323,13 @@ const styles = StyleSheet.create({
     color: "#000",
   },
   card: {
-    marginBottom: 10,
+    borderRadius: 30,
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 2,
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 50,
   },
   cardTitle: {
     fontWeight: "bold",
@@ -381,6 +382,13 @@ const styles = StyleSheet.create({
   buttonLabel: {
     color: "#fff",
     fontWeight: "bold",
+  },
+  icon: {
+    width: 24,
+    height: 24,
+  },
+  iconButton: {
+    marginRight: 10,
   },
 });
 

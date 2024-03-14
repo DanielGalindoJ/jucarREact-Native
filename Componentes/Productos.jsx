@@ -17,7 +17,7 @@ import iconoMateriaPrima from "../assets/imgs/MateriaP.png";
 const Productos = ({ navigation }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <StatusBar backgroundColor="#f80759" />{" "}
+      <StatusBar backgroundColor="#f80759" />
       <View style={styles.card}>
         <View style={styles.header}>
           <Image source={Logo} style={styles.logo} />
