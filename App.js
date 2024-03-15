@@ -1,12 +1,5 @@
 import React, { useState } from "react";
-import {
-  TouchableOpacity,
-  Text,
-  StyleSheet,
-  Button,
-  Image,
-  Pressable,
-} from "react-native";
+import { TouchableOpacity, Text, StyleSheet, Image } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 
