@@ -128,7 +128,6 @@ const Orders = ({ customerId }) => {
         renderItem={renderItem}
         keyExtractor={(item) => item.OrderId.toString()}
       />
-      <Text>Observación: {observation}</Text>
 
       <Button title="Crear Pedido" onPress={() => setShowModal(true)} />
 
