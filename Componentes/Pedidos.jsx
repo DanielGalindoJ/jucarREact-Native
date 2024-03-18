@@ -8,7 +8,12 @@ import {
   StyleSheet,
   Modal,
   Picker,
+  TouchableOpacity,
+  Image,
 } from "react-native";
+import basura from "../assets/imgs/basura.png";
+import x from "../assets/imgs/error.png";
+import agregar from "../assets/imgs/boton-agregar.png";
 
 const Pedidos = ({ customerId }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -166,19 +171,35 @@ const Pedidos = ({ customerId }) => {
                     placeholder="Cantidad"
                     keyboardType="numeric"
                   />
-                  <Button
-                    title="Eliminar"
+                  <TouchableOpacity
+                    style={styles.secondaryButton} // Utilizamos el estilo para botones secundarios
                     onPress={() => removeOrderDetail(index)}
-                  />
+                  >
+                    <Image source={basura} style={styles.icon} />
+                    <Text style={styles.secondaryButtonText}>Eliminar</Text>
+                  </TouchableOpacity>
                 </View>
               ))}
-              <Button title="Agregar Autoparte" onPress={addOrderDetail} />
-              {/* Agregar más campos de TextInput según sea necesario */}
-              <Button title="Guardar Pedido" onPress={handleCreateOrder} />
-              <Button
-                title="Cancelar"
+              <TouchableOpacity
+                onPress={addOrderDetail}
+                style={styles.addButton}
+              >
+                <Image source={agregar} style={styles.icon} />
+                <Text style={styles.secondaryButtonText1}>Agregar Detalle</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={handleCreateOrder}
+                style={styles.primaryButton}
+              >
+                <Text style={styles.buttonText}>Guardar Pedido</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.secondaryButton}
                 onPress={() => setIsModalVisible(false)}
-              />
+              >
+                <Image source={x} style={styles.icon} />
+                <Text style={styles.secondaryButtonText}>Cancelar</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </Modal>
@@ -210,6 +231,54 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: 1,
     marginBottom: 10,
+  },
+  primaryButton: {
+    backgroundColor: "#007bff",
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    alignItems: "center",
+  },
+  secondaryButton: {
+    backgroundColor: "transparent",
+    padding: 10,
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "#007bff",
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  addButton: {
+    backgroundColor: "#007bff",
+    padding: 10,
+    borderRadius: 5,
+    marginBottom: 10,
+    alignItems: "center",
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  secondaryButtonText: {
+    color: "#007bff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginLeft: 5,
+  },
+
+  secondaryButtonText1: {
+    color: "black",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginLeft: 5,
+  },
+  icon: {
+    width: 24,
+    height: 24,
   },
 });
 
