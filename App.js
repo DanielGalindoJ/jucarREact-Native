@@ -56,12 +56,6 @@ import Customers from "./Componentes/Customers";
 import Escoger_Customer from "./Componentes/Escoger_Customer";
 import PhonesCustomer from "./Componentes/PhonesCustomer";
 
-{
-  /* Componentes para Pedidos */
-}
-import Pedidos from "./Componentes/Pedidos";
-import AllPedidos from "./Componentes/AllPedidos";
-
 const Stack = createNativeStackNavigator();
 
 const App = () => {
@@ -555,52 +549,6 @@ const App = () => {
           })}
         />
 
-        <Stack.Screen
-          name="Pedidos"
-          component={Pedidos}
-          options={{
-            tabBarOptions: {
-              position: "bottom",
-              style: styles.tabBar,
-            },
-            headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
-                <Text> Inicio </Text>
-              </TouchableOpacity>
-            ),
-            headerRight: () => (
-              <TouchableOpacity onPress={() => handleLogout()}>
-                <Image source={salir} style={styles.logo}></Image>
-              </TouchableOpacity>
-            ),
-          }}
-          listeners={({ navigation }) => ({
-            beforeRemove: () => !isAuthenticated,
-          })}
-        />
-        <Stack.Screen
-          name="AllPedidos"
-          component={AllPedidos}
-          options={{
-            tabBarOptions: {
-              position: "bottom",
-              style: styles.tabBar,
-            },
-            headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate("Menu")}>
-                <Text> Inicio </Text>
-              </TouchableOpacity>
-            ),
-            headerRight: () => (
-              <TouchableOpacity onPress={() => handleLogout()}>
-                <Image source={salir} style={styles.logo}></Image>
-              </TouchableOpacity>
-            ),
-          }}
-          listeners={({ navigation }) => ({
-            beforeRemove: () => !isAuthenticated,
-          })}
-        />
         <Stack.Screen
           name="PhonesCustomer"
           component={PhonesCustomer}
