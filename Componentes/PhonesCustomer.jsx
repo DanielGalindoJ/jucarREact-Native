@@ -8,8 +8,13 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  StyleSheet,
 } from "react-native";
 import axios from "axios";
+import Logo from "../assets/imgs/jucar.jpg";
+import basura from "../assets/imgs/basura.png";
+import boligrafo from "../assets/imgs/boligrafo.png";
+import agregar from "../assets/imgs/boton-agregar.png";
 
 const CustomersPhones = ({ route, navigation }) => {
   const { customerId } = route.params;
@@ -109,31 +114,46 @@ const CustomersPhones = ({ route, navigation }) => {
   };
 
   const renderItem = ({ item }) => (
-    <View>
+    <View style={styles.itemContainer}>
       <Text>Tipo de Telefono: {item.phoneType}</Text>
       <Text>Numero Telefonico: {item.phoneNumber}</Text>
-      <Button
-        title="Actualizar"
-        onPress={() => handleShowEditModal(item.customerPhoneID)}
-      />
-      <Button
-        title="Eliminar"
-        onPress={() => handleDeleteCustomerPhone(item.customerPhoneID)}
-      />
+
+      <View style={styles.iconContainer}>
+        <TouchableOpacity
+          onPress={() => handleDeleteCustomerPhone(item.customerPhoneID)}
+        >
+          <Image source={basura} style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => handleShowEditModal(item.customerPhoneID)}
+        >
+          <Image source={boligrafo} style={styles.icon} />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 
   return (
-    <View>
-      <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-        Telefonos del Cliente
-      </Text>
-      <Button title="Nuevo Teléfono" onPress={handleShowCreateModal} />
-      <FlatList
-        data={customersPhone}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.customerPhoneID.toString()}
-      />
+    <View style={styles.container}>
+      <View style={styles.card}>
+        <View style={styles.header}>
+          <Image source={Logo} style={styles.logo} />
+          <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
+        </View>
+        <Text style={styles.title}>Lista de Telefonos</Text>
+        <FlatList
+          data={customersPhone}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.customerPhoneID.toString()}
+        />
+      </View>
+      <TouchableOpacity
+        onPress={() => setShowCreateModal(true)}
+        style={styles.addButton}
+      >
+        <Image source={agregar} style={styles.icon} />
+      </TouchableOpacity>
+
       <Modal visible={showModal} animationType="slide">
         <View>
           <Text>
@@ -169,5 +189,82 @@ const CustomersPhones = ({ route, navigation }) => {
     </View>
   );
 };
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  card: {
+    borderRadius: 30,
+    width: "80%",
+    backgroundColor: "#fff",
+    padding: 25,
+    elevation: 5,
+    alignSelf: "center",
+    marginTop: 50,
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  logo: {
+    width: 100,
+    height: 50,
+    resizeMode: "contain",
+    marginRight: 10,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  itemContainer: {
+    marginVertical: 10,
+    paddingHorizontal: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
+  },
+  iconContainer: {
+    flexDirection: "row",
+    marginTop: 5,
+  },
+  addButton: {
+    position: "absolute",
+    bottom: 20,
+    right: 20,
+    backgroundColor: "#007bff",
+    padding: 10,
+    borderRadius: 50,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 5,
+    padding: 10,
+    marginVertical: 5,
+    width: "80%",
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "80%",
+    marginTop: 20,
+  },
+  icon: {
+    width: 24,
+    height: 24,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+});
 
 export default CustomersPhones;
