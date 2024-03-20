@@ -126,7 +126,7 @@ const PhonesProviders = ({ route, navigation }) => {
           <Image source={Logo} style={styles.logo} />
           <Text style={styles.title}>AUTOPARTES JUCAR SAS</Text>
         </View>
-        <Text style={styles.title}>Autoparte</Text>
+        <Text style={styles.title}>Lista de Telefonos</Text>
         <FlatList
           data={providerPhones}
           renderItem={renderItem}
