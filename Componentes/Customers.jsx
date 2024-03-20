@@ -122,9 +122,6 @@ const Customers = () => {
     }
   }, [selectedCustomer]);
 
-  const handlePedidosClick = (customerID) => {
-    navigation.navigate("Pedidos", { customerId: customerID }); // Pasar customerId como parámetro
-  };
   const handleTelefonosClick = (customerID) => {
     navigation.navigate("PhonesCustomer", { customerId: customerID }); // Pasar customerId como parámetro
   };
@@ -177,13 +174,6 @@ const Customers = () => {
             onPress={() => handleDeleteCustomer(item.customerID)}
           >
             <Image source={basura} style={styles.icon} />
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => handlePedidosClick(item.customerID)}
-          >
-            <Image source={carritocompras} style={styles.icon} />
           </TouchableOpacity>
 
           <TouchableOpacity
